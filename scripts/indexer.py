@@ -6,9 +6,7 @@ focused on functionality (main() is intentionally unchanged).
 """
 
 import unicodedata
-import re
 import json
-import time
 import os
 from typing import Any, Dict, List, Optional, Set
 import spacy
@@ -120,7 +118,7 @@ class Index:
         return tokens
 
 class TrieNode:
-    """Single node in a Trie storing child links and document ids."""
+    """Single node in a Patricia Trie storing compressed edges."""
     def __init__(self):
         """Initialize node with empty children, end flag and doc list."""
         self.children = {}           # type: dict[str, TrieNode]
@@ -128,7 +126,7 @@ class TrieNode:
         self.doc_ids = []            # list of document ids where the word appears
 
 class Trie:
-    """Trie-based inverted index with JSON (de)serialization utilities.
+    """Patricia Trie inverted index with JSON (de)serialization utilities.
 
     Supports inserting words with optional document ids, exact-term search,
     and saving/loading the entire structure to/from a compact JSON format.
@@ -143,35 +141,123 @@ class Trie:
         else:
             self.filepath = filepath
 
+    @staticmethod
+    def _common_prefix_length(a: str, b: str) -> int:
+        """Return the length of the common prefix shared by `a` and `b`."""
+        i = 0
+        max_i = min(len(a), len(b))
+        while i < max_i and a[i] == b[i]:
+            i += 1
+        return i
+
     def insert(self, word: str, doc_id: Optional[int] = None) -> None:
-        """Insert `word` into the trie and optionally associate `doc_id`.
+        """Insert `word` into the Patricia Trie and optionally add `doc_id`.
 
-        Prevents duplicate doc ids for the same terminal node.
+        Child edges store substrings (not single chars), splitting edges when
+        only a partial prefix matches.
         """
-        node = self.root
-        # Traverse the trie, creating child nodes as needed for each character.
-        for ch in word:
-            if ch not in node.children:
-                node.children[ch] = TrieNode()
-            node = node.children[ch]
+        if not word:
+            return
 
-        # If this node finishes a new word, mark it and increment the count.
+        node = self.root
+        remaining = word
+
+        while remaining:
+            matched = False
+            for edge, child in list(node.children.items()):
+                common_len = self._common_prefix_length(remaining, edge)
+                if common_len == 0:
+                    continue
+
+                matched = True
+
+                # Full edge match: descend and continue consuming the word.
+                if common_len == len(edge):
+                    node = child
+                    remaining = remaining[common_len:]
+                    break
+
+                # Partial edge match: split the existing edge.
+                prefix = edge[:common_len]
+                old_suffix = edge[common_len:]
+                new_suffix = remaining[common_len:]
+
+                split_node = TrieNode()
+                split_node.children[old_suffix] = child
+
+                del node.children[edge]
+                node.children[prefix] = split_node
+
+                # New word ends exactly at the split node.
+                if not new_suffix:
+                    if not split_node.is_end_of_word:
+                        split_node.is_end_of_word = True
+                        self.word_count += 1
+                    if doc_id is not None and doc_id not in split_node.doc_ids:
+                        split_node.doc_ids.append(doc_id)
+                    return
+
+                # Add a new branch for the remaining suffix.
+                new_leaf = TrieNode()
+                new_leaf.is_end_of_word = True
+                if doc_id is not None:
+                    new_leaf.doc_ids.append(doc_id)
+                split_node.children[new_suffix] = new_leaf
+                self.word_count += 1
+                return
+
+            if not matched:
+                # No shared prefix from this node: create a direct compressed edge.
+                new_leaf = TrieNode()
+                new_leaf.is_end_of_word = True
+                if doc_id is not None:
+                    new_leaf.doc_ids.append(doc_id)
+                node.children[remaining] = new_leaf
+                self.word_count += 1
+                return
+
+        # Word already represented by the current node path.
         if not node.is_end_of_word:
             node.is_end_of_word = True
             self.word_count += 1
-
-        # Add the document id to the terminal node if provided and not already present.
         if doc_id is not None and doc_id not in node.doc_ids:
             node.doc_ids.append(doc_id)
 
     def search(self, word: str) -> Optional[TrieNode]:
-        """Return the terminal node for exact `word`, or None if not found."""
+        """Return terminal node for exact `word`, or None if not found."""
+        if not word:
+            return None
+
         node = self.root
-        for ch in word:
-            if ch not in node.children:
+        remaining = word
+
+        while remaining:
+            matched = False
+            for edge, child in node.children.items():
+                if remaining.startswith(edge):
+                    remaining = remaining[len(edge):]
+                    node = child
+                    matched = True
+                    break
+
+            if not matched:
                 return None
-            node = node.children[ch]
+
         return node if node.is_end_of_word else None
+
+    def get_all_words(self) -> List[str]:
+        """Return a list with all words currently stored in the Trie."""
+        words: List[str] = []
+
+        def _collect(node: TrieNode, prefix: str) -> None:
+            if node.is_end_of_word:
+                words.append(prefix)
+            for edge, child in node.children.items():
+                _collect(child, prefix + edge)
+
+        _collect(self.root, "")
+        words.sort()
+        return words
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize the Trie into a compact dict suitable for JSON storage.
@@ -301,7 +387,7 @@ def main():
     trie = Trie()
     trie.load()  # will build from JSONL if the trie JSON doesn't exist
     print(f"Indexed {trie.word_count} unique tokens in the Trie inverted index.")
-
+    print(trie.get_all_words())  # print first 20 indexed words for verification
 
 if __name__ == "__main__":
     main()
