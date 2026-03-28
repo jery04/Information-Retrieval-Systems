@@ -117,6 +117,52 @@ class Index:
 
         return tokens
 
+class TrieNode:
+    def __init__(self):
+        self.children = {}           # type: dict[str, TrieNode]
+        self.is_end_of_word = False  # ¿Aquí termina una palabra?
+        self.doc_ids = []            # Lista de doc_id donde aparece esta palabra
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str, doc_id: Optional[int] = None) -> None:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.is_end_of_word = True
+        if doc_id is not None:
+            if doc_id not in node.doc_ids:
+                node.doc_ids.append(doc_id)
+
+    def search(self, word: str) -> Optional[TrieNode]:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return None
+            node = node.children[ch]
+        return node if node.is_end_of_word else None
+
+    def starts_with(self, prefix: str) -> List[str]:
+        results: List[str] = []
+
+        def _collect(n: TrieNode, path: str):
+            if n.is_end_of_word:
+                results.append(path)
+            for c, child in n.children.items():
+                _collect(child, path + c)
+
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
+                return []
+            node = node.children[ch]
+        _collect(node, prefix)
+        return results
+
 if __name__ == "__main__":
     # Pequeña demostración (cada llamada procesa un solo string)
     index = Index()
