@@ -85,11 +85,10 @@ class Index:
     text. Tokens are lemmatized, lowercased, accent-stripped and filtered
     for punctuation, short tokens and stopwords.
     """
-    def __init__(self):
-        """Load and cache the small Spanish spaCy model."""
-        self.nlp = spacy.load("es_core_news_sm")
+    nlp = spacy.load("es_core_news_sm")
 
-    def tokenize(self, text: str) -> List[str]:
+    @staticmethod
+    def tokenize(text: str) -> List[str]:
         """Tokenize `text` and return a list of cleaned tokens.
 
         Steps: lemmatize, lowercase, strip accents, remove punctuation/space
@@ -99,7 +98,7 @@ class Index:
         if not text:
             return tokens
 
-        doc = self.nlp(text)
+        doc = Index.nlp(text)
         for token in doc:
             # skip punctuation and whitespace
             if token.is_punct or token.is_space:
@@ -246,67 +245,63 @@ class Trie:
             json.dump(self.to_dict(), f, ensure_ascii=False, separators=(",", ":"))
 
     def load(self, filepath: Optional[str] = None) -> None:
-        """Load the Trie from a JSON file and apply it to this instance."""
+        """Load the Trie from a JSON file and apply it to this instance.
+
+        If the target JSON file does not exist, build the trie from the
+        original JSONL data source at data/extracted/webpages/sample_webpages.jsonl
+        by tokenizing each line's `text` and inserting tokens with `doc_id`.
+        The constructed trie is saved to `filepath`.
+        """
         if filepath is None:
             filepath = self.filepath
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        self.from_dict(data)
+        # If the specified file exists, load normally.
+        if os.path.exists(filepath):
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.from_dict(data)
+            return
+
+        # Fallback: build trie from original JSONL dataset.
+        sample_path = os.path.join("data", "extracted", "webpages", "sample_webpages.jsonl")
+        if not os.path.exists(sample_path):
+            # No data to build from; reset to empty trie.
+            self.root = TrieNode()
+            self.word_count = 0
+            return
+
+        # Reset trie before building
+        self.root = TrieNode()
+        self.word_count = 0
+
+        with open(sample_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                doc_id = int(obj.get("doc_id"))
+                text = obj.get("text", "")
+                # try to convert numeric doc_id strings to int
+                try:
+                    doc_id = int(doc_id)
+                except Exception:
+                    pass
+                tokens = Index.tokenize(text)
+                for token in set(tokens):
+                    self.insert(token, doc_id)
+
+        # Persist the newly created trie to the requested filepath.
+        self.save(filepath)
 
 def main():
-    index = Index()
     trie = Trie()
+    trie.load()  # will build from JSONL if the trie JSON doesn't exist
+    print(f"Indexed {trie.word_count} unique tokens in the Trie inverted index.")
 
-    documents = [
-        (1, "¡Hola! Corriendo y hablando en una prueba de tokenización."),
-        (2, "Juguetes, panes, comidas, y manzanas... El perro corre rápido mientras come en el corral."),
-        (3, "Prueba de búsqueda con palabras en español."),
-        (4, "La corrida matutina es parte de la rutina diaria."),
-        (5, "Los niños juegan en el parque y corren alrededor."),
-        (6, "Un gato duerme sobre el sofá durante la tarde."),
-        (7, "La cocina tiene un olor delicioso a pan recién hecho."),
-        (8, "Investigación y desarrollo: sistemas de recuperación de información."),
-        (9, "Búsqueda por prefijo y por término exacto en estructuras tipo trie."),
-        (10, "Pruebas adicionales con acentos: rápido, corré, acción, corazón.")
-    ]
-    i=0
-    for doc_id, text in documents:
-        tokens = index.tokenize(text)
-        for token in set(tokens):           # set() para no repetir en el mismo documento
-            trie.insert(token, doc_id)
-            i+=1
-    print("SIUUUUUUUUUUUUUUUUUUUUUUU",i)
-    print(trie.word_count, "palabras únicas indexadas")
-    # Guardar el índice y medir tiempo
-    t0 = time.time()
-    trie.save()
-    t_save = time.time() - t0
-    print(f"Índice guardado correctamente en {t_save:.4f}s")
-
-    # Tamaño del archivo
-    try:
-        size = os.path.getsize(os.path.join("data", "processed", "inverted_index_trie.json"))
-        print(f"Tamaño archivo: {size} bytes")
-    except Exception:
-        pass
-
-    # Cargar en otro momento (al iniciar el programa) y medir tiempo
-    t0 = time.time()
-    loaded_trie = Trie()
-    loaded_trie.load()
-    t_load = time.time() - t0
-    print(f"Índice cargado correctamente en {t_load:.4f}s")
-    print(loaded_trie.word_count, "palabras únicas indexadas")
-
-    # Pruebas: búsquedas y prefijos
-    queries = ["correr", "prueba", "perro", "corral", "hola", "informacion"]
-    for q in queries:
-        node = loaded_trie.search(q)
-        if node:
-            print(f"Documentos con '{q}':", node.doc_ids)
-        else:
-            print(f"No se encontró '{q}' como término exacto")
 
 if __name__ == "__main__":
     main()
