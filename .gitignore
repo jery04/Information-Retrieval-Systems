@@ -1,0 +1,9 @@
+# Ignore .venv
+/.venv/
+
+# Ignore all files inside data/ but allow directories
+data/**
+!data/**/
+
+# Ignore Python bytecode cache inside scripts/
+scripts/__pycache__/
