@@ -1,7 +1,7 @@
-"""Lightweight indexing utilities: Spanish tokenizer and Trie inverted index.
+"""Lightweight indexing utilities: Spanish tokenizer and PatriciaTrie inverted index.
 
 This module provides simple helpers for Spanish text preprocessing and a
-Trie-based inverted index with JSON persistence. Docstrings are brief and
+PatriciaTrie-based inverted index with JSON persistence. Docstrings are brief and
 focused on functionality (main() is intentionally unchanged).
 """
 
@@ -101,15 +101,16 @@ class Index:
             # skip punctuation and whitespace
             if token.is_punct or token.is_space:
                 continue
+            
             # lemmatize and lowercase
             word = token.lemma_.lower()
+            
             # remove diacritics
             word = unicodedata.normalize("NFKD", word)
             word = "".join(ch for ch in word if not unicodedata.combining(ch))
+    
             # filter short, non-alphabetic or stopword tokens
-            if len(word) <= 1:
-                continue
-            if not word.isalpha():
+            if len(word) <= 2 or not word.isalpha():
                 continue
             if token.is_stop or (word in stop_words):
                 continue
@@ -117,15 +118,15 @@ class Index:
 
         return tokens
 
-class TrieNode:
+class Node:
     """Single node in a Patricia Trie storing compressed edges."""
     def __init__(self):
         """Initialize node with empty children, end flag and doc list."""
-        self.children = {}           # type: dict[str, TrieNode]
+        self.children = {}           # type: dict[str, Node]
         self.is_end_of_word = False  # marks end of a word
         self.doc_ids = []            # list of document ids where the word appears
 
-class Trie:
+class PatriciaTrie:
     """Patricia Trie inverted index with JSON (de)serialization utilities.
 
     Supports inserting words with optional document ids, exact-term search,
@@ -133,7 +134,7 @@ class Trie:
     """
     def __init__(self, filepath: Optional[str] = None):
         """Create a Trie and set default file path for persistence."""
-        self.root = TrieNode()
+        self.root = Node()
         self.word_count = 0
         # default path if not provided
         if filepath is None:
@@ -182,7 +183,7 @@ class Trie:
                 old_suffix = edge[common_len:]
                 new_suffix = remaining[common_len:]
 
-                split_node = TrieNode()
+                split_node = Node()
                 split_node.children[old_suffix] = child
 
                 del node.children[edge]
@@ -198,7 +199,7 @@ class Trie:
                     return
 
                 # Add a new branch for the remaining suffix.
-                new_leaf = TrieNode()
+                new_leaf = Node()
                 new_leaf.is_end_of_word = True
                 if doc_id is not None:
                     new_leaf.doc_ids.append(doc_id)
@@ -208,7 +209,7 @@ class Trie:
 
             if not matched:
                 # No shared prefix from this node: create a direct compressed edge.
-                new_leaf = TrieNode()
+                new_leaf = Node()
                 new_leaf.is_end_of_word = True
                 if doc_id is not None:
                     new_leaf.doc_ids.append(doc_id)
@@ -223,7 +224,7 @@ class Trie:
         if doc_id is not None and doc_id not in node.doc_ids:
             node.doc_ids.append(doc_id)
 
-    def search(self, word: str) -> Optional[TrieNode]:
+    def search(self, word: str) -> Optional[Node]:
         """Return terminal node for exact `word`, or None if not found."""
         if not word:
             return None
@@ -249,7 +250,7 @@ class Trie:
         """Return a list with all words currently stored in the Trie."""
         words: List[str] = []
 
-        def _collect(node: TrieNode, prefix: str) -> None:
+        def _collect(node: Node, prefix: str) -> None:
             if node.is_end_of_word:
                 words.append(prefix)
             for edge, child in node.children.items():
@@ -258,6 +259,37 @@ class Trie:
         _collect(self.root, "")
         words.sort()
         return words
+
+    def print_tree(self, max_depth: Optional[int] = None, show_docs: bool = True) -> None:
+        """Print the Trie structure showing compressed edges and node flags.
+
+        Each line shows an edge label (the substring stored on the edge).
+        Nodes that mark the end of a word are annotated with '*' and, when
+        available, the `doc_ids` list is shown if `show_docs` is True.
+        """
+        def _print(node: Node, prefix: str, depth: int) -> None:
+            if max_depth is not None and depth > max_depth:
+                return
+            children = list(node.children.items())
+            for i, (edge, child) in enumerate(children):
+                last = (i == len(children) - 1)
+                connector = "└─" if last else "├─"
+                line = f"{prefix}{connector}{edge}"
+                if child.is_end_of_word:
+                    line += " *"
+                if show_docs and child.doc_ids:
+                    line += " " + str(child.doc_ids)
+                print(line)
+                new_prefix = prefix + ("   " if last else "│  ")
+                _print(child, new_prefix, depth + 1)
+
+        root_info = "root"
+        if self.root.is_end_of_word:
+            root_info += " *"
+        if show_docs and self.root.doc_ids:
+            root_info += " " + str(self.root.doc_ids)
+        print(root_info)
+        _print(self.root, "", 0)
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize the Trie into a compact dict suitable for JSON storage.
@@ -298,11 +330,11 @@ class Trie:
         nodes_data = data.get("nodes", [])
 
         if not nodes_data:
-            self.root = TrieNode()
+            self.root = Node()
             self.word_count = 0
             return
 
-        nodes: List[TrieNode] = [TrieNode() for _ in nodes_data]
+        nodes: List[Node] = [Node() for _ in nodes_data]
         for i, nd in enumerate(nodes_data):
             nodes[i].is_end_of_word = nd.get("is_end", False)
             nodes[i].doc_ids = nd.get("docs", []).copy()
@@ -352,12 +384,12 @@ class Trie:
         sample_path = os.path.join("data", "extracted", "webpages", "sample_webpages.jsonl")
         if not os.path.exists(sample_path):
             # No data to build from; reset to empty trie.
-            self.root = TrieNode()
+            self.root = Node()
             self.word_count = 0
             return
 
         # Reset trie before building
-        self.root = TrieNode()
+        self.root = Node()
         self.word_count = 0
 
         with open(sample_path, "r", encoding="utf-8") as f:
@@ -384,10 +416,12 @@ class Trie:
         self.save(filepath)
 
 def main():
-    trie = Trie()
+    trie = PatriciaTrie()
     trie.load()  # will build from JSONL if the trie JSON doesn't exist
-    print(f"Indexed {trie.word_count} unique tokens in the Trie inverted index.")
-    print(trie.get_all_words())  # print first 20 indexed words for verification
+    print(f"Indexed {trie.word_count} unique tokens in the PatriciaTrie inverted index.")
+    # Print the Trie structure (edges, end-of-word markers and doc ids)
+    #trie.print_tree()
+    #print(len(trie.get_all_words()))
 
 if __name__ == "__main__":
     main()
