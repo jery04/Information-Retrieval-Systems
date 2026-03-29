@@ -224,8 +224,8 @@ class PatriciaTrie:
         if doc_id is not None and doc_id not in node.doc_ids:
             node.doc_ids.append(doc_id)
 
-    def search(self, word: str) -> Optional[Node]:
-        """Return terminal node for exact `word`, or None if not found."""
+    def search(self, word: str) -> Optional[List[int]]:
+        """Return list of document IDs for exact `word`, or None if not found."""
         if not word:
             return None
 
@@ -244,7 +244,80 @@ class PatriciaTrie:
             if not matched:
                 return None
 
-        return node if node.is_end_of_word else None
+        return node.doc_ids if node.is_end_of_word else None
+
+    def intersect_tokens(self, tokens: List[str]) -> List[int]:
+        """Return the intersection of doc_ids for the given list of tokens.
+
+        Calls `search` for each token; if any token is not found, returns
+        an empty list (no documents contain all tokens). Result is returned
+        as a sorted list of integers.
+        """
+        # Defensive: empty input -> no results
+        if not tokens:
+            return []
+
+        sets: List[Set[int]] = []
+        for t in tokens:
+            docs = self.search(t)
+            # if token not present or has no docs -> intersection empty
+            if not docs:
+                return []
+            sets.append(set(docs))
+
+        # sort by size for faster intersection
+        sets.sort(key=len)
+
+        result = sets[0]
+        for s in sets[1:]:
+            result &= s
+            if not result:
+                return []
+
+        return sorted(result)
+
+    def get_parcial_AND(self, query_terms: List[str], min_match: int = 2, max_candidates: int = 3000) -> List[int]:
+        """Partial-AND
+
+        Returns a list of candidate `doc_id` values that contain at least
+        `min_match` terms from `query_terms`. Limits the number of returned
+        results to `max_candidates`, sorted by the number of matches
+        (highest first).
+        """
+        if not query_terms:
+            return []
+
+        # 1. Obtener posting lists y ordenarlas por longitud (de menor a mayor)
+        term_postings = []
+        for term in set(query_terms):
+            docs = self.search(term)
+            if docs:
+                docs_sorted = sorted(docs)   # importante: ordenados
+                term_postings.append((len(docs_sorted), docs_sorted, term))
+
+        if len(term_postings) < min_match:
+            return []
+
+        # Ordenar por frecuencia ascendente (más raro primero)
+        term_postings.sort()
+
+        # Usamos un contador por documento (dict)
+        from collections import defaultdict
+        doc_count = defaultdict(int)
+
+        # Procesamos cada posting list
+        for _, posting_list, _ in term_postings:
+            for doc_id in posting_list:
+                doc_count[doc_id] += 1
+
+        # Filtramos los documentos que cumplen el mínimo
+        candidates = [doc_id for doc_id, count in doc_count.items() 
+                      if count >= min_match]
+
+        # Ordenamos por cantidad de matches (mejor primero)
+        candidates.sort(key=lambda d: doc_count[d], reverse=True)
+
+        return candidates[:max_candidates]
 
     def get_all_words(self) -> List[str]:
         """Return a list with all words currently stored in the Trie."""
@@ -348,21 +421,19 @@ class PatriciaTrie:
         self.word_count = sum(1 for n in nodes if n.is_end_of_word)
         return
 
-    def save(self, filepath: Optional[str] = None) -> None:
+    def save(self) -> None:
         """Save the Trie to a JSON file at `filepath` (or default path)."""
-        if filepath is None:
-            filepath = self.filepath
 
         # Ensure the directory exists
-        dirpath = os.path.dirname(filepath)
+        dirpath = os.path.dirname(self.filepath)
         if dirpath:
             os.makedirs(dirpath, exist_ok=True)
 
-        with open(filepath, "w", encoding="utf-8") as f:
+        with open(self.filepath, "w", encoding="utf-8") as f:
             # Use compact separators to save space and speed I/O
             json.dump(self.to_dict(), f, ensure_ascii=False, separators=(",", ":"))
 
-    def load(self, filepath: Optional[str] = None) -> None:
+    def load(self) -> None:
         """Load the Trie from a JSON file and apply it to this instance.
 
         If the target JSON file does not exist, build the trie from the
@@ -370,12 +441,10 @@ class PatriciaTrie:
         by tokenizing each line's `text` and inserting tokens with `doc_id`.
         The constructed trie is saved to `filepath`.
         """
-        if filepath is None:
-            filepath = self.filepath
 
         # If the specified file exists, load normally.
-        if os.path.exists(filepath):
-            with open(filepath, "r", encoding="utf-8") as f:
+        if os.path.exists(self.filepath):
+            with open(self.filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
             self.from_dict(data)
             return
@@ -413,7 +482,10 @@ class PatriciaTrie:
                     self.insert(token, doc_id)
 
         # Persist the newly created trie to the requested filepath.
-        self.save(filepath)
+        self.save()
+
+
+
 
 def main():
     trie = PatriciaTrie()
@@ -422,6 +494,8 @@ def main():
     # Print the Trie structure (edges, end-of-word markers and doc ids)
     #trie.print_tree()
     #print(len(trie.get_all_words()))
+    token = Index.tokenize("interanual flujo desarrollado baterías facilitan despliegues")
+    print(trie.get_parcial_AND(token, min_match=2, max_candidates=100))
 
 if __name__ == "__main__":
     main()
