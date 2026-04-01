@@ -9,6 +9,7 @@ import unicodedata
 import json
 import os
 from typing import Any, Dict, List, Optional, Set
+from file_read_backwards import FileReadBackwards
 import spacy
 
 # Spanish stop words set.
@@ -136,11 +137,50 @@ class PatriciaTrie:
         """Create a Trie and set default file path for persistence."""
         self.root = Node()
         self.word_count = 0
+        self.document_count = 0
         # default path if not provided
         if filepath is None:
             self.filepath = os.path.join("data", "processed", "inverted_index_trie.json")
         else:
             self.filepath = filepath
+
+    @staticmethod
+    def _parse_doc_id(raw_doc_id: Any) -> Optional[int]:
+        """Convert a raw doc id to int; return None if conversion fails."""
+        try:
+            return int(raw_doc_id)
+        except (TypeError, ValueError):
+            return None
+
+    @staticmethod
+    def _resolve_webpages_jsonl_path() -> Optional[str]:
+        """Return the first available JSONL source path for webpages."""
+        candidates = [
+            os.path.join("data", "extracted", "webpages", "webpages.jsonl"),
+            os.path.join("data", "extracterd", "webpages", "webpages.jsonl"),
+            os.path.join("data", "extracted", "webpages", "sample_webpages.jsonl"),
+        ]
+        for candidate in candidates:
+            if os.path.exists(candidate):
+                return candidate
+        return None
+
+    def _insert_document_from_json(self, obj: Dict[str, Any]) -> Optional[int]:
+        """Insert one JSONL document into the trie and return its integer doc_id."""
+        doc_id = self._parse_doc_id(obj.get("doc_id"))
+        if doc_id is None:
+            return None
+
+        text = obj.get("text", "")
+        tokens = Index.tokenize(text)
+        for token in set(tokens):
+            self.insert(token, doc_id)
+
+        # Keep this as the highest ingested document id.
+        if doc_id > self.document_count:
+            self.document_count = doc_id
+
+        return doc_id
 
     @staticmethod
     def _common_prefix_length(a: str, b: str) -> int:
@@ -159,6 +199,10 @@ class PatriciaTrie:
         """
         if not word:
             return
+
+        doc_id_int = self._parse_doc_id(doc_id)
+        if doc_id_int is not None and doc_id_int > self.document_count:
+            self.document_count = doc_id_int
 
         node = self.root
         remaining = word
@@ -194,15 +238,15 @@ class PatriciaTrie:
                     if not split_node.is_end_of_word:
                         split_node.is_end_of_word = True
                         self.word_count += 1
-                    if doc_id is not None and doc_id not in split_node.doc_ids:
-                        split_node.doc_ids.append(doc_id)
+                    if doc_id_int is not None and doc_id_int not in split_node.doc_ids:
+                        split_node.doc_ids.append(doc_id_int)
                     return
 
                 # Add a new branch for the remaining suffix.
                 new_leaf = Node()
                 new_leaf.is_end_of_word = True
-                if doc_id is not None:
-                    new_leaf.doc_ids.append(doc_id)
+                if doc_id_int is not None:
+                    new_leaf.doc_ids.append(doc_id_int)
                 split_node.children[new_suffix] = new_leaf
                 self.word_count += 1
                 return
@@ -211,8 +255,8 @@ class PatriciaTrie:
                 # No shared prefix from this node: create a direct compressed edge.
                 new_leaf = Node()
                 new_leaf.is_end_of_word = True
-                if doc_id is not None:
-                    new_leaf.doc_ids.append(doc_id)
+                if doc_id_int is not None:
+                    new_leaf.doc_ids.append(doc_id_int)
                 node.children[remaining] = new_leaf
                 self.word_count += 1
                 return
@@ -221,8 +265,8 @@ class PatriciaTrie:
         if not node.is_end_of_word:
             node.is_end_of_word = True
             self.word_count += 1
-        if doc_id is not None and doc_id not in node.doc_ids:
-            node.doc_ids.append(doc_id)
+        if doc_id_int is not None and doc_id_int not in node.doc_ids:
+            node.doc_ids.append(doc_id_int)
 
     def search(self, word: str) -> Optional[List[int]]:
         """Return list of document IDs for exact `word`, or None if not found."""
@@ -392,8 +436,13 @@ class PatriciaTrie:
                     q.append(child)
                 nodes[idx]["children"][ch] = node_index[cid]
 
-        # Include the word count for persistence
-        return {"nodes": nodes, "root": 0, "count": self.word_count}
+        # Include word and document counters for persistence
+        return {
+            "nodes": nodes,
+            "root": 0,
+            "count": self.word_count,
+            "doc_count": self.document_count,
+        }
 
     def from_dict(self, data: Dict[str, Any]) -> None:
         """Reconstruct the Trie from serialized `data` and apply to self.
@@ -405,6 +454,7 @@ class PatriciaTrie:
         if not nodes_data:
             self.root = Node()
             self.word_count = 0
+            self.document_count = 0
             return
 
         nodes: List[Node] = [Node() for _ in nodes_data]
@@ -419,6 +469,18 @@ class PatriciaTrie:
         # Assign reconstructed root and recalculate the number of indexed words.
         self.root = nodes[data.get("root", 0)]
         self.word_count = sum(1 for n in nodes if n.is_end_of_word)
+
+        persisted_doc_count = data.get("doc_count")
+        if isinstance(persisted_doc_count, int) and persisted_doc_count >= 0:
+            self.document_count = persisted_doc_count
+        else:
+            max_doc_id = 0
+            for node in nodes:
+                for raw_doc_id in node.doc_ids:
+                    parsed = self._parse_doc_id(raw_doc_id)
+                    if parsed is not None and parsed > max_doc_id:
+                        max_doc_id = parsed
+            self.document_count = max_doc_id
         return
 
     def save(self) -> None:
@@ -434,55 +496,80 @@ class PatriciaTrie:
             json.dump(self.to_dict(), f, ensure_ascii=False, separators=(",", ":"))
 
     def load(self) -> None:
-        """Load the Trie from a JSON file and apply it to this instance.
+        """Load persisted trie and incrementally sync from latest JSONL lines.
 
-        If the target JSON file does not exist, build the trie from the
-        original JSONL data source at data/extracted/webpages/sample_webpages.jsonl
-        by tokenizing each line's `text` and inserting tokens with `doc_id`.
-        The constructed trie is saved to `filepath`.
+        Behavior:
+        1) If the trie JSON exists, load it.
+        2) Independently of that, read webpages JSONL from end to start.
+        3) Compare latest `doc_id` with current `document_count`.
+        4) If they differ, ingest only the newest documents (reverse order)
+           until reaching the line whose `doc_id` equals the initial count.
         """
 
-        # If the specified file exists, load normally.
-        if os.path.exists(self.filepath):
+        trie_file_exists = os.path.exists(self.filepath)
+
+        if trie_file_exists:
             with open(self.filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
             self.from_dict(data)
-            return
-
-        # Fallback: build trie from original JSONL dataset.
-        sample_path = os.path.join("data", "extracted", "webpages", "sample_webpages.jsonl")
-        if not os.path.exists(sample_path):
-            # No data to build from; reset to empty trie.
+        else:
             self.root = Node()
             self.word_count = 0
+            self.document_count = 0
+
+        initial_document_count = self.document_count
+        webpages_path = self._resolve_webpages_jsonl_path()
+        if not webpages_path:
+            if not trie_file_exists:
+                self.save()
             return
 
-        # Reset trie before building
-        self.root = Node()
-        self.word_count = 0
-
-        with open(sample_path, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
+        latest_doc_id: Optional[int] = None
+        with FileReadBackwards(webpages_path, encoding="utf-8") as frb:
+            for raw_line in frb:
+                line = raw_line.strip()
                 if not line:
                     continue
                 try:
                     obj = json.loads(line)
                 except json.JSONDecodeError:
                     continue
-                doc_id = int(obj.get("doc_id"))
-                text = obj.get("text", "")
-                # try to convert numeric doc_id strings to int
-                try:
-                    doc_id = int(doc_id)
-                except Exception:
-                    pass
-                tokens = Index.tokenize(text)
-                for token in set(tokens):
-                    self.insert(token, doc_id)
 
-        # Persist the newly created trie to the requested filepath.
-        self.save()
+                parsed_doc_id = self._parse_doc_id(obj.get("doc_id"))
+                if parsed_doc_id is not None:
+                    latest_doc_id = parsed_doc_id
+                    break
+
+        if latest_doc_id is None or latest_doc_id == initial_document_count:
+            return
+
+        updated = False
+        with FileReadBackwards(webpages_path, encoding="utf-8") as frb:
+            for raw_line in frb:
+                line = raw_line.strip()
+                if not line:
+                    continue
+
+                try:
+                    obj = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+
+                doc_id = self._parse_doc_id(obj.get("doc_id"))
+                if doc_id is None:
+                    continue
+
+                if doc_id == initial_document_count:
+                    break
+                if doc_id < initial_document_count:
+                    break
+
+                inserted_doc_id = self._insert_document_from_json(obj)
+                if inserted_doc_id is not None:
+                    updated = True
+
+        if updated:
+            self.save()
 
 
 
@@ -493,9 +580,9 @@ def main():
     print(f"Indexed {trie.word_count} unique tokens in the PatriciaTrie inverted index.")
     # Print the Trie structure (edges, end-of-word markers and doc ids)
     #trie.print_tree()
-    #print(len(trie.get_all_words()))
-    token = Index.tokenize("interanual flujo desarrollado baterías facilitan despliegues")
-    print(trie.get_parcial_AND(token, min_match=2, max_candidates=100))
+    print(len(trie.get_all_words()))
+    #token = Index.tokenize("interanual flujo desarrollado baterías facilitan despliegues")
+    #print(trie.get_parcial_AND(token, min_match=2, max_candidates=100))
 
 if __name__ == "__main__":
     main()

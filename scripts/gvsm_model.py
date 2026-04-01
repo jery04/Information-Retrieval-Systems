@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Tuple   # Type hints for better code re
 import numpy as np                  # Numerical computing and linear algebra operations
 from indexer import Index, PatriciaTrie   # Local project modules (Index and PatriciaTrie structures)
 
-DEFAULT_DATASET_PATH = os.path.join("data", "extracted", "webpages", "sample_webpages.jsonl")
+DEFAULT_DATASET_PATH = os.path.join("data", "extracted", "webpages", "webpages.jsonl")
 DEFAULT_TRIE_PATH = os.path.join("data", "processed", "inverted_index_trie.json")
 DEFAULT_COOC_PATH = os.path.join("data", "processed", "cooccurrence_index.json")
 
