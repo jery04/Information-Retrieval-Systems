@@ -129,6 +129,7 @@ body {
   width: min(1080px, 100%);
   height: clamp(64px, 5.5vw, 98px);
   border: 2px solid #d8dee5;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
   border-radius: 999px;
   background: #fafcfd;
   display: flex;
@@ -137,6 +138,11 @@ body {
   padding: 0 24px;
 }
 
+/* Cambia el color del borde cuando algún input dentro recibe foco */
+.search-form:focus-within {
+  border-color: #406D8F;
+  box-shadow: 0 0 0 4px rgba(64, 109, 143, 0.06);
+}
 .icon-search {
   width: clamp(26px, 2vw, 38px);
   height: clamp(26px, 2vw, 38px);
