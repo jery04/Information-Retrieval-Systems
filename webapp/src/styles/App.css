@@ -1,0 +1,289 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --page-bg: #edf1f5;
+  --card-bg: #f7f9fb;
+  --topbar-bg: #edf1f4;
+  --line: #d9dee4;
+  --text-main: #5e6369;
+  --text-title: #61656a;
+  --brand: #415168;
+  --accent: #5c7899;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  color: var(--text-main);
+  background: linear-gradient(180deg, #f0f4f7 0%, #f5f8fb 55%, #f6f8fb 100%);
+}
+
+/* Lienzo general con proporciones similares a la captura. */
+.app-root {
+  min-height: 100vh;
+  padding: 12px;
+}
+
+.page-card {
+  position: relative;
+  min-height: calc(100vh - 24px);
+  width: 100%;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid #e7ebef;
+  overflow: hidden;
+}
+
+/* Detalle decorativo en esquina inferior derecha. */
+.page-card::after {
+  content: "";
+  position: absolute;
+  right: -72px;
+  bottom: -72px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle at center, rgba(224, 231, 238, 0.8) 0%, rgba(224, 231, 238, 0.3) 40%, rgba(224, 231, 238, 0) 72%);
+  transform: rotate(18deg);
+  pointer-events: none;
+}
+
+.top-nav {
+  height: 74px;
+  padding: 0 46px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid #e5e9ee;
+}
+
+.top-nav-spacer {
+  width: 1px;
+  height: 1px;
+}
+
+.brand-wordmark {
+  justify-self: center;
+  font-size: 48px;
+  letter-spacing: 0.03em;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--brand);
+}
+
+
+
+.top-nav-link {
+  color: #45484d;
+  text-decoration: none;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.top-nav-link:hover {
+  color: #2f3740;
+}
+
+.page-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 72px;
+}
+
+.search-portal {
+  width: min(980px, 100%);
+  text-align: center;
+}
+
+.network-logo {
+  width: 92px;
+  height: 92px;
+  color: var(--accent);
+}
+
+.portal-title {
+  margin-top: 20px;
+  font-size: clamp(30px, 3vw, 58px);
+  font-weight: 900;
+  color: var(--text-title);
+  letter-spacing: 0.01em;
+}
+
+.portal-subtitle {
+  margin-top: 8px;
+  font-size: clamp(18px, 1.45vw, 29px);
+  color: #787d84;
+  font-weight: 500;
+  min-height: 1.4em;
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+.portal-subtitle.is-fading {
+  opacity: 0;
+  transform: translateY(3px);
+}
+
+.search-form {
+  margin: 28px auto 16px;
+  width: min(1080px, 100%);
+  height: clamp(64px, 5.5vw, 98px);
+  border: 2px solid #d8dee5;
+  border-radius: 999px;
+  background: #fafcfd;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+}
+
+.icon-search {
+  width: clamp(26px, 2vw, 38px);
+  height: clamp(26px, 2vw, 38px);
+  color: #7d848b;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: clamp(28px, 2.2vw, 40px);
+  color: #555c63;
+  font-weight: 500;
+}
+
+.search-input::placeholder {
+  color: #9aa1a9;
+}
+
+.search-button {
+  border: none;
+  background: transparent;
+  color: #6f747b;
+  letter-spacing: 0.01em;
+  font-size: clamp(30px, 2.4vw, 44px);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+.filters-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: min(980px, 100%);
+  gap: clamp(4px, 0.8vw, 10px);
+  margin-inline: auto;
+  margin-top: 4px;
+}
+
+.filter-pill {
+  flex: 1 1 0;
+  min-width: 0;
+  height: clamp(34px, 3vw, 50px);
+  border-radius: 999px;
+  border: 2px solid #d5dbe2;
+  background: #fdfefe;
+  color: #5f666d;
+  padding: 0 clamp(8px, 1.1vw, 16px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(5px, 0.7vw, 8px);
+  font-size: clamp(12px, 1.25vw, 22px);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.filter-pill span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filter-pill .icon {
+  width: clamp(14px, 1.1vw, 22px);
+  height: clamp(14px, 1.1vw, 22px);
+  flex-shrink: 0;
+}
+
+.results-hint {
+  margin-top: 74px;
+  font-size: clamp(30px, 2.2vw, 20px);
+  color: #8e949c;
+  font-weight: 500;
+}
+
+/* Ajustes para pantallas pequenas conservando la estructura. */
+@media (max-width: 900px) {
+  .top-nav {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 8px;
+    height: auto;
+    padding: 14px 20px;
+  }
+
+  .top-nav-spacer {
+    display: none;
+  }
+
+  .brand-wordmark {
+    font-size: 34px;
+  }
+
+
+  .top-nav-link {
+    font-size: 20px;
+  }
+
+  .page-content {
+    padding: 42px 18px 28px;
+  }
+
+  .portal-title {
+    font-size: 30px;
+  }
+
+  .portal-subtitle {
+    font-size: 18px;
+  }
+
+  .search-form {
+    height: 58px;
+    padding: 0 16px;
+  }
+
+  .search-input {
+    font-size: 20px;
+  }
+
+  .search-button {
+    font-size: 20px;
+  }
+
+  .filters-row {
+    gap: 6px;
+  }
+
+  .filter-pill {
+    height: 34px;
+    font-size: 12px;
+    border-width: 1.5px;
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .filter-pill .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  .results-hint {
+    margin-top: 48px;
+    font-size: 10px;
+  }
+}
