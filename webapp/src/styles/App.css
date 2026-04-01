@@ -97,8 +97,8 @@ body {
 }
 
 .network-logo {
-  width: 92px;
-  height: 92px;
+  width: 1280x;
+  height: 128px;
   color: var(--accent);
 }
 
@@ -233,6 +233,11 @@ body {
 
   .brand-wordmark {
     font-size: 34px;
+  }
+
+  .network-logo {
+    width: 86px;
+    height: 86px;
   }
 
 

@@ -1,24 +1,6 @@
 export function NetworkLogoIcon() {
   return (
-    <svg viewBox="0 0 96 96" aria-hidden="true" className="network-logo">
-      {/* Nodos y conexiones del isotipo central. */}
-      <g fill="none" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M28 24L50 16L70 28L68 52L47 64L27 53L26 34Z" />
-        <path d="M27 34L47 46L68 52" />
-        <path d="M50 16L47 46" />
-        <path d="M70 28L47 46" />
-      </g>
-      <g fill="currentColor">
-        <circle cx="28" cy="24" r="6" />
-        <circle cx="50" cy="16" r="6" />
-        <circle cx="70" cy="28" r="6" />
-        <circle cx="68" cy="52" r="6" />
-        <circle cx="47" cy="64" r="6" />
-        <circle cx="27" cy="53" r="6" />
-        <circle cx="26" cy="34" r="6" />
-        <circle cx="47" cy="46" r="6" />
-      </g>
-    </svg>
+    <img src="/logo.png" alt="SRI logo" className="network-logo" />
   );
 }
 
