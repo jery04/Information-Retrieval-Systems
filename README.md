@@ -1,70 +1,70 @@
 # Information Retrieval Systems (IRS) 🔎
 
-> ⚠️ **Estado del proyecto:** versión preliminar en desarrollo activo. La estructura, funcionalidades y resultados pueden evolucionar.
+> ⚠️ **Project status:** preliminary version under active development. Structure, features, and results may evolve.
 
-## 🧠 Descripción General
+## 🧠 Overview
 
-Este repositorio implementa un prototipo de **Sistema de Recuperación de Información (IRS)** orientado a:
+This repository implements a prototype of an **Information Retrieval System (IRS)** aimed at:
 
-- 📥 Ingesta y organización de documentos web.
-- 🧹 Preprocesamiento de contenido para indexación.
-- 🗂️ Construcción de índices especializados (trie invertido + coocurrencia).
-- 📊 Ranking documental con **Generalized Vector Space Model (GVSM)**.
-- 🌐 Exploración de resultados mediante interfaz web.
+- 📥 Ingesting and organizing web documents.
+- 🧹 Preprocessing content for indexing.
+- 🗂️ Building specialized indexes (inverted trie + co-occurrence).
+- 📊 Document ranking with the **Generalized Vector Space Model (GVSM)**.
+- 🌐 Exploring results through a web interface.
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ System Architecture
 
-El sistema está dividido en tres capas principales:
+The system is divided into three main layers:
 
-1. **Pipeline de datos**
-   - Recolección de recursos en bruto (web, PDFs, imágenes).
-   - Extracción y normalización del contenido.
+1. **Data pipeline**
+   - Collection of raw resources (webpages, PDFs, images).
+   - Extraction and normalization of content.
 
-2. **Motor de recuperación**
-   - Construcción de índices en disco a partir del corpus procesado.
-   - Cálculo de relaciones semánticas y puntuación de similitud con GVSM.
+2. **Retrieval engine**
+   - Building on-disk indexes from the processed corpus.
+   - Computing semantic relationships and similarity scores with GVSM.
 
-3. **Capa de presentación**
-   - Aplicación frontend para búsqueda, filtros y visualización de resultados.
+3. **Presentation layer**
+   - Frontend application for search, filters, and result visualization.
 
-## 📁 Estructura del Repositorio
+## 📁 Repository Structure
 
 ```text
 data/
-  raw/                # Recursos originales (webpages, pdfs, images)
-  extracted/          # Contenido extraído y estructurado
-  processed/          # Artefactos de indexación (JSON de índices)
+  raw/                # Original resources (webpages, pdfs, images)
+  extracted/          # Extracted and structured content
+  processed/          # Indexing artifacts (JSON indexes)
 scripts/
-  indexer.py          # Construcción de índices
-  gvsm_model.py       # Modelo de ranking basado en GVSM
+  indexer.py          # Index construction
+  gvsm_model.py       # GVSM-based ranking model
 webapp/
-  src/                # Componentes React y estilos
-  public/             # Assets estáticos
+  src/                # React components and styles
+  public/             # Static assets
 ```
 
-## ⚙️ Componentes Clave
+## ⚙️ Key Components
 
 - `scripts/indexer.py`
-  - Genera estructuras de índice para acceso eficiente a términos y documentos.
+  - Generates index structures for efficient access to terms and documents.
 
 - `scripts/gvsm_model.py`
-  - Implementa el modelo vectorial generalizado para ranking por similitud.
+  - Implements the generalized vector model for similarity-based ranking.
 
 - `webapp/`
-  - Frontend con **Vite + React** para interacción de consulta y análisis visual.
+  - Frontend with **Vite + React** for query interaction and visual analysis.
 
-## 🔄 Flujo de Trabajo de Datos
+## 🔄 Data Workflow
 
-1. `data/raw` → entrada de recursos originales.
-2. `data/extracted` → salida de extracción/parsing.
-3. `scripts/indexer.py` → generación de índices en `data/processed`.
-4. `scripts/gvsm_model.py` → cálculo de relevancia para consultas.
-5. `webapp/` → consulta interactiva y visualización de resultados.
+1. `data/raw` → input of original resources.
+2. `data/extracted` → output from extraction/parsing.
+3. `scripts/indexer.py` → generation of indexes in `data/processed`.
+4. `scripts/gvsm_model.py` → computation of relevance for queries.
+5. `webapp/` → interactive querying and result visualization.
 
-## 🚀 Estado y Objetivo
+## 🚀 Status and Goal
 
-Proyecto enfocado en experimentación académica y mejora iterativa de técnicas de IR:
+Project focused on academic experimentation and iterative improvement of IR techniques:
 
-- ✅ Base funcional de indexación y ranking.
-- 🧪 Espacio abierto para pruebas de calidad de recuperación.
-- 📈 Evolución prevista en rendimiento, relevancia y UX de búsqueda.
+- ✅ Functional baseline for indexing and ranking.
+- 🧪 Open space for experiments on retrieval quality.
+- 📈 Planned improvements in performance, relevance, and search UX.
