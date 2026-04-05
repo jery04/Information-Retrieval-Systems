@@ -1,30 +1,78 @@
-# Information Retrieval Systems (IRS)
+# Information Retrieval Systems (IRS) 🔎
 
-> **Preliminary Version:** This project is currently under active development, and features, structure, and behavior may change.
+> ⚠️ **Estado del proyecto:** versión preliminar en desarrollo activo. La estructura, funcionalidades y resultados pueden evolucionar.
 
-## About the Project
+## 🧠 Descripción General
 
-This repository contains an Information Retrieval System prototype focused on indexing and ranking web content.
+Este repositorio implementa un prototipo de **Sistema de Recuperación de Información (IRS)** orientado a:
 
-The project combines:
-- Document ingestion and preprocessing pipelines.
-- Index construction (including trie-based and co-occurrence-based structures).
-- A Generalized Vector Space Model (GVSM) for document ranking.
-- A web interface for searching and exploring results.
+- 📥 Ingesta y organización de documentos web.
+- 🧹 Preprocesamiento de contenido para indexación.
+- 🗂️ Construcción de índices especializados (trie invertido + coocurrencia).
+- 📊 Ranking documental con **Generalized Vector Space Model (GVSM)**.
+- 🌐 Exploración de resultados mediante interfaz web.
 
-## Project Structure
+## 🏗️ Arquitectura del Sistema
 
-- `data/`
-  - `raw/`: Original collected resources (web pages, PDFs, images).
-  - `extracted/`: Parsed or extracted content ready for indexing.
-  - `processed/`: Generated artifacts such as index files.
-- `scripts/`
-  - Core retrieval logic and indexing/ranking scripts.
-  - Includes modules such as `indexer.py` and `gvsm_model.py`.
+El sistema está dividido en tres capas principales:
+
+1. **Pipeline de datos**
+   - Recolección de recursos en bruto (web, PDFs, imágenes).
+   - Extracción y normalización del contenido.
+
+2. **Motor de recuperación**
+   - Construcción de índices en disco a partir del corpus procesado.
+   - Cálculo de relaciones semánticas y puntuación de similitud con GVSM.
+
+3. **Capa de presentación**
+   - Aplicación frontend para búsqueda, filtros y visualización de resultados.
+
+## 📁 Estructura del Repositorio
+
+```text
+data/
+  raw/                # Recursos originales (webpages, pdfs, images)
+  extracted/          # Contenido extraído y estructurado
+  processed/          # Artefactos de indexación (JSON de índices)
+scripts/
+  indexer.py          # Construcción de índices
+  gvsm_model.py       # Modelo de ranking basado en GVSM
+webapp/
+  src/                # Componentes React y estilos
+  public/             # Assets estáticos
+```
+
+## ⚙️ Componentes Clave
+
+- `scripts/indexer.py`
+  - Genera estructuras de índice para acceso eficiente a términos y documentos.
+
+- `scripts/gvsm_model.py`
+  - Implementa el modelo vectorial generalizado para ranking por similitud.
+
 - `webapp/`
-  - Frontend application (Vite + React) for the search interface.
-  - Contains UI components, styles, and static assets.
+  - Frontend con **Vite + React** para interacción de consulta y análisis visual.
 
-## Current Status
+## 🔄 Flujo de Trabajo de Datos
 
-This is an early-stage implementation intended for experimentation and iterative improvement in Information Retrieval workflows.
+1. `data/raw` → entrada de recursos originales.
+2. `data/extracted` → salida de extracción/parsing.
+3. `scripts/indexer.py` → generación de índices en `data/processed`.
+4. `scripts/gvsm_model.py` → cálculo de relevancia para consultas.
+5. `webapp/` → consulta interactiva y visualización de resultados.
+
+## 🚀 Estado y Objetivo
+
+Proyecto enfocado en experimentación académica y mejora iterativa de técnicas de IR:
+
+- ✅ Base funcional de indexación y ranking.
+- 🧪 Espacio abierto para pruebas de calidad de recuperación.
+- 📈 Evolución prevista en rendimiento, relevancia y UX de búsqueda.
+
+## 🤝 Contribución
+
+Si vas a contribuir, prioriza:
+
+- Consistencia en estructuras de datos de índices.
+- Cambios reproducibles en scripts de procesamiento.
+- Mejoras medibles en precisión/recall o experiencia de búsqueda.
