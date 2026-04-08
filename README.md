@@ -81,8 +81,13 @@ Project focused on academic experimentation and iterative improvement of IR tech
 
 $$
 \mathrm{sim}(q,d) =
-\frac{\sum_{i\in q}\sum_{j\in d} w_{i,q}\, w_{j,d}\, s_{ij}}
-{\sqrt{\sum_{i\in q}\sum_{k\in q} w_{i,q}\, w_{k,q}\, s_{ik}} \;\; \sqrt{\sum_{j\in d}\sum_{\ell\in d} w_{j,d}\, w_{\ell,d}\, s_{j\ell}}}
+\frac{
+\sum_{i\in q}\sum_{j\in d} w_{i,q}\, w_{j,d}\, s_{ij}
+}{
+\sqrt{\sum_{i\in q} w_{i,q}^2}
+\;\;
+\sqrt{\sum_{j\in d} w_{j,d}^2}
+}
 $$
 
 ### **Term–term correlation**
