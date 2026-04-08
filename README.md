@@ -77,34 +77,23 @@ Project focused on academic experimentation and iterative improvement of IR tech
   $idf(t) = \log\left(\frac{N+1}{df(t)+1}\right) + 1$
 
   where $N$ is the total number of documents and $df(t)$ is the document frequency of term $t$.
-- **Scoring (formula):**
+### **Scoring (formula)**
 
-  $$
-  \mathrm{sim}(q,d) =
-  \frac{\sum_{i\in q}\sum_{j\in d} w_{i,q}\, w_{j,d}\, s_{ij}}
-  {\sqrt{\sum_{i\in q}\sum_{k\in q} w_{i,q}\, w_{k,q}\, s_{ik}} \;\; \sqrt{\sum_{j\in d}\sum_{\ell\in d} w_{j,d}\, w_{\ell,d}\, s_{j\ell}}}
-  $$
+$$
+\mathrm{sim}(q,d) =
+\frac{\sum_{i\in q}\sum_{j\in d} w_{i,q}\, w_{j,d}\, s_{ij}}
+{\sqrt{\sum_{i\in q}\sum_{k\in q} w_{i,q}\, w_{k,q}\, s_{ik}} \;\; \sqrt{\sum_{j\in d}\sum_{\ell\in d} w_{j,d}\, w_{\ell,d}\, s_{j\ell}}}
+$$
 
-- **Term–term correlation:** $s_{ij}$ is obtained from the co-occurrence index; by default a cosine-like normalization is used:
+### **Term–term correlation**
 
-  $$
-  s_{ij} = \frac{\mathrm{cooc}(i,j)}{\sqrt{df(i)\, df(j)}}
-  $$
-- **Scoring (formula):**
+$s_{ij}$ is obtained from the co-occurrence index; by default a cosine-like normalization is used:
 
-  $$
-  \\mathrm{sim}(q,d) = 
-  \\frac{\\sum_{i \\in q} \\sum_{j \\in d} w_{i,q}\\, w_{j,d}\\, s_{ij}}{\\
-    \\sqrt{\\sum_{i\\in q}\\sum_{k\\in q} w_{i,q}\\, w_{k,q}\\, s_{ik}}\\;\\; \\sqrt{\\sum_{j\\in d}\\sum_{\\ell\\in d} w_{j,d}\\, w_{\\ell,d}\\, s_{j\\ell}}}
-  $$
+$$
+s_{ij} = \frac{\mathrm{cooc}(i,j)}{\sqrt{df(i)\, df(j)}}
+$$
 
-- **Term–term correlation:** $s_{ij}$ is obtained from the co-occurrence index; by default a cosine-like normalization is used:
 
-  $$
-  s_{ij} = \\frac{\\mathrm{cooc}(i,j)}{\\sqrt{df(i)\\, df(j)}}
-  $$
-
-  (a `min_cooc` threshold is applied to filter low-frequency pairs).
 - **Implementation:** See `scripts/gvsm_model.py` (classes `GeneralizedVectorSpaceModel` and `CoOccurrenceIndex`) for IDF, vector construction and the `similarity()` implementation.
 
 ## 🗂️ Indexes and data structures
