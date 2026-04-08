@@ -72,11 +72,24 @@ Project focused on academic experimentation and iterative improvement of IR tech
 ## 🔬 Search model (GVSM)
 
 - **Summary:** The search engine uses the Generalized Vector Space Model (GVSM) to rank results. GVSM extends the classic vector space model by incorporating term–term correlations via a co-occurrence index.
-- **Representation:** Queries and documents are represented as sparse vectors with weights $w_{t} = tf\\_norm \\cdot idf(t)$, with
+- **Representation:** Queries and documents are represented as sparse vectors with weights $w_{t} = tf_{norm} \cdot idf(t)$, with
 
-  $idf(t) = \\log\\left(\\frac{N+1}{df(t)+1}\\right) + 1$
+  $idf(t) = \log\left(\frac{N+1}{df(t)+1}\right) + 1$
 
   where $N$ is the total number of documents and $df(t)$ is the document frequency of term $t$.
+- **Scoring (formula):**
+
+  $$
+  \mathrm{sim}(q,d) =
+  \frac{\sum_{i\in q}\sum_{j\in d} w_{i,q}\, w_{j,d}\, s_{ij}}
+  {\sqrt{\sum_{i\in q}\sum_{k\in q} w_{i,q}\, w_{k,q}\, s_{ik}} \;\; \sqrt{\sum_{j\in d}\sum_{\ell\in d} w_{j,d}\, w_{\ell,d}\, s_{j\ell}}}
+  $$
+
+- **Term–term correlation:** $s_{ij}$ is obtained from the co-occurrence index; by default a cosine-like normalization is used:
+
+  $$
+  s_{ij} = \frac{\mathrm{cooc}(i,j)}{\sqrt{df(i)\, df(j)}}
+  $$
 - **Scoring (formula):**
 
   $$
