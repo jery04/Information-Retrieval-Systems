@@ -103,13 +103,13 @@ $$
 
 ## 🗂️ Indexes and data structures
 
-- **Inverted trie (Patricia Trie):** persisted at [data/processed/inverted_index_trie.json](data/processed/inverted_index_trie.json). Main format:
+- **Inverted trie (Patricia Trie):** persisted at `data/processed/inverted_index_trie.json`. Main format:
   - Top-level: `{"nodes": [...], "root": 0, "count": <unique_tokens>, "doc_count": <N>}`.
   - Each node: `{"is_end": bool, "docs": [doc_id, ...], "children": {"edge_label": node_index, ...}}`.
   - `docs` stores the document IDs where the term appears (presence only). Per-document term frequencies are not embedded in each posting; frequencies are reconstructed from tokenized documents when building vectors.
   - The trie supports prefix search and candidate retrieval via `get_parcial_AND` / `intersect_tokens`.
 
-- **Co-occurrence index:** persisted at [data/processed/cooccurrence_index.json](data/processed/cooccurrence_index.json). It contains fields `df`, `total_docs`, `cooc` (nested mapping term→term→count) and `min_cooc`.
+- **Co-occurrence index:** persisted at `data/processed/cooccurrence_index.json`. It contains fields `df`, `total_docs`, `cooc` (nested mapping term→term→count) and `min_cooc`.
 
 ## 🔧 Retrieval pipeline
 
