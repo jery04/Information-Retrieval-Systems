@@ -5,12 +5,12 @@ PatriciaTrie-based inverted index with JSON persistence. Docstrings are brief an
 focused on functionality (main() is intentionally unchanged).
 """
 
-import unicodedata
-import json
-import os
-from typing import Any, Dict, List, Optional, Set
-from file_read_backwards import FileReadBackwards
-import spacy
+import unicodedata  # Tools for Unicode normalization (remove accents, etc.)
+import json         # Read and write JSON data
+import os           # Interact with the operating system (paths, files)
+from typing import Any, Dict, List, Optional, Set  # Type hints for cleaner code
+from file_read_backwards import FileReadBackwards  # Read large files from bottom to top efficiently
+import spacy        # NLP library for tokenization, lemmatization, etc.
 
 # Spanish stop words set.
 stop_words: Set[str] = {
@@ -570,9 +570,6 @@ class PatriciaTrie:
 
         if updated:
             self.save()
-
-
-
 
 def main():
     trie = PatriciaTrie()

@@ -419,7 +419,6 @@ class GVSMSearchEngine:
             return []
         return self.rank_candidates(query_vec, candidate_doc_ids, top_k)
 
-
 def main() -> None:
     """Small end-to-end test to validate the integration."""
     engine = GVSMSearchEngine()
@@ -434,7 +433,6 @@ def main() -> None:
 
     for doc_id, score in results:
         print(f"doc_id={doc_id} score={score:.6f}")
-
 
 if __name__ == "__main__":
     main()
