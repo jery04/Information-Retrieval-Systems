@@ -1,0 +1,33 @@
+# Lenguajes y plataformas
+https://docs.python.org/3/
+https://doc.rust-lang.org/
+https://go.dev/doc/
+https://developer.mozilla.org/en-US/docs/Web
+https://docs.oracle.com/en/java/
+https://learn.microsoft.com/en-us/dotnet/
+https://kotlinlang.org/docs/home.html
+
+# Frameworks y herramientas modernas
+https://react.dev/
+https://angular.dev/
+https://vuejs.org/guide/introduction.html
+https://nodejs.org/en/docs/
+https://docs.djangoproject.com/en/stable/
+https://flask.palletsprojects.com/en/latest/
+
+# Blogs de ingeniería y noticias técnicas
+https://netflixtechblog.com/
+https://engineering.fb.com/
+https://opensource.googleblog.com/
+https://aws.amazon.com/blogs/architecture/
+https://cloud.google.com/blog
+https://stackoverflow.blog/
+https://martinfowler.com/
+https://css-tricks.com/
+https://www.smashingmagazine.com/
+
+# Repositorios académicos y estándares
+https://www.w3.org/TR/
+https://www.rfc-editor.org/rfc/
+https://arxiv.org/list/cs/recent
+https://www.semanticscholar.org/

@@ -12,6 +12,14 @@ This repository implements a prototype of an **Information Retrieval System (IRS
 - 📊 Document ranking with the **Generalized Vector Space Model (GVSM)**.
 - 🌐 Exploring results through a web interface.
 
+## 🚀 Status and Goal
+
+Project focused on academic experimentation and iterative improvement of IR techniques:
+
+- ✅ Functional baseline for indexing and ranking.
+- 🧪 Open space for experiments on retrieval quality.
+- 📈 Planned improvements in performance, relevance, and search UX.
+
 ## 🏗️ System Architecture
 
 The system is divided into three main layers:
@@ -50,6 +58,9 @@ webapp/
 - `scripts/gvsm_model.py`
   - Implements the generalized vector model for similarity-based ranking.
 
+- `scripts/tech_crawler.py`
+  - Crawler enfocado en tecnología/software con respeto a `robots.txt`, límites de profundidad y salida JSONL compatible con indexación.
+
 - `webapp/`
   - Frontend with **Vite + React** for query interaction and visual analysis.
 
@@ -61,13 +72,32 @@ webapp/
 4. `scripts/gvsm_model.py` → computation of relevance for queries.
 5. `webapp/` → interactive querying and result visualization.
 
-## 🚀 Status and Goal
+## 🕷️ Crawler de Tecnología (MVP)
 
-Project focused on academic experimentation and iterative improvement of IR techniques:
+El proyecto incluye un crawler inicial enfocado en fuentes técnicas para construir el corpus web.
 
-- ✅ Functional baseline for indexing and ranking.
-- 🧪 Open space for experiments on retrieval quality.
-- 📈 Planned improvements in performance, relevance, and search UX.
+### Salidas
+
+- `data/extracted/webpages/webpages.jsonl`: documentos limpios (incluye `doc_id` y `text`).
+- `data/raw/webpages/`: HTML crudo (si se usa `--save-raw`).
+- `logs/crawl_report.txt`: estadísticas del rastreo.
+
+### Ejecución
+
+```bash
+python scripts/tech_crawler.py --max-pages 500 --max-depth 2 --save-raw
+```
+
+Opciones útiles:
+
+- `--seeds-file scripts/tech_seeds.txt`
+- `--per-domain-limit 120`
+- `--min-chars 300`
+- `--delay 1.0`
+
+### Siguiente paso del pipeline
+
+Con el JSONL generado, ejecutar el indexador y luego GVSM sobre `data/extracted/webpages/webpages.jsonl`.
 
 ## 🔬 Search model (GVSM)
 
