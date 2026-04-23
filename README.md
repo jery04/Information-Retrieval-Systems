@@ -44,7 +44,7 @@ data/
   processed/          # Indexing artifacts (JSON indexes)
 scripts/
   indexer.py          # Index construction
-  gvsm_model.py       # GVSM-based ranking model
+  engine.py       # GVSM-based ranking model
 webapp/
   src/                # React components and styles
   public/             # Static assets
@@ -55,7 +55,7 @@ webapp/
 - `scripts/indexer.py`
   - Generates index structures for efficient access to terms and documents.
 
-- `scripts/gvsm_model.py`
+- `scripts/engine.py`
   - Implements the generalized vector model for similarity-based ranking.
 
 - `scripts/tech_crawler.py`
@@ -69,7 +69,7 @@ webapp/
 1. `data/raw` → input of original resources.
 2. `data/extracted` → output from extraction/parsing.
 3. `scripts/indexer.py` → generation of indexes in `data/processed`.
-4. `scripts/gvsm_model.py` → computation of relevance for queries.
+4. `scripts/engine.py` → computation of relevance for queries.
 5. `webapp/` → interactive querying and result visualization.
 
 ## 🕷️ Crawler de Tecnología (MVP)
@@ -129,7 +129,7 @@ s_{ij} = \frac{\mathrm{cooc}(i,j)}{\sqrt{df(i)\, df(j)}}
 $$
 
 
-- **Implementation:** See `scripts/gvsm_model.py` (classes `GeneralizedVectorSpaceModel` and `CoOccurrenceIndex`) for IDF, vector construction and the `similarity()` implementation.
+- **Implementation:** See `scripts/engine.py` (classes `GeneralizedVectorSpaceModel` and `CoOccurrenceIndex`) for IDF, vector construction and the `similarity()` implementation.
 
 ## 🗂️ Indexes and data structures
 
@@ -159,5 +159,5 @@ $$
 ## 🛠️ Local testing
 
 - Rebuild/update indexes: `python scripts/indexer.py`
-- Run integrated GVSM test: `python scripts/gvsm_model.py`
+- Run integrated GVSM test: `python scripts/main.py`
 
