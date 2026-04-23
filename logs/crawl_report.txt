@@ -1,26 +1,11 @@
-generated_at: 2026-04-15T04:23:21+00:00
-docs_written: 50
-frontier_remaining: 674
+generated_at: 2026-04-22T21:19:35+00:00
+docs_written: 5
+frontier_remaining: 795
 stats:
-  - blocked_by_robots: 6
-  - domain_limit_skips: 117
-  - duplicate_text: 1
-  - too_short: 2
-  - visited: 53
-  - written: 50
+  - visited: 5
+  - written: 5
 domains:
-  - aws.amazon.com: 35
-  - docs.aws.amazon.com: 9
+  - cloud.google.com: 2
   - angular.dev: 1
   - arxiv.org: 1
-  - github.com: 1
-  - kiro.dev: 1
-  - opentelemetry.io: 1
-  - www.docker.com: 1
-  - iq.aws.amazon.com: 1
-  - press.aboutamazon.com: 1
-  - repost.aws: 1
-  - pages.awscloud.com: 0
-  - us-east-1.console.aws.amazon.com: 0
-  - console.aws.amazon.com: 0
-  - portal.aws.amazon.com: 0
+  - aws.amazon.com: 1

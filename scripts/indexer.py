@@ -575,11 +575,6 @@ def main():
     trie = PatriciaTrie()
     trie.load()  # will build from JSONL if the trie JSON doesn't exist
     print(f"Indexed {trie.word_count} unique tokens in the PatriciaTrie inverted index.")
-    # Print the Trie structure (edges, end-of-word markers and doc ids)
-    #trie.print_tree()
-    print(len(trie.get_all_words()))
-    #token = Index.tokenize("interanual flujo desarrollado baterías facilitan despliegues")
-    #print(trie.get_parcial_AND(token, min_match=2, max_candidates=100))
 
 if __name__ == "__main__":
     main()

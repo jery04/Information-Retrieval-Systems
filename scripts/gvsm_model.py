@@ -423,7 +423,7 @@ def main() -> None:
     """Small end-to-end test to validate the integration."""
     engine = GVSMSearchEngine()
 
-    query = "Entrada de blog sobre nuevas herramientas"
+    query = "Blog Technology"
     results = engine.search(query=query, top_k=10)
 
     print(f"Consulta: {query}")

@@ -32,6 +32,7 @@ function SearchPortal() {
   const [query, setQuery] = useState("");
   const [subtitleIndex, setSubtitleIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
+  const [activeFilters, setActiveFilters] = useState(new Set());
 
   useEffect(() => {
     let changeTimeoutId;
@@ -60,6 +61,18 @@ function SearchPortal() {
     event.preventDefault();
   };
 
+  const toggleFilter = (label) => {
+    setActiveFilters((prev) => {
+      const next = new Set(prev);
+      if (next.has(label)) {
+        next.delete(label);
+      } else {
+        next.add(label);
+      }
+      return next;
+    });
+  };
+
   return (
     <section className="search-portal" aria-label="Portal de busqueda">
       <NetworkLogoIcon />
@@ -86,7 +99,13 @@ function SearchPortal() {
 
       <div className="filters-row" aria-label="Filtros por tipo">
         {FILTERS.map((filter) => (
-          <FilterPill key={filter.label} icon={filter.icon} label={filter.label} />
+          <FilterPill
+            key={filter.label}
+            icon={filter.icon}
+            label={filter.label}
+            active={activeFilters.has(filter.label)}
+            onToggle={() => toggleFilter(filter.label)}
+          />
         ))}
       </div>
 

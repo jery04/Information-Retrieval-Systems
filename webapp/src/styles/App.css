@@ -219,6 +219,7 @@ body {
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
 
 .filter-pill span {
@@ -231,6 +232,31 @@ body {
   width: clamp(14px, 1.1vw, 22px);
   height: clamp(14px, 1.1vw, 22px);
   flex-shrink: 0;
+}
+
+/* Estado activo para los filtros (toggle) */
+.filter-pill.is-active,
+.filter-pill[aria-pressed="true"] {
+  background: #406d8f;
+  color: #ffffff;
+  border-color: #406d8f;
+  box-shadow: 0 3px 8px rgba(64, 109, 143, 0.12);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.filter-pill.is-active .icon,
+.filter-pill[aria-pressed="true"] .icon {
+  color: currentColor;
+  opacity: 0.98;
+}
+
+.filter-pill:hover {
+  transform: translateY(-3px);
+}
+
+.filter-pill:focus {
+  outline: none;
+
 }
 
 .results-hint {
