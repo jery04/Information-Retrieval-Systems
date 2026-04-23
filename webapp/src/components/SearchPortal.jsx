@@ -33,6 +33,11 @@ function SearchPortal() {
   const [subtitleIndex, setSubtitleIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
   const [activeFilters, setActiveFilters] = useState(new Set());
+  const [results, setResults] = useState([]);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
 
   useEffect(() => {
     let changeTimeoutId;
@@ -59,6 +64,23 @@ function SearchPortal() {
   const handleSubmit = (event) => {
     // Este prototipo no envia datos, solo conserva la maqueta visual.
     event.preventDefault();
+    if (!query || query.trim().length === 0) return;
+    doSearch(query.trim());
+  };
+
+  const doSearch = async (q) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`http://localhost:5000/search?query=${encodeURIComponent(q)}&top_k=80`);
+      const data = await res.json();
+      setResults(data.results || []);
+      setTotalResults(data.total || 0);
+      setPage(1);
+    } catch (err) {
+      console.error("Error buscando:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleFilter = (label) => {
@@ -109,7 +131,43 @@ function SearchPortal() {
         ))}
       </div>
 
-      <p className="results-hint">Los resultados aparecerán aquí</p>
+      {loading ? (
+        <p className="results-hint">Buscando "{query}" ...</p>
+      ) : results && results.length > 0 ? (
+        <>
+          <p className="results-count">Se encontraron {totalResults} resultados para "{query}"</p>
+
+          <div className="results-list">
+            {results.slice((page - 1) * pageSize, page * pageSize).map((item) => (
+              <article className="result-item" key={item.doc_id}>
+                <div className="result-left">
+                  <div className="result-icon">
+                    {item.file_type === "PDF" ? <PdfIcon /> : item.file_type === "IMAGEN" ? <ImageIcon /> : item.file_type === "VIDEO" ? <VideoIcon /> : item.file_type === "DOCUMENTO" ? <FolderIcon /> : <FileIcon />}
+                  </div>
+                </div>
+
+                <div className="result-body">
+                  <a href={item.url} target="_blank" rel="noreferrer" className="result-title">{item.title}</a>
+                  <p className="result-snippet">{item.snippet}</p>
+                  <div className="result-meta">{item.domain} • {item.crawl_date ? item.crawl_date.split("T")[0] : ""}</div>
+                </div>
+
+                <div className="result-right">
+                  <span className="result-tag">{item.file_type}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="results-pager">
+            <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>{'<'}</button>
+            <span className="pager-info">{page}</span>
+            <button onClick={() => setPage(page + 1)} disabled={page * pageSize >= results.length}>{'>'}</button>
+          </div>
+        </>
+      ) : (
+        <p className="results-hint">Los resultados aparecerán aquí</p>
+      )}
     </section>
   );
 }

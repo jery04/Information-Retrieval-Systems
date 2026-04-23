@@ -266,6 +266,124 @@ body {
   font-weight: 500;
 }
 
+/* Result list styles (card-like rows matching the provided mockup) */
+.results-count {
+  margin-top: 28px;
+  margin-bottom: 12px;
+  color: #6f757b;
+  font-weight: 600;
+}
+
+.results-list {
+  width: 100%;
+  margin: 8px auto 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-item {
+  display: grid;
+  grid-template-columns: 56px 1fr 96px;
+  gap: 18px;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 25px;
+  border: 1px solid #e6edf3;
+  background: #fff;
+}
+
+.result-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(228,234,240,0.8), rgba(245,249,252,0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #406d8f;
+}
+
+.result-body {
+  text-align: left;
+  width: 97%;
+}
+
+.result-title {
+  color: #2f546f;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.result-title:hover {
+  text-decoration: underline;
+}
+
+.result-snippet {
+  margin-top: 6px;
+  color: #6c7278;
+  font-size: 14px;
+  max-height: 4.2em;
+  overflow: hidden;
+}
+
+.result-meta {
+  margin-top: 6px;
+  color: #98a0a6;
+  font-size: 13px;
+
+}
+
+.result-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-tag {
+  display: inline-block;
+  padding: 8px 12px;
+  margin-right: 30%;
+  border-radius: 999px;
+  border: 1px solid #e2e7ea;
+  background: #f7fafc;
+  color: #51636f;
+  font-weight: 700;
+}
+
+.results-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.results-pager button {
+  border: none;
+  background: #f1f5f8;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.results-pager button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pager-info {
+  color: #51636f;
+  font-weight: 700;
+}
+
 /* Ajustes para pantallas pequenas conservando la estructura. */
 @media (max-width: 900px) {
   .top-nav {

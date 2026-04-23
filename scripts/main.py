@@ -7,6 +7,7 @@ It also includes a small main() routine to run a sample query end to end.
 
 import json                         # Provides JSON serialization and deserialization utilities
 import os                           # Handles filesystem paths and directory operations
+import sys
 from typing import Dict, List, Optional, Tuple   # Type hints for structured and readable annotations
 from engine import (                # Imports core IR components from the engine module
     CoOccurrenceIndex,              # Co-occurrence index for term-term statistics
@@ -14,6 +15,13 @@ from engine import (                # Imports core IR components from the engine
 )
 from indexer import Index, PatriciaTrie   # Local indexing utilities: tokenizer and PatriciaTrie structure
 
+# Optional lightweight HTTP API (no external deps required for CORS-safe responses)
+try:
+    from flask import Flask, request, jsonify
+except Exception:
+    Flask = None
+
+# Default paths for data files
 DEFAULT_DATASET_PATH = os.path.join("data", "extracted", "webpages", "webpages.jsonl")
 DEFAULT_TRIE_PATH = os.path.join("data", "processed", "inverted_index_trie.json")
 DEFAULT_COOC_PATH = os.path.join("data", "processed", "cooccurrence_index.json")
@@ -42,6 +50,8 @@ class GVSMSearchEngine:
 
         # load tokenized documents and co-occurrence index (cache or build)
         self.doc_tokens_by_id = self.load_tokenized_documents(dataset_path)
+        # load full dataset records (used for API responses and snippets)
+        self.records: Dict[int, Dict] = self.load_full_documents(dataset_path)
         self.cooc = self._load_or_build_cooc(force_rebuild=force_rebuild_cooc)
 
         # initialize GVSM model and compute idf
@@ -91,6 +101,29 @@ class GVSMSearchEngine:
                 documents[doc_id] = Index.tokenize(text)
 
         return documents
+
+    def load_full_documents(self, dataset_path: str = DEFAULT_DATASET_PATH) -> Dict[int, Dict]:
+        """Load full JSONL records into a mapping doc_id -> record."""
+        records: Dict[int, Dict] = {}
+        if not os.path.exists(dataset_path):
+            return records
+
+        with open(dataset_path, "r", encoding="utf-8") as file:
+            for raw_line in file:
+                line = raw_line.strip()
+                if not line:
+                    continue
+                try:
+                    record = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                try:
+                    doc_id = int(record.get("doc_id"))
+                except (TypeError, ValueError):
+                    continue
+                records[doc_id] = record
+
+        return records
 
     def build_cooccurrence_index(
         self,
@@ -184,21 +217,105 @@ class GVSMSearchEngine:
         return self.rank_candidates(query_vec, candidate_doc_ids, top_k)
 
 
-def main() -> None:
-    """Small end-to-end test to validate the integration."""
-    engine = GVSMSearchEngine()
+def _guess_file_type(record: Dict) -> str:
+    """Heuristically determine a display file type for a record.
 
-    query = "Blog Technology"
-    results = engine.search(query=query, top_k=10)
+    Returns one of: 'PDF', 'IMAGEN', 'VIDEO', 'DOCUMENTO', 'OTROS'.
+    """
+    url = (record.get("url") or "").lower()
+    stype = (record.get("source_type") or "").lower()
 
-    print(f"Consulta: {query}")
-    if not results:
-        print("Sin resultados")
-        return
+    if stype and "pdf" in stype:
+        return "PDF"
+    if url.endswith(".pdf") or ".pdf?" in url:
+        return "PDF"
+    for ext in (".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"):
+        if url.endswith(ext):
+            return "IMAGEN"
+    for ext in (".mp4", ".webm", ".mov", "youtube.com/watch"):
+        if ext in url:
+            return "VIDEO"
+    # fallback for generic webpages
+    return "DOCUMENTO"
 
-    for doc_id, score in results:
-        print(f"doc_id={doc_id} score={score:.6f}")
+def _make_api_app(engine: GVSMSearchEngine):
+    """Create a small Flask app exposing a /search endpoint that returns JSON results."""
+    if Flask is None:
+        return None
+
+    app = Flask(__name__)
+
+    @app.after_request
+    def _add_cors(response):
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        return response
+
+    @app.route("/search")
+    def api_search():
+        q = request.args.get("query", "").strip()
+        try:
+            top_k = int(request.args.get("top_k", "40"))
+        except ValueError:
+            top_k = 40
+
+        if not q:
+            return jsonify({"query": q, "total": 0, "results": []})
+
+        # primary ranked results from GVSM
+        ranked = engine.search(query=q, top_k=top_k)
+        ranked_map = {doc_id: score for doc_id, score in ranked}
+
+        # lightweight substring boost: scan titles/text for query matches
+        additional = []
+        qlow = q.lower()
+        for doc_id, rec in engine.records.items():
+            if doc_id in ranked_map:
+                continue
+            title = (rec.get("title") or "").lower()
+            text = (rec.get("text") or "").lower()
+            if qlow in title or qlow in text:
+                additional.append(doc_id)
+
+        combined_ids = list(ranked_map.keys()) + additional
+
+        results = []
+        for doc_id in combined_ids:
+            rec = engine.records.get(doc_id)
+            if not rec:
+                continue
+
+            score = float(ranked_map.get(doc_id, 0.0))
+            file_type = _guess_file_type(rec)
+            snippet = (rec.get("text") or "").replace("\n", " ")[:320].strip()
+
+            results.append(
+                {
+                    "doc_id": int(doc_id),
+                    "title": rec.get("title") or "(sin título)",
+                    "snippet": snippet,
+                    "url": rec.get("url") or "",
+                    "file_type": file_type,
+                    "crawl_date": rec.get("crawl_date"),
+                    "domain": rec.get("domain"),
+                    "score": score,
+                }
+            )
+
+        return jsonify({"query": q, "total": len(results), "results": results})
+
+    return app
 
 
 if __name__ == "__main__":
-    main()
+    # allow running as: python main.py serve  -> start HTTP API
+    if len(sys.argv) > 1 and sys.argv[1] == "serve":
+        print("Inicializando motor y servidor API...")
+        engine = GVSMSearchEngine()
+        app = _make_api_app(engine)
+        if app is None:
+            print("Flask no está disponible. Instala Flask para usar la API (pip install flask)")
+            sys.exit(1)
+        app.run(host="127.0.0.1", port=5000, debug=False)
+    else:
+        print("ERROR!")
