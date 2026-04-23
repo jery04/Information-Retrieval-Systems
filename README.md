@@ -1,163 +1,153 @@
+
 # Information Retrieval Systems (IRS) 🔎
 
-> ⚠️ **Project status:** preliminary version under active development. Structure, features, and results may evolve.
+> ⚠️ Project status: preliminary — active development and experimental.
 
-## 🧠 Overview
+## Overview 🧠
 
-This repository implements a prototype of an **Information Retrieval System (IRS)** aimed at:
+This repository implements a small experimental Information Retrieval System (IRS) focused on:
 
-- 📥 Ingesting and organizing web documents.
-- 🧹 Preprocessing content for indexing.
-- 🗂️ Building specialized indexes (inverted trie + co-occurrence).
-- 📊 Document ranking with the **Generalized Vector Space Model (GVSM)**.
-- 🌐 Exploring results through a web interface.
+- 🕷️ Ingesting and cleaning web documents (focused crawler).
+- 🗂️ Building lightweight indexes (Patricia trie inverted index + co-occurrence index).
+- 📊 Ranking documents using the Generalized Vector Space Model (GVSM).
+- 🌐 Exploring results via a React + Vite frontend.
 
-## 🚀 Status and Goal
+The codebase is intended for research and experiments rather than production use.
 
-Project focused on academic experimentation and iterative improvement of IR techniques:
+## System architecture 🏗️
 
-- ✅ Functional baseline for indexing and ranking.
-- 🧪 Open space for experiments on retrieval quality.
-- 📈 Planned improvements in performance, relevance, and search UX.
+The project has three logical layers:
 
-## 🏗️ System Architecture
+1. Data pipeline: crawling and extraction of web documents into JSONL.
+2. Retrieval engine: index construction (trie + co-occurrence) and GVSM ranking.
+3. Presentation layer: Vite + React webapp for interactive search.
 
-The system is divided into three main layers:
-
-1. **Data pipeline**
-   - Collection of raw resources (webpages, PDFs, images).
-   - Extraction and normalization of content.
-
-2. **Retrieval engine**
-   - Building on-disk indexes from the processed corpus.
-   - Computing semantic relationships and similarity scores with GVSM.
-
-3. **Presentation layer**
-   - Frontend application for search, filters, and result visualization.
-
-## 📁 Repository Structure
+## Repository layout 📁
 
 ```text
-data/
-  raw/                # Original resources (webpages, pdfs, images)
-  extracted/          # Extracted and structured content
-  processed/          # Indexing artifacts (JSON indexes)
-scripts/
-  indexer.py          # Index construction
-  engine.py       # GVSM-based ranking model
-webapp/
-  src/                # React components and styles
-  public/             # Static assets
+data/                 # raw/extracted resources and processed indexes
+scripts/              # crawler, indexer and engine (Python)
+webapp/               # React frontend (Vite)
+requirements.txt      # Python dependencies
+README.md             # this file
 ```
 
-## ⚙️ Key Components
+Key script entrypoints 🛠️:
 
-- `scripts/indexer.py`
-  - Generates index structures for efficient access to terms and documents.
+- 🕸️ `scripts/tech_crawler.py` — focused crawler that writes `data/extracted/webpages/webpages.jsonl`.
+- 🧾 `scripts/indexer.py` — builds/updates the PatriciaTrie inverted index (JSON persisted).
+- 🔎 `scripts/main.py` — GVSM search pipeline and small Flask-based `/search` API (run with `serve`).
 
-- `scripts/engine.py`
-  - Implements the generalized vector model for similarity-based ranking.
+## Data artifacts 🗂️
 
-- `scripts/tech_crawler.py`
-  - Crawler enfocado en tecnología/software con respeto a `robots.txt`, límites de profundidad y salida JSONL compatible con indexación.
+- 📄 `data/extracted/webpages/webpages.jsonl` — newline-delimited JSON documents (fields include `doc_id` and `text`).
+- 💾 `data/raw/webpages/` — optional saved raw HTML pages (when crawler run with `--save-raw`).
+- 🧭 `data/processed/inverted_index_trie.json` — persisted Patricia Trie index.
+- 🔗 `data/processed/cooccurrence_index.json` — persisted co-occurrence index (df, cooc counts, total_docs).
 
-- `webapp/`
-  - Frontend with **Vite + React** for query interaction and visual analysis.
+## Quick start (Windows) ⚙️
 
-## 🔄 Data Workflow
+These steps assume a fresh clone on Windows. Use `py -3` when the `python` alias is not available.
 
-1. `data/raw` → input of original resources.
-2. `data/extracted` → output from extraction/parsing.
-3. `scripts/indexer.py` → generation of indexes in `data/processed`.
-4. `scripts/engine.py` → computation of relevance for queries.
-5. `webapp/` → interactive querying and result visualization.
+1) Create and activate a virtual environment:
 
-## 🕷️ Crawler de Tecnología (MVP)
-
-El proyecto incluye un crawler inicial enfocado en fuentes técnicas para construir el corpus web.
-
-### Salidas
-
-- `data/extracted/webpages/webpages.jsonl`: documentos limpios (incluye `doc_id` y `text`).
-- `data/raw/webpages/`: HTML crudo (si se usa `--save-raw`).
-- `logs/crawl_report.txt`: estadísticas del rastreo.
-
-### Ejecución
-
-```bash
-python scripts/tech_crawler.py --max-pages 500 --max-depth 2 --save-raw
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\activate
 ```
 
-Opciones útiles:
+2) Upgrade pip and install Python dependencies:
 
-- `--seeds-file scripts/tech_seeds.txt`
-- `--per-domain-limit 120`
-- `--min-chars 300`
-- `--delay 1.0`
+```powershell
+py -3 -m pip install --upgrade pip
+py -3 -m pip install -r requirements.txt
+```
 
-### Siguiente paso del pipeline
+3) Install the Spanish spaCy model used by the tokenizer (required):
 
-Con el JSONL generado, ejecutar el indexador y luego GVSM sobre `data/extracted/webpages/webpages.jsonl`.
+```powershell
+py -3 -m spacy download es_core_news_sm
+```
 
-## 🔬 Search model (GVSM)
+4) (Optional) Install Node and dependencies to run the frontend:
 
-- **Summary:** The search engine uses the Generalized Vector Space Model (GVSM) to rank results. GVSM extends the classic vector space model by incorporating term–term correlations via a co-occurrence index.
-- **Representation:** Queries and documents are represented as sparse vectors with weights $w_{t} = tf_{norm} \cdot idf(t)$, with
+Download and install Node.js (LTS recommended). Then:
 
-  $idf(t) = \log\left(\frac{N+1}{df(t)+1}\right) + 1$
+```powershell
+cd webapp
+npm install
+```
 
-  where $N$ is the total number of documents and $df(t)$ is the document frequency of term $t$.
-### **Scoring (formula)**
+## Running the data pipeline and search 🚀
 
-$$
-\mathrm{sim}(q,d) =
-\frac{
-\sum_{i\in q}\sum_{j\in d} w_{i,q}\, w_{j,d}\, s_{ij}
-}{
-\sqrt{\sum_{i\in q} w_{i,q}^2}
-\;\;
-\sqrt{\sum_{j\in d} w_{j,d}^2}
-}
-$$
+1) Crawl a technology-focused seed set (example) 🕷️:
 
-### **Term–term correlation**
+```powershell
+py -3 scripts/tech_crawler.py --max-pages 500 --max-depth 2 --save-raw --seeds-file scripts/tech_seeds.txt
+```
 
-$s_{ij}$ is obtained from the co-occurrence index; by default a cosine-like normalization is used:
+This writes cleaned documents to `data/extracted/webpages/webpages.jsonl`. The crawler supports several useful flags:
 
-$$
-s_{ij} = \frac{\mathrm{cooc}(i,j)}{\sqrt{df(i)\, df(j)}}
-$$
+- `--seeds-file` (default: `scripts/tech_seeds.txt`)
+- `--output` (default: `data/extracted/webpages/webpages.jsonl`)
+- `--raw-dir` (default: `data/raw/webpages`)
+- `--max-pages`, `--max-depth`, `--min-chars`, `--per-domain-limit`, `--delay`
 
+2) Build or update the inverted trie index 🧾:
 
-- **Implementation:** See `scripts/engine.py` (classes `GeneralizedVectorSpaceModel` and `CoOccurrenceIndex`) for IDF, vector construction and the `similarity()` implementation.
+```powershell
+py -3 scripts/indexer.py
+```
 
-## 🗂️ Indexes and data structures
+This command will load the JSONL dataset (if present) and persist `data/processed/inverted_index_trie.json`.
 
-- **Inverted trie (Patricia Trie):** persisted at `data/processed/inverted_index_trie.json`. Main format:
-  - Top-level: `{"nodes": [...], "root": 0, "count": <unique_tokens>, "doc_count": <N>}`.
-  - Each node: `{"is_end": bool, "docs": [doc_id, ...], "children": {"edge_label": node_index, ...}}`.
-  - `docs` stores the document IDs where the term appears (presence only). Per-document term frequencies are not embedded in each posting; frequencies are reconstructed from tokenized documents when building vectors.
-  - The trie supports prefix search and candidate retrieval via `get_parcial_AND` / `intersect_tokens`.
+3) Start the lightweight GVSM API (Flask) 🧩:
 
-- **Co-occurrence index:** persisted at `data/processed/cooccurrence_index.json`. It contains fields `df`, `total_docs`, `cooc` (nested mapping term→term→count) and `min_cooc`.
+```powershell
+py -3 scripts/main.py serve
+```
 
-## 🔧 Retrieval pipeline
+Notes:
+- 🔎 The HTTP API exposes `/search?query=...&top_k=...` and returns JSON results.
+- 🗄️ On first run the co-occurrence index (`data/processed/cooccurrence_index.json`) is built automatically and cached. To force a rebuild, delete the cache file and restart the engine.
+- ⚠️ If `Flask` is missing: `py -3 -m pip install flask`.
 
-1. Normalization and tokenization (spaCy) via `Index.tokenize()` in `scripts/indexer.py`.
-2. Candidate retrieval with the `PatriciaTrie` (exact search or `get_parcial_AND` for multi-term queries).
-3. Query vector construction: normalized TF × IDF (implemented in `get_query_vector`).
-4. Document vectors precomputed (generated during `GVSMSearchEngine` initialization).
-5. Re-ranking using GVSM and the $s_{ij}$ correlations from the co-occurrence index.
-6. Return top-K results ordered by score.
+4) Start the frontend (development) 🌐:
 
-## 🧾 Format, performance and recommendations
+```powershell
+cd webapp
+npm run dev
+```
 
-- Indexes are stored as JSON in `data/processed` (human-readable and portable). For larger collections we recommend migrating to binary formats (msgpack, sqlite, LMDB) or using `mmap` to reduce memory and speed up I/O.
-- The system precomputes document vectors and caches the co-occurrence index in `cooccurrence_index.json` for fast queries.
-- Future best practices: apply dimensionality reduction (SVD/LSA) over the co-occurrence matrix, vector quantization, or use inverted indexes with compressed postings for scalability.
+Open the Vite dev server (usually http://localhost:5173) and use the search UI. For a production build:
 
-## 🛠️ Local testing
+```powershell
+cd webapp
+npm run build
+npm run preview
+```
 
-- Rebuild/update indexes: `python scripts/indexer.py`
-- Run integrated GVSM test: `python scripts/main.py`
+## How the retrieval pipeline works (brief) 🔬
+
+1. 📝 Documents are tokenized with the Spanish `spaCy` model (`Index.tokenize()` in `scripts/indexer.py`).
+2. 🔎 Terms are stored in a compressed Patricia Trie (inverted index) for fast candidate retrieval.
+3. 🔗 A co-occurrence index (term × term) is computed and cached; document frequencies (`df`) are used to compute IDF.
+4. 📐 Queries and documents are vectorized (normalized TF × IDF). GVSM scoring uses term–term correlations from the co-occurrence index to compute similarity.
+
+## Troubleshooting & tips 💡
+
+- 🪟 Use `py -3` on Windows if `python` is not available.
+- ✔️ Ensure `es_core_news_sm` is installed for spaCy tokenization.
+- ⚠️ If the API prints an error about Flask, install Flask as shown above.
+- 🔁 If you want to rebuild indexes from scratch, remove `data/processed/inverted_index_trie.json` and `data/processed/cooccurrence_index.json` and re-run the indexer and engine.
+- 📦 Node >= 16 / npm required for the frontend (Vite).
+
+## Development notes 🛠️
+
+- 🗣️ The tokenizer and stop-word list are tuned for Spanish content. Adjust `scripts/indexer.py` if indexing other languages.
+- 📚 Indexes are persisted as JSON for portability. For larger corpora consider migrating to a binary format (sqlite, LMDB, msgpack) for performance.
+
+---
+
+See [scripts/indexer.py](scripts/indexer.py) and [scripts/main.py](scripts/main.py) for implementation details.
 

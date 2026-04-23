@@ -1,0 +1,5 @@
+# Python Dependencies for This Project
+flask
+spacy
+numpy
+file_read_backwards
