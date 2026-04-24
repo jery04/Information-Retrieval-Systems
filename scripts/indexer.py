@@ -2,7 +2,7 @@
 
 This module provides simple helpers for Spanish text preprocessing and a
 PatriciaTrie-based inverted index with JSON persistence. Docstrings are brief and
-focused on functionality (main() is intentionally unchanged).
+focused on functionality.
 """
 
 import unicodedata  # Tools for Unicode normalization (remove accents, etc.)
@@ -13,7 +13,7 @@ from file_read_backwards import FileReadBackwards  # Read large files from botto
 import spacy        # NLP library for tokenization, lemmatization, etc.
 
 # Spanish stop words set.
-stop_words: Set[str] = {
+es_stop_words: Set[str] = {
     'a', 'acaso', 'ademas', 'adonde', 'ahi', 'ahora', 'al', 'algo', 'algun',
     'alguna', 'algunas', 'alguno', 'algunos', 'alla', 'alli', 'ambos', 'ante',
     'antes', 'apenas', 'aquel', 'aquella', 'aquellas', 'aquello', 'aquellos',
@@ -77,14 +77,76 @@ stop_words: Set[str] = {
     'ya', 'yo'
 }
 
-class Index:
-    """Spanish text preprocessing helper using spaCy.
+# English stop words set.
+en_stop_words: Set[str] = {
+    'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an',
+    'and', 'any', 'are', 'as', 'at',
 
-    Provides tokenization, normalization and basic filtering for Spanish
-    text. Tokens are lemmatized, lowercased, accent-stripped and filtered
-    for punctuation, short tokens and stopwords.
+    'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both',
+    'but', 'by',
+
+    'can', 'could',
+
+    'did', 'do', 'does', 'doing', 'down', 'during',
+
+    'each',
+
+    'few', 'for', 'from', 'further',
+
+    'had', 'has', 'have', 'having', 'he', 'her', 'here', 'hers', 'herself',
+    'him', 'himself', 'his', 'how',
+
+    'i', 'if', 'in', 'into', 'is', 'it', 'its', 'itself',
+
+    'just',
+
+    'me', 'more', 'most', 'my', 'myself',
+
+    'no', 'nor', 'not', 'now',
+
+    'of', 'off', 'on', 'once', 'only', 'or', 'other', 'our', 'ours',
+    'ourselves', 'out', 'over', 'own',
+
+    'same', 'she', 'should', 'so', 'some', 'such',
+
+    'than', 'that', 'the', 'their', 'theirs', 'them', 'themselves',
+    'then', 'there', 'these', 'they', 'this', 'those', 'through',
+    'to', 'too',
+
+    'under', 'until', 'up',
+
+    'very',
+
+    'was', 'we', 'were', 'what', 'when', 'where', 'which', 'while',
+    'who', 'whom', 'why', 'will', 'with', 'would',
+
+    'you', 'your', 'yours', 'yourself', 'yourselves'
+}
+
+class Index:
+    """Text preprocessing helper using spaCy.
+
+    Supports English and Spanish small models. Default model is
+    "es_core_news_sm". Use `set_model()` to switch between
+    "en_core_web_sm" and "es_core_news_sm`. The selected model's
+    stop-word set is used by `tokenize`.
     """
-    nlp = spacy.load("es_core_news_sm")
+    model_name: str = "en_core_web_sm"
+    nlp = spacy.load(model_name)
+    _stop_words = en_stop_words
+
+    @classmethod
+    def set_model(cls, model_name: str) -> None:
+        """Set spaCy model to 'en_core_web_sm' or 'es_core_news_sm'.
+
+        Loads the requested model and updates the internal stop-word set.
+        """
+
+        if model_name not in ("en_core_web_sm", "es_core_news_sm"):
+            raise ValueError("model_name must be 'en_core_web_sm' or 'es_core_news_sm'")
+        cls.model_name = model_name
+        cls.nlp = spacy.load(model_name)
+        cls._stop_words = en_stop_words if model_name.startswith("en_") else es_stop_words
 
     @staticmethod
     def tokenize(text: str) -> List[str]:
@@ -113,7 +175,8 @@ class Index:
             # filter short, non-alphabetic or stopword tokens
             if len(word) <= 2 or not word.isalpha():
                 continue
-            if token.is_stop or (word in stop_words):
+            # use spaCy token stop flag or the selected stop-words set
+            if token.is_stop or (word in Index._stop_words):
                 continue
             tokens.append(word)
 
@@ -363,51 +426,6 @@ class PatriciaTrie:
 
         return candidates[:max_candidates]
 
-    def get_all_words(self) -> List[str]:
-        """Return a list with all words currently stored in the Trie."""
-        words: List[str] = []
-
-        def _collect(node: Node, prefix: str) -> None:
-            if node.is_end_of_word:
-                words.append(prefix)
-            for edge, child in node.children.items():
-                _collect(child, prefix + edge)
-
-        _collect(self.root, "")
-        words.sort()
-        return words
-
-    def print_tree(self, max_depth: Optional[int] = None, show_docs: bool = True) -> None:
-        """Print the Trie structure showing compressed edges and node flags.
-
-        Each line shows an edge label (the substring stored on the edge).
-        Nodes that mark the end of a word are annotated with '*' and, when
-        available, the `doc_ids` list is shown if `show_docs` is True.
-        """
-        def _print(node: Node, prefix: str, depth: int) -> None:
-            if max_depth is not None and depth > max_depth:
-                return
-            children = list(node.children.items())
-            for i, (edge, child) in enumerate(children):
-                last = (i == len(children) - 1)
-                connector = "└─" if last else "├─"
-                line = f"{prefix}{connector}{edge}"
-                if child.is_end_of_word:
-                    line += " *"
-                if show_docs and child.doc_ids:
-                    line += " " + str(child.doc_ids)
-                print(line)
-                new_prefix = prefix + ("   " if last else "│  ")
-                _print(child, new_prefix, depth + 1)
-
-        root_info = "root"
-        if self.root.is_end_of_word:
-            root_info += " *"
-        if show_docs and self.root.doc_ids:
-            root_info += " " + str(self.root.doc_ids)
-        print(root_info)
-        _print(self.root, "", 0)
-
     def to_dict(self) -> Dict[str, Any]:
         """Serialize the Trie into a compact dict suitable for JSON storage.
 
@@ -570,11 +588,3 @@ class PatriciaTrie:
 
         if updated:
             self.save()
-
-def main():
-    trie = PatriciaTrie()
-    trie.load()  # will build from JSONL if the trie JSON doesn't exist
-    print(f"Indexed {trie.word_count} unique tokens in the PatriciaTrie inverted index.")
-
-if __name__ == "__main__":
-    main()

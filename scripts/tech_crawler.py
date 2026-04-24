@@ -8,27 +8,26 @@ The output schema is compatible with the current indexing pipeline,
 including required fields `doc_id` and `text`.
 """
 
-from __future__ import annotations
+from __future__ import annotations   # Enables postponed evaluation of type hints
+import argparse                      # Parses command-line arguments
+import hashlib                       # Provides hashing functions (e.g., SHA-256)
+import heapq                         # Implements priority queues / heaps
+import json                          # Reads and writes JSON data
+import os                            # Interacts with the operating system (paths, env vars)
+import re                            # Regular expressions for text matching
+import time                          # Time utilities (sleep, timestamps)
+from collections import defaultdict  # Dict that auto-creates default values
+from dataclasses import dataclass    # Simplifies creation of data-holding classes
+from datetime import datetime, timezone  # Date/time handling with timezone support
+from html import unescape            # Converts HTML entities to normal characters
+from html.parser import HTMLParser   # Basic HTML parsing utilities
+from pathlib import Path             # Object-oriented filesystem paths
+from typing import Dict, Iterable, List, Optional, Set, Tuple  # Type hints
+from urllib.parse import urljoin, urlparse, urlunparse  # URL manipulation helpers
+from urllib.request import Request, urlopen             # HTTP requests
+from urllib.robotparser import RobotFileParser          # Parses robots.txt rules
 
-import argparse
-import hashlib
-import heapq
-import json
-import os
-import re
-import time
-from collections import defaultdict
-from dataclasses import dataclass
-from datetime import datetime, timezone
-from html import unescape
-from html.parser import HTMLParser
-from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Set, Tuple
-from urllib.parse import urljoin, urlparse, urlunparse
-from urllib.request import Request, urlopen
-from urllib.robotparser import RobotFileParser
-
-
+# Default configuration values
 DEFAULT_USER_AGENT = "IRS-TechCrawler/0.1 (+academic-project)"
 DEFAULT_SEEDS_FILE = Path("scripts") / "tech_seeds.txt"
 DEFAULT_OUTPUT = Path("data") / "extracted" / "webpages" / "webpages.jsonl"
@@ -68,12 +67,12 @@ TECH_KEYWORDS: Set[str] = {
     "artificial intelligence",
 }
 
-
 def utc_now_iso() -> str:
+    """Return current UTC time in ISO 8601 format (no microseconds)."""
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
-
 def canonicalize_url(raw_url: str) -> Optional[str]:
+    """Normalize and validate a URL; return canonical http(s) URL or None."""
     parsed = urlparse(raw_url.strip())
     if parsed.scheme not in {"http", "https"}:
         return None
@@ -85,11 +84,11 @@ def canonicalize_url(raw_url: str) -> Optional[str]:
     canonical = parsed._replace(fragment="", params="", query="", path=clean_path)
     return urlunparse(canonical)
 
-
 class SimpleHTMLExtractor(HTMLParser):
     """Extract title, visible text and links from HTML."""
 
     def __init__(self) -> None:
+        """Initialize parser state for extracting title, visible text and links."""
         super().__init__(convert_charrefs=True)
         self._skip_depth = 0
         self._in_title = False
@@ -98,6 +97,7 @@ class SimpleHTMLExtractor(HTMLParser):
         self.links: List[str] = []
 
     def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
+        """Process start tag; collect links and track title/skip regions."""
         tag = tag.lower()
         if tag in {"script", "style", "noscript", "svg"}:
             self._skip_depth += 1
@@ -112,6 +112,7 @@ class SimpleHTMLExtractor(HTMLParser):
                     break
 
     def handle_endtag(self, tag: str) -> None:
+        """Process end tag; update title state and skip depth."""
         tag = tag.lower()
         if tag in {"script", "style", "noscript", "svg"} and self._skip_depth > 0:
             self._skip_depth -= 1
@@ -120,6 +121,7 @@ class SimpleHTMLExtractor(HTMLParser):
             self._in_title = False
 
     def handle_data(self, data: str) -> None:
+        """Collect visible text unless inside skipped sections."""
         if self._skip_depth > 0:
             return
         text = data.strip()
@@ -130,11 +132,11 @@ class SimpleHTMLExtractor(HTMLParser):
         self._text_parts.append(text)
 
     def extracted(self) -> Tuple[str, str, List[str]]:
+        """Return the extracted title, cleaned text, and list of links."""
         title = " ".join(self._title_parts).strip()
         text = " ".join(self._text_parts)
         text = unescape(re.sub(r"\s+", " ", text)).strip()
         return title, text, self.links
-
 
 @dataclass(order=True)
 class QueueItem:
@@ -144,7 +146,6 @@ class QueueItem:
     depth: int
     url: str
     parent_url: Optional[str]
-
 
 class FocusedCrawler:
     """Focused crawler with robots.txt, limits, and relevance filtering."""
@@ -175,6 +176,7 @@ class FocusedCrawler:
         self.domain_delay_sec = domain_delay_sec
         self.save_raw = save_raw
         self.doc_id_mode = doc_id_mode
+        """Initialize crawler with seeds, output dirs, and runtime limits."""
 
         self.output_path = output_path
         self.raw_dir = raw_dir
@@ -203,6 +205,7 @@ class FocusedCrawler:
             self.seen_urls.add(canonical)
 
     def _next_doc_id(self) -> int:
+        """Scan the output file and return the next integer document id."""
         if not self.output_path.exists():
             return 1
 
@@ -222,6 +225,7 @@ class FocusedCrawler:
         return last_doc_id + 1
 
     def _robot_parser_for(self, url: str) -> RobotFileParser:
+        """Return a cached RobotFileParser for the URL's base domain."""
         parsed = urlparse(url)
         base = f"{parsed.scheme}://{parsed.netloc}"
         parser = self.robots_cache.get(base)
@@ -239,6 +243,7 @@ class FocusedCrawler:
         return parser
 
     def _allowed_by_robots(self, url: str) -> bool:
+        """Check whether the crawler is allowed to fetch `url` per robots.txt."""
         parser = self._robot_parser_for(url)
         try:
             return parser.can_fetch(self.user_agent, url)
@@ -246,6 +251,7 @@ class FocusedCrawler:
             return True
 
     def _wait_if_needed(self, domain: str) -> None:
+        """Enforce domain-specific delay between requests to avoid hammering."""
         now = time.time()
         elapsed = now - self.last_access_by_domain[domain]
         if elapsed < self.domain_delay_sec:
@@ -253,6 +259,7 @@ class FocusedCrawler:
         self.last_access_by_domain[domain] = time.time()
 
     def _fetch_html(self, url: str) -> Optional[str]:
+        """Fetch HTML content for `url`; return decoded text or None on error."""
         parsed = urlparse(url)
         self._wait_if_needed(parsed.netloc)
 
@@ -276,6 +283,7 @@ class FocusedCrawler:
 
     @staticmethod
     def _relevance_score(title: str, text: str, url: str) -> float:
+        """Compute a simple relevance score based on presence of tech keywords."""
         blob = f"{title} {text[:5000]} {url}".lower()
         score = 0.0
         for kw in TECH_KEYWORDS:
@@ -284,11 +292,13 @@ class FocusedCrawler:
         return score
 
     def _extract(self, html: str) -> Tuple[str, str, List[str]]:
+        """Parse HTML and return (title, visible text, links)."""
         parser = SimpleHTMLExtractor()
         parser.feed(html)
         return parser.extracted()
 
     def _iter_clean_links(self, current_url: str, raw_links: Iterable[str]) -> Iterable[str]:
+        """Yield canonical, allowed, non-binary links resolved from raw hrefs."""
         for href in raw_links:
             absolute = urljoin(current_url, href)
             canonical = canonicalize_url(absolute)
@@ -303,21 +313,25 @@ class FocusedCrawler:
             yield canonical
 
     def _save_raw_html(self, url: str, html: str) -> None:
+        """Save raw HTML content to the raw directory using a hashed filename."""
         digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
         target = self.raw_dir / f"{digest}.html"
         target.write_text(html, encoding="utf-8")
 
     def _append_record(self, record: Dict[str, object]) -> None:
+        """Append a JSON record object as a new line to the output JSONL file."""
         with self.output_path.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     def _webpage_doc_id(self, next_doc_id: int, url: str) -> object:
+        """Return the document id for a webpage (int or hashed string)."""
         if self.doc_id_mode == "hash":
             digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
             return f"web_{digest}"
         return next_doc_id
 
     def crawl(self) -> None:
+        """Main crawl loop: fetch pages, apply filters, save records, and enqueue links."""
         next_doc_id = self._next_doc_id()
 
         while self.frontier and self.docs_written < self.max_pages:
@@ -403,6 +417,7 @@ class FocusedCrawler:
         self._write_report()
 
     def _write_report(self) -> None:
+        """Write a simple crawl report summarizing statistics and domains."""
         lines = [
             f"generated_at: {utc_now_iso()}",
             f"docs_written: {self.docs_written}",
@@ -417,8 +432,8 @@ class FocusedCrawler:
 
         self.report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-
 def load_seeds(path: Path) -> List[str]:
+    """Load seed URLs from `path`, skipping blank lines and comments."""
     if not path.exists():
         raise FileNotFoundError(f"Seeds file not found: {path}")
     seeds: List[str] = []
@@ -432,8 +447,8 @@ def load_seeds(path: Path) -> List[str]:
         raise ValueError(f"No seeds found in: {path}")
     return seeds
 
-
 def build_parser() -> argparse.ArgumentParser:
+    """Build and return the command-line argument parser for the crawler."""
     parser = argparse.ArgumentParser(description="Focused technology crawler")
     parser.add_argument("--seeds-file", type=Path, default=DEFAULT_SEEDS_FILE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
@@ -455,8 +470,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     return parser
 
-
 def main() -> None:
+    """Parse arguments, load seeds, instantiate the crawler, and run it."""
     args = build_parser().parse_args()
     seeds = load_seeds(args.seeds_file)
 
@@ -476,7 +491,6 @@ def main() -> None:
         doc_id_mode=args.doc_id_mode,
     )
     crawler.crawl()
-
 
 if __name__ == "__main__":
     main()

@@ -37,7 +37,7 @@ function SearchPortal() {
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const pageSize = 5;
+  const pageSize = 6;
 
   useEffect(() => {
     let changeTimeoutId;

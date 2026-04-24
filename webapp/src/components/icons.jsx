@@ -67,3 +67,67 @@ export function FileIcon() {
     </svg>
   );
 }
+
+export function GlobeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="icon" width="20" height="20">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M2 12h20M12 2c2.5 3 2.5 9 0 20M12 2c-2.5 3-2.5 9 0 20" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function GearIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="icon" width="20" height="20">
+      <path d="M3 6h14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="20" cy="6" r="1.6" fill="currentColor" />
+
+      <path d="M3 12h10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="16" cy="12" r="1.6" fill="currentColor" />
+
+      <path d="M3 18h8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="14" cy="18" r="1.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function FlagGB({ className }) {
+  return (
+    <svg
+      className={className || "language-flag"}
+      width="20"
+      height="14"
+      viewBox="0 0 60 36"
+      aria-hidden="true"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="60" height="36" fill="#012169" />
+      <path d="M0 14h60v8H0z" fill="#fff" />
+      <path d="M0 15h60v6H0z" fill="#cf142b" />
+      <path d="M26 0h8v36h-8z" fill="#fff" />
+      <path d="M28 0h4v36h-4z" fill="#cf142b" />
+      <path d="M0 0L60 36M60 0L0 36" stroke="#fff" strokeWidth="6" />
+      <path d="M0 0L60 36M60 0L0 36" stroke="#cf142b" strokeWidth="3" />
+    </svg>
+  );
+}
+
+export function FlagES({ className }) {
+  return (
+    <svg
+      className={className || "language-flag"}
+      width="20"
+      height="14"
+      viewBox="0 0 3 2"
+      aria-hidden="true"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="3" height="2" fill="#C60B1E" />
+      <rect y="0.4" width="3" height="1.2" fill="#FFC400" />
+      <rect width="3" height="0.4" fill="#C60B1E" />
+    </svg>
+  );
+}
