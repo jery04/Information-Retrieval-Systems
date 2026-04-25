@@ -34,37 +34,98 @@ DEFAULT_OUTPUT = Path("data") / "extracted" / "webpages" / "webpages.jsonl"
 DEFAULT_RAW_DIR = Path("data") / "raw" / "webpages"
 DEFAULT_REPORT = Path("logs") / "crawl_report.txt"
 
-TECH_KEYWORDS: Set[str] = {
-    "software",
-    "programming",
-    "developer",
-    "development",
-    "python",
-    "java",
-    "javascript",
-    "typescript",
-    "rust",
-    "golang",
-    "go",
-    "react",
-    "angular",
-    "vue",
-    "django",
-    "flask",
-    "node",
-    "api",
-    "backend",
-    "frontend",
-    "microservices",
-    "kubernetes",
-    "devops",
-    "cloud",
-    "database",
-    "algorithms",
-    "architecture",
-    "security",
-    "machine learning",
-    "artificial intelligence",
+DEFAULT_LANGUAGE = "en"
+SUPPORTED_LANGUAGES = {"en", "es"}
+
+TECH_KEYWORDS_BY_LANGUAGE: Dict[str, Set[str]] = {
+    "en": {
+        "software",
+        "programming",
+        "developer",
+        "development",
+        "coding",
+        "python",
+        "java",
+        "javascript",
+        "typescript",
+        "rust",
+        "golang",
+        "go",
+        "react",
+        "angular",
+        "vue",
+        "django",
+        "flask",
+        "node",
+        "api",
+        "backend",
+        "frontend",
+        "microservices",
+        "kubernetes",
+        "devops",
+        "cloud",
+        "database",
+        "algorithms",
+        "architecture",
+        "security",
+        "machine learning",
+        "artificial intelligence",
+        "data science",
+        "web development",
+    },
+    "es": {
+        "software",
+        "programacion",
+        "programación",
+        "desarrollador",
+        "desarrollo",
+        "codificacion",
+        "codificación",
+        "python",
+        "java",
+        "javascript",
+        "typescript",
+        "rust",
+        "golang",
+        "go",
+        "react",
+        "angular",
+        "vue",
+        "django",
+        "flask",
+        "nodo",
+        "api",
+        "backend",
+        "frontend",
+        "microservicios",
+        "kubernetes",
+        "devops",
+        "nube",
+        "base de datos",
+        "algoritmos",
+        "arquitectura",
+        "seguridad",
+        "aprendizaje automatico",
+        "aprendizaje automático",
+        "inteligencia artificial",
+        "ciencia de datos",
+        "desarrollo web",
+    },
+}
+
+
+@dataclass(frozen=True)
+class LanguageProfile:
+    """Language-specific relevance profile used to score pages."""
+
+    code: str
+    label: str
+    keywords: Set[str]
+
+
+LANGUAGE_PROFILES: Dict[str, LanguageProfile] = {
+    code: LanguageProfile(code=code, label=("English" if code == "en" else "Español"), keywords=keywords)
+    for code, keywords in TECH_KEYWORDS_BY_LANGUAGE.items()
 }
 
 def utc_now_iso() -> str:
@@ -84,6 +145,22 @@ def canonicalize_url(raw_url: str) -> Optional[str]:
     canonical = parsed._replace(fragment="", params="", query="", path=clean_path)
     return urlunparse(canonical)
 
+
+def normalize_language_code(raw_language: Optional[str]) -> Optional[str]:
+    """Normalize language hints to supported profile codes when possible."""
+    if not raw_language:
+        return None
+
+    lang = raw_language.strip().lower().replace("_", "-")
+    if not lang:
+        return None
+
+    if lang.startswith("en"):
+        return "en"
+    if lang.startswith("es"):
+        return "es"
+    return None
+
 class SimpleHTMLExtractor(HTMLParser):
     """Extract title, visible text and links from HTML."""
 
@@ -95,10 +172,40 @@ class SimpleHTMLExtractor(HTMLParser):
         self._title_parts: List[str] = []
         self._text_parts: List[str] = []
         self.links: List[str] = []
+        self.detected_language: Optional[str] = None
 
     def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
         """Process start tag; collect links and track title/skip regions."""
         tag = tag.lower()
+        attr_map = {
+            name.lower(): value.strip()
+            for name, value in attrs
+            if name and value and isinstance(value, str)
+        }
+
+        if tag == "html" and self.detected_language is None:
+            hinted = normalize_language_code(attr_map.get("lang"))
+            if hinted:
+                self.detected_language = hinted
+
+        if tag == "meta" and self.detected_language is None:
+            name = attr_map.get("name", "").lower()
+            prop = attr_map.get("property", "").lower()
+            http_equiv = attr_map.get("http-equiv", "").lower()
+            content = attr_map.get("content")
+            if name == "language" and content:
+                hinted = normalize_language_code(content)
+                if hinted:
+                    self.detected_language = hinted
+            elif http_equiv == "content-language" and content:
+                hinted = normalize_language_code(content)
+                if hinted:
+                    self.detected_language = hinted
+            elif prop == "og:locale" and content:
+                hinted = normalize_language_code(content)
+                if hinted:
+                    self.detected_language = hinted
+
         if tag in {"script", "style", "noscript", "svg"}:
             self._skip_depth += 1
             return
@@ -131,12 +238,12 @@ class SimpleHTMLExtractor(HTMLParser):
             self._title_parts.append(text)
         self._text_parts.append(text)
 
-    def extracted(self) -> Tuple[str, str, List[str]]:
-        """Return the extracted title, cleaned text, and list of links."""
+    def extracted(self) -> Tuple[str, str, List[str], Optional[str]]:
+        """Return title, cleaned text, links, and detected language hint."""
         title = " ".join(self._title_parts).strip()
         text = " ".join(self._text_parts)
         text = unescape(re.sub(r"\s+", " ", text)).strip()
-        return title, text, self.links
+        return title, text, self.links, self.detected_language
 
 @dataclass(order=True)
 class QueueItem:
@@ -166,7 +273,13 @@ class FocusedCrawler:
         domain_delay_sec: float = 1.0,
         save_raw: bool = False,
         doc_id_mode: str = "int",
+        language: str = DEFAULT_LANGUAGE,
+        only_new: bool = False,
     ):
+        language = (language or DEFAULT_LANGUAGE).lower().strip()
+        if language not in SUPPORTED_LANGUAGES:
+            raise ValueError(f"language must be one of {sorted(SUPPORTED_LANGUAGES)}")
+
         self.user_agent = user_agent
         self.max_pages = max_pages
         self.max_depth = max_depth
@@ -176,6 +289,8 @@ class FocusedCrawler:
         self.domain_delay_sec = domain_delay_sec
         self.save_raw = save_raw
         self.doc_id_mode = doc_id_mode
+        self.language = language
+        self.only_new = only_new
         """Initialize crawler with seeds, output dirs, and runtime limits."""
 
         self.output_path = output_path
@@ -191,10 +306,14 @@ class FocusedCrawler:
         self.docs_written = 0
         self.stats: Dict[str, int] = defaultdict(int)
         self.domain_counts: Dict[str, int] = defaultdict(int)
+        self.existing_urls: Set[str] = set()
 
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
         self.raw_dir.mkdir(parents=True, exist_ok=True)
         self.report_path.parent.mkdir(parents=True, exist_ok=True)
+
+        if self.only_new:
+            self._load_existing_documents()
 
         for seed in seeds:
             canonical = canonicalize_url(seed)
@@ -203,6 +322,37 @@ class FocusedCrawler:
             item = QueueItem(priority=-3.0, depth=0, url=canonical, parent_url=None)
             heapq.heappush(self.frontier, item)
             self.seen_urls.add(canonical)
+
+    def _load_existing_documents(self) -> None:
+        """Load already indexed URLs/text hashes from output JSONL for incremental crawling."""
+        if not self.output_path.exists():
+            return
+
+        loaded = 0
+        with self.output_path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+
+                raw_url = obj.get("url")
+                if isinstance(raw_url, str):
+                    canonical = canonicalize_url(raw_url)
+                    if canonical:
+                        self.existing_urls.add(canonical)
+
+                text = obj.get("text")
+                if isinstance(text, str) and text:
+                    text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+                    self.text_hashes.add(text_hash)
+
+                loaded += 1
+
+        self.stats["existing_loaded"] = loaded
 
     def _next_doc_id(self) -> int:
         """Scan the output file and return the next integer document id."""
@@ -258,6 +408,33 @@ class FocusedCrawler:
             time.sleep(self.domain_delay_sec - elapsed)
         self.last_access_by_domain[domain] = time.time()
 
+    @staticmethod
+    def _score_keywords(blob: str, keywords: Set[str]) -> float:
+        """Score a text blob by counting keyword hits."""
+        score = 0.0
+        for keyword in keywords:
+            if keyword in blob:
+                score += 1.0
+        return score
+
+    def _resolve_language_profile(
+        self,
+        title: str,
+        text: str,
+        url: str,
+        hinted_language: Optional[str] = None,
+    ) -> Tuple[str, float]:
+        """Return selected language and relevance score, validating hinted page language first."""
+        blob = f"{title} {text[:5000]} {url}".lower()
+        hinted = normalize_language_code(hinted_language)
+
+        if hinted and hinted != self.language:
+            self.stats["language_mismatch"] += 1
+            return hinted, 0.0
+
+        profile = LANGUAGE_PROFILES[self.language]
+        return profile.code, self._score_keywords(blob, profile.keywords)
+
     def _fetch_html(self, url: str) -> Optional[str]:
         """Fetch HTML content for `url`; return decoded text or None on error."""
         parsed = urlparse(url)
@@ -281,18 +458,18 @@ class FocusedCrawler:
         except LookupError:
             return html_bytes.decode("utf-8", errors="replace")
 
-    @staticmethod
-    def _relevance_score(title: str, text: str, url: str) -> float:
-        """Compute a simple relevance score based on presence of tech keywords."""
-        blob = f"{title} {text[:5000]} {url}".lower()
-        score = 0.0
-        for kw in TECH_KEYWORDS:
-            if kw in blob:
-                score += 1.0
-        return score
+    def _relevance_score(
+        self,
+        title: str,
+        text: str,
+        url: str,
+        hinted_language: Optional[str] = None,
+    ) -> Tuple[str, float]:
+        """Compute the page language and a relevance score for the selected profile."""
+        return self._resolve_language_profile(title, text, url, hinted_language=hinted_language)
 
-    def _extract(self, html: str) -> Tuple[str, str, List[str]]:
-        """Parse HTML and return (title, visible text, links)."""
+    def _extract(self, html: str) -> Tuple[str, str, List[str], Optional[str]]:
+        """Parse HTML and return (title, visible text, links, detected_language)."""
         parser = SimpleHTMLExtractor()
         parser.feed(html)
         return parser.extracted()
@@ -343,6 +520,10 @@ class FocusedCrawler:
                 self.stats["already_visited"] += 1
                 continue
 
+            if self.only_new and url in self.existing_urls:
+                self.stats["already_in_output"] += 1
+                continue
+
             parsed = urlparse(url)
             domain = parsed.netloc.lower()
             if self.domain_counts[domain] >= self.per_domain_limit:
@@ -364,7 +545,7 @@ class FocusedCrawler:
             if self.save_raw:
                 self._save_raw_html(url, html)
 
-            title, text, out_links_raw = self._extract(html)
+            title, text, out_links_raw, hinted_language = self._extract(html)
             if len(text) < self.min_chars:
                 self.stats["too_short"] += 1
                 continue
@@ -375,7 +556,12 @@ class FocusedCrawler:
                 continue
             self.text_hashes.add(text_hash)
 
-            relevance = self._relevance_score(title, text, url)
+            content_language, relevance = self._relevance_score(
+                title,
+                text,
+                url,
+                hinted_language=hinted_language,
+            )
             if relevance <= 0.0:
                 self.stats["low_relevance"] += 1
                 continue
@@ -402,12 +588,15 @@ class FocusedCrawler:
                 "crawl_date": utc_now_iso(),
                 "text": text,
                 "source_type": "webpage",
+                "language": content_language,
                 "out_links": out_links,
                 "relevance_score": relevance,
                 "depth": depth,
                 "parent_url": current.parent_url,
             }
             self._append_record(record)
+            if self.only_new:
+                self.existing_urls.add(url)
 
             if self.doc_id_mode == "int":
                 next_doc_id += 1
@@ -420,6 +609,8 @@ class FocusedCrawler:
         """Write a simple crawl report summarizing statistics and domains."""
         lines = [
             f"generated_at: {utc_now_iso()}",
+            f"language: {self.language}",
+            f"only_new: {self.only_new}",
             f"docs_written: {self.docs_written}",
             f"frontier_remaining: {len(self.frontier)}",
             "stats:",
@@ -463,6 +654,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--save-raw", action="store_true")
     parser.add_argument("--user-agent", default=DEFAULT_USER_AGENT)
     parser.add_argument(
+        "--only-new",
+        action="store_true",
+        help="Evita reinsertar documentos ya presentes en el output (por URL y hash de texto)",
+    )
+    parser.add_argument(
+        "--language",
+        choices=sorted(SUPPORTED_LANGUAGES),
+        default=DEFAULT_LANGUAGE,
+        help="Idioma de crawl: valida idioma detectado de la página y luego puntúa por keywords",
+    )
+    parser.add_argument(
         "--doc-id-mode",
         choices=["int", "hash"],
         default="int",
@@ -489,6 +691,8 @@ def main() -> None:
         domain_delay_sec=args.delay,
         save_raw=args.save_raw,
         doc_id_mode=args.doc_id_mode,
+        language=args.language,
+        only_new=args.only_new,
     )
     crawler.crawl()
 
