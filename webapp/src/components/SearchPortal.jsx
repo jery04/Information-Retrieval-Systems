@@ -11,24 +11,58 @@ import {
 } from "./icons";
 
 const FILTERS = [
-  { label: "Documentos", icon: <FolderIcon /> },
-  { label: "Imagenes", icon: <ImageIcon /> },
-  { label: "Videos", icon: <VideoIcon /> },
-  { label: "PDFs", icon: <PdfIcon /> },
-  { label: "Otros", icon: <FileIcon /> },
+  { id: "documents", icon: <FolderIcon /> },
+  { id: "images", icon: <ImageIcon /> },
+  { id: "videos", icon: <VideoIcon /> },
+  { id: "pdfs", icon: <PdfIcon /> },
+  { id: "other", icon: <FileIcon /> },
 ];
 
-const SUBTITLE_OPTIONS = [
-  "Tu algoritmo con complejo de Sherlock :)",
-  "Tu módulo oficial de cazar bits :)",
-  "Tu excavadora de datos enterrados :)",
-  "Tu herramienta de búsqueda :)",
-  "Tu radar semántico de alta precisión :)",
-  "Tu indexador con espíritu de arqueólogo digital :)",
-  "Tu asistente de investigación :)",
-];
+const FILE_TYPE_TO_KEY = {
+  PDF: "pdf",
+  IMAGEN: "image",
+  IMAGE: "image",
+  VIDEO: "video",
+  DOCUMENTO: "document",
+  DOCUMENT: "document",
+  OTRO: "other",
+  OTHER: "other",
+};
 
-function SearchPortal() {
+function getFileTypeKey(rawType) {
+  const normalizedType = String(rawType || "").toUpperCase();
+  return FILE_TYPE_TO_KEY[normalizedType] || "other";
+}
+
+function getFileTypeIcon(rawType) {
+  const typeKey = getFileTypeKey(rawType);
+
+  if (typeKey === "pdf") {
+    return <PdfIcon />;
+  }
+
+  if (typeKey === "image") {
+    return <ImageIcon />;
+  }
+
+  if (typeKey === "video") {
+    return <VideoIcon />;
+  }
+
+  if (typeKey === "document") {
+    return <FolderIcon />;
+  }
+
+  return <FileIcon />;
+}
+
+function getLocalizedFileType(rawType, copy) {
+  const typeKey = getFileTypeKey(rawType);
+
+  return copy.fileTypes[typeKey] || rawType || copy.fileTypes.other;
+}
+
+function SearchPortal({ copy }) {
   const [query, setQuery] = useState("");
   const [subtitleIndex, setSubtitleIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
@@ -40,6 +74,10 @@ function SearchPortal() {
   const pageSize = 6;
 
   useEffect(() => {
+    setSubtitleIndex((currentIndex) => currentIndex % copy.subtitles.length);
+  }, [copy.subtitles.length]);
+
+  useEffect(() => {
     let changeTimeoutId;
 
     const intervalId = setInterval(() => {
@@ -47,7 +85,7 @@ function SearchPortal() {
       setIsFading(true);
 
       changeTimeoutId = setTimeout(() => {
-        setSubtitleIndex((currentIndex) => (currentIndex + 1) % SUBTITLE_OPTIONS.length);
+        setSubtitleIndex((currentIndex) => (currentIndex + 1) % copy.subtitles.length);
         setIsFading(false);
       }, 280);
     }, 3000);
@@ -59,7 +97,7 @@ function SearchPortal() {
         clearTimeout(changeTimeoutId);
       }
     };
-  }, []);
+  }, [copy.subtitles.length]);
 
   const handleSubmit = (event) => {
     // Este prototipo no envia datos, solo conserva la maqueta visual.
@@ -83,24 +121,24 @@ function SearchPortal() {
     }
   };
 
-  const toggleFilter = (label) => {
+  const toggleFilter = (filterId) => {
     setActiveFilters((prev) => {
       const next = new Set(prev);
-      if (next.has(label)) {
-        next.delete(label);
+      if (next.has(filterId)) {
+        next.delete(filterId);
       } else {
-        next.add(label);
+        next.add(filterId);
       }
       return next;
     });
   };
 
   return (
-    <section className="search-portal" aria-label="Portal de busqueda">
+    <section className="search-portal" aria-label={copy.searchPortalAria}>
       <NetworkLogoIcon />
 
-      <h2 className="portal-title">BÚSQUEDA AVANZADA</h2>
-  <p className={`portal-subtitle ${isFading ? "is-fading" : ""}`}>{SUBTITLE_OPTIONS[subtitleIndex]}</p>
+      <h2 className="portal-title">{copy.title}</h2>
+      <p className={`portal-subtitle ${isFading ? "is-fading" : ""}`}>{copy.subtitles[subtitleIndex]}</p>
 
       <form className="search-form" onSubmit={handleSubmit}>
         <SearchIcon />
@@ -108,41 +146,42 @@ function SearchPortal() {
         <input
           type="text"
           className="search-input"
-          placeholder="Buscar informacion..."
+          placeholder={copy.searchPlaceholder}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          aria-label="Caja de busqueda"
+          aria-label={copy.searchInputAria}
         />
 
         <button type="submit" className="search-button">
-          BUSCAR
+          {copy.searchButton}
         </button>
       </form>
 
-      <div className="filters-row" aria-label="Filtros por tipo">
+      <div className="filters-row" aria-label={copy.filtersAria}>
         {FILTERS.map((filter) => (
           <FilterPill
-            key={filter.label}
+            key={filter.id}
             icon={filter.icon}
-            label={filter.label}
-            active={activeFilters.has(filter.label)}
-            onToggle={() => toggleFilter(filter.label)}
+            label={copy.filters[filter.id]}
+            ariaLabelPrefix={copy.filterAriaPrefix}
+            active={activeFilters.has(filter.id)}
+            onToggle={() => toggleFilter(filter.id)}
           />
         ))}
       </div>
 
       {loading ? (
-        <p className="results-hint">Buscando "{query}" ...</p>
+        <p className="results-hint">{copy.getSearchingText(query)}</p>
       ) : results && results.length > 0 ? (
         <>
-          <p className="results-count">Se encontraron {totalResults} resultados para "{query}"</p>
+          <p className="results-count">{copy.getResultsCountText(totalResults, query)}</p>
 
           <div className="results-list">
             {results.slice((page - 1) * pageSize, page * pageSize).map((item) => (
               <article className="result-item" key={item.doc_id}>
                 <div className="result-left">
                   <div className="result-icon">
-                    {item.file_type === "PDF" ? <PdfIcon /> : item.file_type === "IMAGEN" ? <ImageIcon /> : item.file_type === "VIDEO" ? <VideoIcon /> : item.file_type === "DOCUMENTO" ? <FolderIcon /> : <FileIcon />}
+                    {getFileTypeIcon(item.file_type)}
                   </div>
                 </div>
 
@@ -153,20 +192,20 @@ function SearchPortal() {
                 </div>
 
                 <div className="result-right">
-                  <span className="result-tag">{item.file_type}</span>
+                  <span className="result-tag">{getLocalizedFileType(item.file_type, copy)}</span>
                 </div>
               </article>
             ))}
           </div>
 
           <div className="results-pager">
-            <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>{'<'}</button>
+            <button aria-label={copy.previousPageAria} onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>{"<"}</button>
             <span className="pager-info">{page}</span>
-            <button onClick={() => setPage(page + 1)} disabled={page * pageSize >= results.length}>{'>'}</button>
+            <button aria-label={copy.nextPageAria} onClick={() => setPage(page + 1)} disabled={page * pageSize >= results.length}>{">"}</button>
           </div>
         </>
       ) : (
-        <p className="results-hint">Los resultados aparecerán aquí</p>
+        <p className="results-hint">{copy.emptyResults}</p>
       )}
     </section>
   );
