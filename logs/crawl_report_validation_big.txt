@@ -1,0 +1,31 @@
+generated_at: 2026-04-25T19:20:45+00:00
+seeds_file: scripts/tech_seeds.txt
+only_new: False
+docs_written: 20
+frontier_remaining: 789
+stats:
+  - blocked_by_robots: 2
+  - domain_limit_skips: 17
+  - low_relevance: 1
+  - too_short: 3
+  - visited: 24
+  - written: 20
+domains:
+  - developer.mozilla.org: 4
+  - www.mozilla.org: 4
+  - github.com: 3
+  - docs.python.org: 1
+  - doc.rust-lang.org: 1
+  - docs.oracle.com: 1
+  - docs.djangoproject.com: 1
+  - www.semanticscholar.org: 1
+  - nodejs.org: 1
+  - arxiv.org: 1
+  - www.rfc-editor.org: 1
+  - foundation.mozilla.org: 1
+  - support.mozilla.org: 1
+  - bsky.app: 1
+  - mastodon.social: 1
+  - learn.microsoft.com: 1
+  - hacks.mozilla.org: 0
+  - x.com: 0
