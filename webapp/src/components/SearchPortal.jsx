@@ -64,6 +64,7 @@ function getLocalizedFileType(rawType, copy) {
 
 function SearchPortal({ copy }) {
   const [query, setQuery] = useState("");
+  const [lastSearchedQuery, setLastSearchedQuery] = useState("");
   const [subtitleIndex, setSubtitleIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
   const [activeFilters, setActiveFilters] = useState(new Set());
@@ -107,6 +108,7 @@ function SearchPortal({ copy }) {
   };
 
   const doSearch = async (q) => {
+    setLastSearchedQuery(q);
     setLoading(true);
     try {
       const res = await fetch(`http://localhost:5000/search?query=${encodeURIComponent(q)}&top_k=80`);
@@ -205,7 +207,9 @@ function SearchPortal({ copy }) {
           </div>
         </>
       ) : (
-        <p className="results-hint">{copy.emptyResults}</p>
+        <p className="results-hint">
+          {lastSearchedQuery ? copy.getNoResultsText(lastSearchedQuery) : copy.emptyResults}
+        </p>
       )}
     </section>
   );
