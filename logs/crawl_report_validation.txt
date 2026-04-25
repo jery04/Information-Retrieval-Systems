@@ -1,0 +1,12 @@
+generated_at: 2026-04-25T19:13:33+00:00
+seeds_file: scripts/tech_seeds.txt
+only_new: False
+docs_written: 3
+frontier_remaining: 123
+stats:
+  - visited: 3
+  - written: 3
+domains:
+  - docs.python.org: 1
+  - doc.rust-lang.org: 1
+  - docs.oracle.com: 1

@@ -34,7 +34,7 @@ README.md             # this file
 
 Key script entrypoints 🛠️:
 
-- 🕸️ `scripts/tech_crawler.py` — focused crawler that writes `data/extracted/webpages/webpages.jsonl`.
+- 🕸️ `scripts/tech_crawler.py` — focused tech crawler (EN+ES seeds) that writes `data/extracted/webpages/webpages.jsonl`.
 - 🧾 `scripts/indexer.py` — builds/updates the PatriciaTrie inverted index (JSON persisted).
 - 🔎 `scripts/main.py` — GVSM search pipeline and small Flask-based `/search` API (run with `serve`).
 
@@ -86,12 +86,16 @@ npm install
 py -3 scripts/tech_crawler.py --max-pages 500 --max-depth 2 --save-raw --seeds-file scripts/tech_seeds.txt
 ```
 
-This writes cleaned documents to `data/extracted/webpages/webpages.jsonl`. The crawler supports several useful flags:
+This writes cleaned documents to `data/extracted/webpages/webpages.jsonl`. The crawler accepts English + Spanish pages together (no language filtering) and stores detected language only as metadata in `language`.
+
+The crawler supports several useful flags:
 
 - `--seeds-file` (default: `scripts/tech_seeds.txt`)
 - `--output` (default: `data/extracted/webpages/webpages.jsonl`)
 - `--raw-dir` (default: `data/raw/webpages`)
 - `--max-pages`, `--max-depth`, `--min-chars`, `--per-domain-limit`, `--delay`
+- `--only-new` (skip URLs/text already present in output)
+- `--doc-id-mode` (`int` for indexer compatibility, `hash` optional)
 
 2) Build or update the inverted trie index 🧾:
 
