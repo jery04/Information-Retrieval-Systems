@@ -56,7 +56,6 @@ class GVSMSearchEngine:
 
         # initialize GVSM model and compute idf
         self.model = GeneralizedVectorSpaceModel(
-            trie=self.trie,
             cooc_index=self.cooc,
             use_cosine=use_cosine,
         )
@@ -133,7 +132,7 @@ class GVSMSearchEngine:
         """Build a CoOccurrenceIndex from a mapping of doc_id to tokens."""
         cooc_index = CoOccurrenceIndex(min_cooc=min_cooc)
         for doc_id, tokens in sorted(doc_tokens_by_id.items()):
-            cooc_index.add_document(tokens, doc_id)
+            cooc_index.add_document(tokens)
         return cooc_index
 
     def _load_or_build_cooc(self, force_rebuild: bool = False) -> CoOccurrenceIndex:
@@ -322,7 +321,6 @@ def _make_api_app(engine: GVSMSearchEngine):
             try:
                 engine.doc_tokens_by_id = engine.load_tokenized_documents(engine.dataset_path)
                 engine.model = GeneralizedVectorSpaceModel(
-                    trie=engine.trie,
                     cooc_index=engine.cooc,
                     use_cosine=getattr(engine.model, "use_cosine", True),
                 )

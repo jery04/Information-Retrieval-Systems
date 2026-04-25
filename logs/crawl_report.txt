@@ -1,11 +1,17 @@
-generated_at: 2026-04-22T21:19:35+00:00
+generated_at: 2026-04-25T17:03:06+00:00
+language: en
+only_new: False
 docs_written: 5
-frontier_remaining: 795
+frontier_remaining: 96
 stats:
-  - visited: 5
+  - blocked_by_robots: 1
+  - too_short: 3
+  - visited: 8
   - written: 5
 domains:
-  - cloud.google.com: 2
-  - angular.dev: 1
-  - arxiv.org: 1
-  - aws.amazon.com: 1
+  - ai.google.dev: 3
+  - angular.dev: 2
+  - angular-docs.ru: 1
+  - angular-docs.tr: 1
+  - angular.az: 1
+  - angular.cn: 0

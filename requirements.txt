@@ -2,4 +2,5 @@
 flask
 spacy
 numpy
+scipy
 file_read_backwards

@@ -645,7 +645,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--raw-dir", type=Path, default=DEFAULT_RAW_DIR)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
-    parser.add_argument("--max-pages", type=int, default=30)
+    parser.add_argument("--max-pages", type=int, default=5)
     parser.add_argument("--max-depth", type=int, default=2)
     parser.add_argument("--min-chars", type=int, default=300)
     parser.add_argument("--per-domain-limit", type=int, default=120)
