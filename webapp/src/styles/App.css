@@ -348,6 +348,72 @@ body {
   font-weight: 600;
 }
 
+.rag-panel {
+  margin: 8px auto 20px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  border: 1px solid #e2e8ef;
+  background: linear-gradient(180deg, #f9fbfd 0%, #ffffff 100%);
+  text-align: left;
+  box-shadow: 0 8px 18px rgba(64,109,143,0.06);
+}
+
+.rag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.rag-title {
+  font-weight: 800;
+  color: #314a60;
+  letter-spacing: 0.02em;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.rag-count {
+  font-size: 12px;
+  color: #73808c;
+  font-weight: 600;
+  background: #eef3f7;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.rag-body {
+  margin: 0;
+  color: #3e4a55;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.rag-sources {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rag-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f6fa;
+  border: 1px solid #e1e7ef;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #2f546f;
+  text-decoration: none;
+}
+
+.rag-source:hover {
+  background: #e7f0f8;
+}
+
 .results-list {
   width: 100%;
   margin: 8px auto 28px;

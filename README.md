@@ -63,13 +63,11 @@ py -3 -m pip install --upgrade pip
 py -3 -m pip install -r requirements.txt
 ```
 
-3) Install the Spanish spaCy model used by the tokenizer (required):
+The requirements file already installs the spaCy English and Spanish models
+(`en_core_web_sm` and `es_core_news_sm`), so you do not need to run
+`spacy download` separately.
 
-```powershell
-py -3 -m spacy download es_core_news_sm
-```
-
-4) (Optional) Install Node and dependencies to run the frontend:
+3) (Optional) Install Node and dependencies to run the frontend:
 
 Download and install Node.js (LTS recommended). Then:
 

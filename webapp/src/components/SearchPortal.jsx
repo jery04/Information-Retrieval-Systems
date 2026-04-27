@@ -71,6 +71,9 @@ function SearchPortal({ copy }) {
   const [results, setResults] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [ragAnswer, setRagAnswer] = useState("");
+  const [ragSources, setRagSources] = useState([]);
+  const [ragLoading, setRagLoading] = useState(false);
   const [page, setPage] = useState(1);
   const pageSize = 6;
 
@@ -110,16 +113,43 @@ function SearchPortal({ copy }) {
   const doSearch = async (q) => {
     setLastSearchedQuery(q);
     setLoading(true);
+    setRagLoading(true);
+    setRagAnswer("");
+    setRagSources([]);
     try {
-      const res = await fetch(`http://localhost:5000/search?query=${encodeURIComponent(q)}&top_k=80`);
-      const data = await res.json();
-      setResults(data.results || []);
-      setTotalResults(data.total || 0);
-      setPage(1);
+      const searchUrl = `http://localhost:5000/search?query=${encodeURIComponent(q)}&top_k=80`;
+      const ragUrl = `http://localhost:5000/rag?query=${encodeURIComponent(q)}&top_k=5&max_sentences=4&max_chars=600`;
+
+      const [searchResult, ragResult] = await Promise.allSettled([
+        fetch(searchUrl).then((res) => res.json()),
+        fetch(ragUrl).then((res) => res.json()),
+      ]);
+
+      if (searchResult.status === "fulfilled") {
+        const data = searchResult.value || {};
+        setResults(data.results || []);
+        setTotalResults(data.total || 0);
+        setPage(1);
+      } else {
+        console.error("Error buscando:", searchResult.reason);
+        setResults([]);
+        setTotalResults(0);
+      }
+
+      if (ragResult.status === "fulfilled") {
+        const ragData = ragResult.value || {};
+        setRagAnswer(ragData.answer || "");
+        setRagSources(ragData.sources || []);
+      } else {
+        console.error("Error RAG:", ragResult.reason);
+        setRagAnswer("");
+        setRagSources([]);
+      }
     } catch (err) {
       console.error("Error buscando:", err);
     } finally {
       setLoading(false);
+      setRagLoading(false);
     }
   };
 
@@ -177,6 +207,39 @@ function SearchPortal({ copy }) {
       ) : results && results.length > 0 ? (
         <>
           <p className="results-count">{copy.getResultsCountText(totalResults, query)}</p>
+
+          <div className="rag-panel" aria-live="polite">
+            <div className="rag-header">
+              <span className="rag-title">{copy.ragTitle}</span>
+              {ragSources.length > 0 ? (
+                <span className="rag-count">{copy.getRagSourcesCount(ragSources.length)}</span>
+              ) : null}
+            </div>
+            {ragLoading ? (
+              <p className="rag-body">{copy.ragLoading}</p>
+            ) : ragAnswer ? (
+              <>
+                <p className="rag-body">{ragAnswer}</p>
+                {ragSources.length > 0 ? (
+                  <div className="rag-sources">
+                    {ragSources.map((source) => (
+                      <a
+                        key={source.doc_id}
+                        className="rag-source"
+                        href={source.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {source.title || `Doc ${source.doc_id}`}
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </>
+            ) : (
+              <p className="rag-body">{copy.ragEmpty}</p>
+            )}
+          </div>
 
           <div className="results-list">
             {results.slice((page - 1) * pageSize, page * pageSize).map((item) => (

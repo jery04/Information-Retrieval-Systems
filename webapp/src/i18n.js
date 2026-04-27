@@ -33,6 +33,10 @@ export const UI_COPY = {
     getResultsCountText: (total, query) => `Se encontraron ${total} resultados para "${query}"`,
     getNoResultsText: (query) => `No se encontraron resultados para "${query}"`,
     emptyResults: "Los resultados apareceran aqui",
+    ragTitle: "Respuesta RAG",
+    ragLoading: "Generando respuesta con RAG...",
+    ragEmpty: "No se pudo generar respuesta enriquecida.",
+    getRagSourcesCount: (total) => `${total} fuente${total === 1 ? "" : "s"}`,
     previousPageAria: "Pagina anterior",
     nextPageAria: "Pagina siguiente",
     fileTypes: {
@@ -77,6 +81,10 @@ export const UI_COPY = {
     getResultsCountText: (total, query) => `Found ${total} results for "${query}"`,
     getNoResultsText: (query) => `No results found for "${query}"`,
     emptyResults: "Results will appear here",
+    ragTitle: "RAG answer",
+    ragLoading: "Generating RAG answer...",
+    ragEmpty: "Unable to generate an enriched answer.",
+    getRagSourcesCount: (total) => `${total} source${total === 1 ? "" : "s"}`,
     previousPageAria: "Previous page",
     nextPageAria: "Next page",
     fileTypes: {

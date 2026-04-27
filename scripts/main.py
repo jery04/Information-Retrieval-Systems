@@ -14,6 +14,7 @@ from engine import (                # Imports core IR components from the engine
     GeneralizedVectorSpaceModel,    # GVSM model for similarity with term correlations
 )
 from indexer import Index, PatriciaTrie   # Local indexing utilities: tokenizer and PatriciaTrie structure
+from rag import RAGPipeline
 
 # Optional lightweight HTTP API (no external deps required for CORS-safe responses)
 try:
@@ -243,6 +244,7 @@ def _make_api_app(engine: GVSMSearchEngine):
         return None
 
     app = Flask(__name__)
+    rag = RAGPipeline(engine)
 
     @app.after_request
     def _add_cors(response):
@@ -302,6 +304,33 @@ def _make_api_app(engine: GVSMSearchEngine):
             )
 
         return jsonify({"query": q, "total": len(results), "results": results})
+
+    @app.route("/rag")
+    def api_rag():
+        q = request.args.get("query", "").strip()
+        try:
+            top_k = int(request.args.get("top_k", "5"))
+        except ValueError:
+            top_k = 5
+        try:
+            max_sentences = int(request.args.get("max_sentences", "6"))
+        except ValueError:
+            max_sentences = 6
+        try:
+            max_chars = int(request.args.get("max_chars", "1200"))
+        except ValueError:
+            max_chars = 1200
+
+        if not q:
+            return jsonify({"query": q, "answer": "", "sources": [], "contexts": [], "total_sources": 0})
+
+        payload = rag.answer(
+            query=q,
+            top_k=top_k,
+            max_sentences=max_sentences,
+            max_chars=max_chars,
+        )
+        return jsonify(payload)
 
     return app
 
