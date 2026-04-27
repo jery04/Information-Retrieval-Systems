@@ -303,41 +303,6 @@ def _make_api_app(engine: GVSMSearchEngine):
 
         return jsonify({"query": q, "total": len(results), "results": results})
 
-    @app.route("/set_model", methods=["POST"])
-    def api_set_model():
-        """Endpoint to change spaCy model used by Index and refresh engine document vectors.
-
-        Expects JSON body: { "model": "en_core_web_sm" } or { "model": "es_core_news_sm" }
-        """
-        data = request.get_json(silent=True) or {}
-        model = data.get("model")
-        if not model:
-            return jsonify({"ok": False, "error": "missing model"}), 400
-        try:
-            # update tokenizer/model used by Index
-            Index.set_model(model)
-
-            # refresh tokenized documents and recompute document vectors for the engine
-            try:
-                engine.doc_tokens_by_id = engine.load_tokenized_documents(engine.dataset_path)
-                engine.model = GeneralizedVectorSpaceModel(
-                    cooc_index=engine.cooc,
-                    use_cosine=getattr(engine.model, "use_cosine", True),
-                )
-                engine.model.compute_idf()
-                engine.doc_vectors = {}
-                for doc_id, doc_tokens in engine.doc_tokens_by_id.items():
-                    doc_vector = engine.model.get_document_vector(doc_tokens)
-                    if doc_vector:
-                        engine.doc_vectors[doc_id] = doc_vector
-            except Exception:
-                # non-fatal: setting the model succeeded but re-indexing failed
-                pass
-
-            return jsonify({"ok": True, "model": model})
-        except Exception as e:
-            return jsonify({"ok": False, "error": str(e)}), 500
-
     return app
 
 
