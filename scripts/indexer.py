@@ -8,9 +8,18 @@ focused on functionality.
 import unicodedata  # Tools for Unicode normalization (remove accents, etc.)
 import json         # Read and write JSON data
 import os           # Interact with the operating system (paths, files)
+import re
 from typing import Any, Dict, List, Optional, Set  # Type hints for cleaner code
-from file_read_backwards import FileReadBackwards  # Read large files from bottom to top efficiently
-import spacy        # NLP library for tokenization, lemmatization, etc.
+
+try:
+    import spacy        # NLP library for tokenization, lemmatization, etc.
+except Exception:
+    spacy = None
+
+try:
+    from file_read_backwards import FileReadBackwards  # Read large files from bottom to top efficiently
+except Exception:
+    FileReadBackwards = None
 
 # Spanish stop words set.
 es_stop_words: Set[str] = {
@@ -123,6 +132,45 @@ en_stop_words: Set[str] = {
     'you', 'your', 'yours', 'yourself', 'yourselves'
 }
 
+
+def _load_spacy_pipeline(model_name: str):
+    """Load a spaCy pipeline, falling back to a blank model if needed."""
+    if spacy is None:
+        return _SimpleNLP()
+    try:
+        return spacy.load(model_name)
+    except OSError:
+        lang = "en" if model_name.startswith("en_") else "es"
+        return spacy.blank(lang)
+
+
+class _SimpleToken:
+    def __init__(self, text: str) -> None:
+        self.text = text
+        self.lemma_ = text
+        self.is_punct = False
+        self.is_space = False
+        self.is_stop = False
+
+
+class _SimpleNLP:
+    def __call__(self, text: str):
+        words = re.findall(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9_\-]+", text or "")
+        return [_SimpleToken(word) for word in words]
+
+
+def _iter_reverse_lines(path: str):
+    """Yield file lines from bottom to top, with a pure-Python fallback."""
+    if FileReadBackwards is not None:
+        with FileReadBackwards(path, encoding="utf-8") as frb:
+            for line in frb:
+                yield line
+        return
+
+    with open(path, "r", encoding="utf-8") as handle:
+        for line in reversed(handle.readlines()):
+            yield line
+
 class Index:
     """Text preprocessing helper using spaCy.
 
@@ -132,8 +180,8 @@ class Index:
     stop-word set is used by `tokenize`.
     """
     model_name: str = "en_core_web_sm"
-    nlp = spacy.load(model_name)
     _stop_words = en_stop_words
+    nlp = _load_spacy_pipeline(model_name)
 
     @classmethod
     def set_model(cls, model_name: str) -> None:
@@ -145,7 +193,7 @@ class Index:
         if model_name not in ("en_core_web_sm", "es_core_news_sm"):
             raise ValueError("model_name must be 'en_core_web_sm' or 'es_core_news_sm'")
         cls.model_name = model_name
-        cls.nlp = spacy.load(model_name)
+        cls.nlp = _load_spacy_pipeline(model_name)
         cls._stop_words = en_stop_words if model_name.startswith("en_") else es_stop_words
 
     @staticmethod
@@ -166,7 +214,11 @@ class Index:
                 continue
             
             # lemmatize and lowercase
-            word = token.lemma_.lower()
+            word = token.lemma_.lower() if getattr(token, "lemma_", "") else token.text.lower()
+
+            # spaCy blank pipelines can emit empty/placeholder lemmas
+            if not word or word == "-pron-":
+                word = token.text.lower()
             
             # remove diacritics
             word = unicodedata.normalize("NFKD", word)
@@ -543,48 +595,46 @@ class PatriciaTrie:
             return
 
         latest_doc_id: Optional[int] = None
-        with FileReadBackwards(webpages_path, encoding="utf-8") as frb:
-            for raw_line in frb:
-                line = raw_line.strip()
-                if not line:
-                    continue
-                try:
-                    obj = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
+        for raw_line in _iter_reverse_lines(webpages_path):
+            line = raw_line.strip()
+            if not line:
+                continue
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError:
+                continue
 
-                parsed_doc_id = self._parse_doc_id(obj.get("doc_id"))
-                if parsed_doc_id is not None:
-                    latest_doc_id = parsed_doc_id
-                    break
+            parsed_doc_id = self._parse_doc_id(obj.get("doc_id"))
+            if parsed_doc_id is not None:
+                latest_doc_id = parsed_doc_id
+                break
 
         if latest_doc_id is None or latest_doc_id == initial_document_count:
             return
 
         updated = False
-        with FileReadBackwards(webpages_path, encoding="utf-8") as frb:
-            for raw_line in frb:
-                line = raw_line.strip()
-                if not line:
-                    continue
+        for raw_line in _iter_reverse_lines(webpages_path):
+            line = raw_line.strip()
+            if not line:
+                continue
 
-                try:
-                    obj = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError:
+                continue
 
-                doc_id = self._parse_doc_id(obj.get("doc_id"))
-                if doc_id is None:
-                    continue
+            doc_id = self._parse_doc_id(obj.get("doc_id"))
+            if doc_id is None:
+                continue
 
-                if doc_id == initial_document_count:
-                    break
-                if doc_id < initial_document_count:
-                    break
+            if doc_id == initial_document_count:
+                break
+            if doc_id < initial_document_count:
+                break
 
-                inserted_doc_id = self._insert_document_from_json(obj)
-                if inserted_doc_id is not None:
-                    updated = True
+            inserted_doc_id = self._insert_document_from_json(obj)
+            if inserted_doc_id is not None:
+                updated = True
 
         if updated:
             self.save()

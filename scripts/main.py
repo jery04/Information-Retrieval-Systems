@@ -15,6 +15,7 @@ from engine import (                # Imports core IR components from the engine
 )
 from indexer import Index, PatriciaTrie   # Local indexing utilities: tokenizer and PatriciaTrie structure
 from rag import RAGPipeline
+from web_search import WebSearchPipeline, WebSearchConfig  # Web search fallback module
 
 # Optional lightweight HTTP API (no external deps required for CORS-safe responses)
 try:
@@ -245,6 +246,10 @@ def _make_api_app(engine: GVSMSearchEngine):
 
     app = Flask(__name__)
     rag = RAGPipeline(engine)
+    
+    # Initialize web search pipeline for fallback
+    web_search_config = WebSearchConfig()
+    web_search_pipeline = WebSearchPipeline(web_search_config)
 
     @app.after_request
     def _add_cors(response):
@@ -265,34 +270,88 @@ def _make_api_app(engine: GVSMSearchEngine):
 
         # primary ranked results from GVSM
         ranked = engine.search(query=q, top_k=top_k)
-        ranked_map = {doc_id: score for doc_id, score in ranked}
+        qlow = q.lower()
+
+        # Candidate map: doc_id -> payload with score and stable tie-breakers
+        candidates = {}
+
+        for rank_pos, (doc_id, score) in enumerate(ranked):
+            rec = engine.records.get(doc_id)
+            if not rec:
+                continue
+            candidates[doc_id] = {
+                "record": rec,
+                "score": float(score),
+                "source_rank": rank_pos,
+                "source_type": rec.get("source_type", "webpage"),
+            }
 
         # lightweight substring boost: scan titles/text for query matches
-        additional = []
-        qlow = q.lower()
         for doc_id, rec in engine.records.items():
-            if doc_id in ranked_map:
+            if doc_id in candidates:
                 continue
             title = (rec.get("title") or "").lower()
             text = (rec.get("text") or "").lower()
             if qlow in title or qlow in text:
-                additional.append(doc_id)
+                candidates[doc_id] = {
+                    "record": rec,
+                    "score": 0.15,
+                    "source_rank": 10_000,
+                    "source_type": rec.get("source_type", "webpage"),
+                }
 
-        combined_ids = list(ranked_map.keys()) + additional
+        # Check if web search should be triggered
+        avg_score = sum(score for _, score in ranked) / len(ranked) if ranked else 0.0
+        local_count = len(ranked)
+        web_search_used = False
+
+        web_records = web_search_pipeline.search_with_fallback(
+            query=q,
+            local_results_count=local_count,
+            avg_score=avg_score,
+        )
+        if web_records:
+            web_search_used = True
+            for rec in web_records:
+                doc_id = rec.get("doc_id")
+                if not doc_id:
+                    continue
+                engine.records[doc_id] = rec
+                web_score = float(rec.get("score_hint", 0.5))
+                source_rank = int(rec.get("web_rank", 10_000))
+                if doc_id in candidates:
+                    candidates[doc_id]["score"] = max(candidates[doc_id]["score"], web_score)
+                    candidates[doc_id]["record"] = rec
+                    candidates[doc_id]["source_rank"] = min(candidates[doc_id]["source_rank"], source_rank)
+                    candidates[doc_id]["source_type"] = rec.get("source_type", "web_search")
+                else:
+                    candidates[doc_id] = {
+                        "record": rec,
+                        "score": web_score,
+                        "source_rank": source_rank,
+                        "source_type": rec.get("source_type", "web_search"),
+                    }
+
+        ordered_candidates = sorted(
+            candidates.items(),
+            key=lambda item: (
+                -float(item[1].get("score", 0.0)),
+                int(item[1].get("source_rank", 10_000)),
+                str(item[1]["record"].get("title") or "").lower(),
+            ),
+        )
 
         results = []
-        for doc_id in combined_ids:
-            rec = engine.records.get(doc_id)
-            if not rec:
-                continue
-
-            score = float(ranked_map.get(doc_id, 0.0))
+        for doc_id, payload in ordered_candidates[:top_k]:
+            rec = payload["record"]
+            score = float(payload.get("score", 0.0))
             file_type = _guess_file_type(rec)
             snippet = (rec.get("text") or "").replace("\n", " ")[:320].strip()
+            source_type = payload.get("source_type", rec.get("source_type", "webpage"))
 
             results.append(
                 {
-                    "doc_id": int(doc_id),
+                    "doc_id": int(doc_id) if isinstance(doc_id, int) else doc_id,
                     "title": rec.get("title") or "(sin título)",
                     "snippet": snippet,
                     "url": rec.get("url") or "",
@@ -300,10 +359,18 @@ def _make_api_app(engine: GVSMSearchEngine):
                     "crawl_date": rec.get("crawl_date"),
                     "domain": rec.get("domain"),
                     "score": score,
+                    "source_type": source_type,
                 }
             )
 
-        return jsonify({"query": q, "total": len(results), "results": results})
+        return jsonify({
+            "query": q,
+            "total": len(results),
+            "results": results,
+            "web_search_used": web_search_used,
+            "local_results": local_count,
+            "avg_local_score": avg_score,
+        })
 
     @app.route("/rag")
     def api_rag():

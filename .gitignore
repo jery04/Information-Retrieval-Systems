@@ -7,3 +7,4 @@ data/**
 
 # Ignore Python bytecode cache inside scripts/
 scripts/__pycache__/
+Orientacion.md
