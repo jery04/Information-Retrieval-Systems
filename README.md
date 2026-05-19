@@ -1,14 +1,7 @@
-<div align="center">
 
 # Information Retrieval Systems (IRS) 🔎
-
-</div>
-
-<div align="center">
-
 > ⚠️ Project status: preliminary — active development and experimental.
 
-</div>
 
 ## Overview 🧠
 
