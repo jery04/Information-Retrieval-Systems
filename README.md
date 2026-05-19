@@ -4,7 +4,11 @@
 
 </div>
 
+<div align="center">
+
 > ⚠️ Project status: preliminary — active development and experimental.
+
+</div>
 
 ## Overview 🧠
 
