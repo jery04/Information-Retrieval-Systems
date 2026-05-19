@@ -1,5 +1,8 @@
+<div align="center">
 
 # Information Retrieval Systems (IRS) 🔎
+
+</div>
 
 > ⚠️ Project status: preliminary — active development and experimental.
 
@@ -13,6 +16,9 @@ This repository implements a small experimental Information Retrieval System (IR
 - 🌐 Exploring results via a React + Vite frontend.
 
 The codebase is intended for research and experiments rather than production use.
+
+A quick look at the home section:
+![readme1](webapp/public/readme1.png)
 
 ## System architecture 🏗️
 
