@@ -7,6 +7,7 @@ for tf-idf vectorization and correlation-aware query-document similarity.
 
 import json                         # Handle JSON file operations (save/load index)
 import os                           # File and directory path management
+import logging                      # Professional logging for errors and warnings
 from collections import defaultdict # Dictionary with default values
 from itertools import combinations  # Efficient pair generation for co-occurrence updates
 from typing import Dict, List, Optional, Tuple   # Type hints for better code readability
@@ -98,8 +99,7 @@ class CoOccurrenceIndex:
         # prepare a sorted list of unique tokens from the document
         unique_tokens = sorted(set(tokens))
         if not unique_tokens:
-            # count empty documents but do not update df/cooc
-            self.total_docs += 1
+            # skip empty documents to avoid biasing IDF calculations
             return
 
         # update document frequency for each unique term
@@ -120,32 +120,7 @@ class CoOccurrenceIndex:
                 pair_counts[key] += 1
             self._matrix_dirty = True
 
-    def get_correlation(self, term1: str, term2: str, method: str = "cosine") -> float:
-        """Return correlation between two terms, applying the min_cooc threshold."""
-        # identical terms are perfectly correlated
-        if term1 == term2:
-            return 1.0
 
-        # get co-occurrence count and enforce threshold
-        count = self._get_pair_count(term1, term2)
-        if count < self.min_cooc:
-            return 0.0
-
-        # require non-zero document frequencies
-        df1 = self.df.get(term1, 0)
-        df2 = self.df.get(term2, 0)
-        if df1 == 0 or df2 == 0:
-            return 0.0
-
-        # compute similarity according to chosen method
-        if method == "cosine":
-            return count / (df1 ** 0.5 * df2 ** 0.5)
-        if method == "jaccard":
-            union = df1 + df2 - count
-            return count / union if union > 0 else 0.0
-        if method == "dice":
-            return (2 * count) / (df1 + df2)
-        return 0.0
 
     def to_dict(self) -> Dict[str, object]:
         """Serialize the index to a dictionary suitable for JSON saving."""
@@ -166,19 +141,36 @@ class CoOccurrenceIndex:
         }
     
     def _from_dict(self, data: Dict[str, object]) -> None:
-        """Load index fields from a dictionary into this instance."""
-        # read min_cooc with a safe fallback
-        self.min_cooc = int(data.get("min_cooc", self.min_cooc))
-        # load document frequencies
+        """Load index fields from a dictionary into this instance with robust error handling.
+        
+        Validates data types and recovers gracefully from corrupted fields.
+        """
+        try:
+            # read min_cooc from file with fallback to instance default
+            file_min_cooc = data.get("min_cooc")
+            if file_min_cooc is not None:
+                self.min_cooc = int(file_min_cooc)
+        except (TypeError, ValueError):
+            # keep current min_cooc if file value is invalid
+            pass
+        
+        # load document frequencies with type validation
         raw_df = data.get("df", {})
+        self.df = {}
         if isinstance(raw_df, dict):
-            self.df = {str(term): int(df) for term, df in raw_df.items()}
-        else:
-            self.df = {}
+            for term, df in raw_df.items():
+                try:
+                    self.df[str(term)] = int(df)
+                except (TypeError, ValueError):
+                    # skip invalid df entries
+                    continue
 
-        # load total document count
+        # load total document count with type validation
         raw_total_docs = data.get("total_docs", 0)
-        self.total_docs = int(raw_total_docs) if isinstance(raw_total_docs, (int, float)) else 0
+        try:
+            self.total_docs = int(raw_total_docs) if isinstance(raw_total_docs, (int, float)) else 0
+        except (TypeError, ValueError):
+            self.total_docs = 0
 
         # reset sparse structures
         self.term_to_idx = {}
@@ -217,9 +209,32 @@ class CoOccurrenceIndex:
                     self.idx_to_term.append(term)
 
             try:
-                rows = np.asarray([int(value) for value in raw_rows], dtype=np.int32)
-                cols = np.asarray([int(value) for value in raw_cols], dtype=np.int32)
-                values = np.asarray([int(value) for value in raw_data], dtype=np.int32)
+                # validate and convert sparse array components
+                rows_list = []
+                cols_list = []
+                values_list = []
+                
+                for r in raw_rows:
+                    try:
+                        rows_list.append(int(r))
+                    except (TypeError, ValueError):
+                        raise ValueError(f"Invalid row index: {r}")
+                
+                for c in raw_cols:
+                    try:
+                        cols_list.append(int(c))
+                    except (TypeError, ValueError):
+                        raise ValueError(f"Invalid column index: {c}")
+                
+                for v in raw_data:
+                    try:
+                        values_list.append(int(v))
+                    except (TypeError, ValueError):
+                        raise ValueError(f"Invalid co-occurrence value: {v}")
+                
+                rows = np.asarray(rows_list, dtype=np.int32)
+                cols = np.asarray(cols_list, dtype=np.int32)
+                values = np.asarray(values_list, dtype=np.int32)
 
                 if isinstance(raw_shape, (list, tuple)) and len(raw_shape) == 2:
                     shape_0 = int(raw_shape[0])
@@ -232,12 +247,17 @@ class CoOccurrenceIndex:
                 shape_0 = max(shape_0, target_size)
                 shape_1 = max(shape_1, target_size)
 
+                # validate indices are within bounds
+                if (rows >= shape_0).any() or (cols >= shape_1).any():
+                    raise ValueError("Sparse matrix indices exceed shape bounds")
+
                 self.cooc = csr_matrix((values, (rows, cols)), shape=(shape_0, shape_1), dtype=np.int32)
                 self._pair_counts = None
                 self._matrix_dirty = False
                 return
-            except (TypeError, ValueError):
-                # fall back to legacy nested-dict format
+            except (TypeError, ValueError) as e:
+                # fall back to legacy nested-dict format or empty
+                logging.warning(f"Failed to load v2 format ({e}), trying legacy format...")
                 pass
 
         # fallback: load legacy nested co-occurrence mapping and convert to sparse
@@ -291,16 +311,42 @@ class CoOccurrenceIndex:
             json.dump(self.to_dict(), file, ensure_ascii=False, separators=("," , ":"))
     
     def _load_from_file(self, filepath: str, min_cooc: int = 3) -> None:
-        """Load index data from a JSON file; leave empty if file is missing."""
+        """Load index data from a JSON file; leave empty if file is missing or invalid.
+        
+        Args:
+            filepath: Path to JSON index file
+            min_cooc: Minimum co-occurrence threshold to enforce (overrides file value if specified)
+        """
         # if file missing, preserve defaults but set min_cooc
         if not os.path.exists(filepath):
             self.min_cooc = min_cooc
             return
 
-        # read and populate fields
-        with open(filepath, "r", encoding="utf-8") as file:
-            data = json.load(file)
-        self._from_dict(data)
+        try:
+            # read and populate fields
+            with open(filepath, "r", encoding="utf-8") as file:
+                data = json.load(file)
+        except (json.JSONDecodeError, OSError) as e:
+            # file corrupted or unreadable; use defaults
+            logging.warning(f"Failed to load index from {filepath}: {e}")
+            self.min_cooc = min_cooc
+            return
+        
+        try:
+            self._from_dict(data)
+        except Exception as e:
+            # deserialization failed; use defaults
+            logging.warning(f"Failed to deserialize index data: {e}")
+            self.df = {}
+            self.total_docs = 0
+            self.term_to_idx = {}
+            self.idx_to_term = []
+            self.cooc = csr_matrix((0, 0), dtype=np.int32)
+            self._pair_counts = None
+            self._matrix_dirty = False
+        
+        # only override min_cooc if explicitly different from default
+        # this preserves file's min_cooc unless overridden
         self.min_cooc = min_cooc
 
 class GeneralizedVectorSpaceModel:

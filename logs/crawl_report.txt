@@ -1,17 +1,29 @@
-generated_at: 2026-04-25T17:03:06+00:00
-language: en
-only_new: False
-docs_written: 5
-frontier_remaining: 96
+generated_at: 2026-05-20T17:53:05+00:00
+seeds_file: scripts/tech_seeds.txt
+only_new: True
+docs_written: 0
+frontier_remaining: 0
 stats:
-  - blocked_by_robots: 1
-  - too_short: 3
-  - visited: 8
-  - written: 5
+  - already_in_output: 13
+  - blocked_by_robots: 15
+  - existing_loaded: 179
+  - fetch_errors: 2
+  - robots_fetch_error: 13
+  - visited: 2
 domains:
-  - ai.google.dev: 3
-  - angular.dev: 2
-  - angular-docs.ru: 1
-  - angular-docs.tr: 1
-  - angular.az: 1
-  - angular.cn: 0
+  - www.rfc-editor.org: 1
+  - cloud.google.com: 1
+  - css-tricks.com: 0
+  - aws.amazon.com: 0
+  - opensource.googleblog.com: 0
+  - engineering.fb.com: 0
+  - netflixtechblog.com: 0
+  - flask.palletsprojects.com: 0
+  - docs.djangoproject.com: 0
+  - vuejs.org: 0
+  - react.dev: 0
+  - kotlinlang.org: 0
+  - learn.microsoft.com: 0
+  - developer.mozilla.org: 0
+  - docs.python.org: 0
+  - go.dev: 0

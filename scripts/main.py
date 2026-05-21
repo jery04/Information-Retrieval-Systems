@@ -8,6 +8,8 @@ It also includes a small main() routine to run a sample query end to end.
 import json                         # Provides JSON serialization and deserialization utilities
 import os                           # Handles filesystem paths and directory operations
 import sys
+import math
+from collections import Counter
 from typing import Dict, List, Optional, Tuple   # Type hints for structured and readable annotations
 from engine import (                # Imports core IR components from the engine module
     CoOccurrenceIndex,              # Co-occurrence index for term-term statistics
@@ -22,7 +24,6 @@ try:
     from flask import Flask, request, jsonify
 except Exception:
     Flask = None
-
 # Default paths for data files
 DEFAULT_DATASET_PATH = os.path.join("data", "extracted", "webpages", "webpages.jsonl")
 DEFAULT_TRIE_PATH = os.path.join("data", "processed", "inverted_index_trie.json")
@@ -39,36 +40,67 @@ class GVSMSearchEngine:
         min_cooc: int = 3,
         use_cosine: bool = True,
         force_rebuild_cooc: bool = False,
+        # Fusion parameters for semantic+lexical scoring
+        alpha: float = 0.5,
+        title_weight: float = 2.0,
+        bm25_k1: float = 1.5,
+        bm25_b: float = 0.75,
     ):
         """Initialize engine: load trie, documents, and co-occurrence index."""
         self.dataset_path = dataset_path
         self.trie_path = trie_path
         self.cooc_cache_path = cooc_cache_path
         self.min_cooc = min_cooc
+        # fusion / BM25 params
+        self.alpha = float(alpha)
+        self.title_weight = float(title_weight)
+        self.bm25_k1 = float(bm25_k1)
+        self.bm25_b = float(bm25_b)
 
         # load inverted trie from disk
+        print(f"  [1/7] Loading PatriciaTrie from {trie_path}...")
         self.trie = PatriciaTrie(filepath=trie_path)
         self.trie.load()
+        print(f"  [1/7] ✓ Trie loaded: {len(self.trie.root.children)} root nodes")
 
         # load tokenized documents and co-occurrence index (cache or build)
+        print(f"  [2/7] Loading tokenized documents from {dataset_path}...")
         self.doc_tokens_by_id = self.load_tokenized_documents(dataset_path)
+        print(f"  [2/7] ✓ Loaded {len(self.doc_tokens_by_id)} documents")
+        
         # load full dataset records (used for API responses and snippets)
+        print(f"  [3/7] Loading full document records...")
         self.records: Dict[int, Dict] = self.load_full_documents(dataset_path)
+        print(f"  [3/7] ✓ Loaded {len(self.records)} full records")
+        
+        print(f"  [4/7] Loading/building co-occurrence index...")
         self.cooc = self._load_or_build_cooc(force_rebuild=force_rebuild_cooc)
+        print(f"  [4/7] ✓ Co-occurrence index ready")
 
         # initialize GVSM model and compute idf
+        print(f"  [5/7] Initializing GeneralizedVectorSpaceModel...")
         self.model = GeneralizedVectorSpaceModel(
             cooc_index=self.cooc,
             use_cosine=use_cosine,
         )
+        
+        print(f"  [6/7] Computing IDF scores...")
         self.model.compute_idf()
+        print(f"  [6/7] ✓ IDF computed")
 
         # precompute document vectors for scoring
+        print(f"  [7/7] Precomputing document vectors for {len(self.doc_tokens_by_id)} docs...")
         self.doc_vectors: Dict[int, Dict[str, float]] = {}
         for doc_id, doc_tokens in self.doc_tokens_by_id.items():
             doc_vector = self.model.get_document_vector(doc_tokens)
             if doc_vector:
                 self.doc_vectors[doc_id] = doc_vector
+        print(f"  [7/7] ✓ Precomputed {len(self.doc_vectors)} document vectors")
+        # Build BM25 lexical index structures for lexical scoring
+        print("  [8/8] Building BM25 lexical index...")
+        self._build_bm25_index()
+        print("  [8/8] ✓ BM25 index ready")
+        print("[init] ✓ GVSMSearchEngine fully initialized")
 
     def load_tokenized_documents(self, dataset_path: str = DEFAULT_DATASET_PATH) -> Dict[int, List[str]]:
         """Load doc_id->tokens using the same tokenization as the Index."""
@@ -161,26 +193,133 @@ class GVSMSearchEngine:
 
         return max(1, min(min_match, unique_count))
 
+    def _build_bm25_index(self) -> None:
+        """Precompute term frequencies, document lengths and IDF values for BM25.
+
+        We treat title tokens with higher weight by keeping a separate title TF map
+        and combining them at scoring time with `self.title_weight`.
+        """
+        # term -> document frequency (number of docs containing term)
+        self.term_doc_freq: Dict[str, int] = {}
+        # per-doc term frequencies for body and title
+        self.doc_tf_body: Dict[int, Counter] = {}
+        self.doc_tf_title: Dict[int, Counter] = {}
+        # per-doc length (body only) and avgdl
+        self.doc_len: Dict[int, int] = {}
+
+        N = 0
+        for doc_id, tokens in self.doc_tokens_by_id.items():
+            N += 1
+            tf_body = Counter(tokens)
+            self.doc_tf_body[doc_id] = tf_body
+            self.doc_len[doc_id] = sum(tf_body.values())
+
+            # title tokens
+            title = (self.records.get(doc_id, {}).get("title") or "")
+            title_tokens = Index.tokenize(title)
+            tf_title = Counter(title_tokens)
+            self.doc_tf_title[doc_id] = tf_title
+
+        # compute document frequencies
+        df: Dict[str, int] = {}
+        for doc_id in self.doc_tf_body:
+            unique_terms = set(self.doc_tf_body[doc_id].keys()) | set(self.doc_tf_title[doc_id].keys())
+            for t in unique_terms:
+                df[t] = df.get(t, 0) + 1
+
+        self.term_doc_freq = df
+        self.N = max(1, N)
+        # average document length (body only)
+        total_len = sum(self.doc_len.values()) if self.doc_len else 0
+        self.avgdl = (total_len / self.N) if self.N else 0.0
+
+        # precompute idf with BM25's common formula
+        self.idf: Dict[str, float] = {}
+        for term, freq in self.term_doc_freq.items():
+            # BM25 idf: log((N - n + 0.5) / (n + 0.5) + 1)
+            n = freq
+            self.idf[term] = math.log((self.N - n + 0.5) / (n + 0.5) + 1.0)
+
+    def _bm25_score(self, query_terms: List[str], doc_id: int) -> float:
+        """Compute BM25 score for `doc_id` given tokenized `query_terms`.
+
+        Title tokens are weighted by `self.title_weight`.
+        """
+        if not query_terms:
+            return 0.0
+
+        tf_body = self.doc_tf_body.get(doc_id, Counter())
+        tf_title = self.doc_tf_title.get(doc_id, Counter())
+        dl = float(self.doc_len.get(doc_id, 0))
+
+        score = 0.0
+        for term in query_terms:
+            # effective term frequency: body + title_weight * title
+            f = tf_body.get(term, 0) + self.title_weight * tf_title.get(term, 0)
+            if f <= 0:
+                continue
+            idf = self.idf.get(term, 0.0)
+            denom = f + self.bm25_k1 * (1.0 - self.bm25_b + self.bm25_b * (dl / (self.avgdl or 1.0)))
+            score += idf * (f * (self.bm25_k1 + 1.0)) / denom
+
+        return float(score)
+
     def rank_candidates(
         self,
         query_vec: Dict[str, float],
         candidate_doc_ids: List[int],
+        query_terms: Optional[List[str]] = None,
         top_k: int = 20,
     ) -> List[Tuple[int, float]]:
-        """Re-rank candidate doc ids using GVSM and return top_k results."""
-        results: List[Tuple[int, float]] = []
+        """Re-rank candidate doc ids by fusing GVSM (semantic) and BM25 (lexical).
+
+        Both scores are normalized across the candidate set to [0,1] before
+        applying the linear combination with `self.alpha`.
+        """
+        if query_terms is None:
+            query_terms = list(query_vec.keys()) if query_vec else []
+
+        # filter out doc ids that point to empty records (no title, no text, no url)
+        filtered_candidates: List[int] = []
         for doc_id in candidate_doc_ids:
+            rec = self.records.get(doc_id, {})
+            title = (rec.get("title") or "").strip()
+            text = (rec.get("text") or "").strip()
+            url = (rec.get("url") or "").strip()
+            if title or text or url:
+                filtered_candidates.append(doc_id)
+
+        candidate_doc_ids = filtered_candidates
+
+        sem_scores: Dict[int, float] = {}
+        lex_scores: Dict[int, float] = {}
+
+        # compute raw scores
+        for doc_id in candidate_doc_ids:
+            # semantic score (GVSM)
             doc_vec = self.doc_vectors.get(doc_id)
-            if not doc_vec:
-                continue
+            sem = 0.0
+            if doc_vec and query_vec:
+                sem = float(self.model.similarity(query_vec, doc_vec) or 0.0)
+            sem_scores[doc_id] = sem
 
-            # score each candidate and collect positive scores
-            score = self.model.similarity(query_vec, doc_vec)
-            if score > 0.0:
-                results.append((doc_id, score))
+            # lexical score (BM25) - always computable if doc present in index
+            lex = self._bm25_score(query_terms, doc_id)
+            lex_scores[doc_id] = lex
 
-        results.sort(key=lambda pair: pair[1], reverse=True)
-        return results[:top_k]
+        # normalization: map to [0,1] dividing by max (avoid division by zero)
+        max_sem = max(sem_scores.values()) if sem_scores else 0.0
+        max_lex = max(lex_scores.values()) if lex_scores else 0.0
+
+        combined: List[Tuple[int, float]] = []
+        for doc_id in candidate_doc_ids:
+            sem_norm = (sem_scores.get(doc_id, 0.0) / max_sem) if max_sem > 0 else 0.0
+            lex_norm = (lex_scores.get(doc_id, 0.0) / max_lex) if max_lex > 0 else 0.0
+            final = self.alpha * sem_norm + (1.0 - self.alpha) * lex_norm
+            combined.append((doc_id, float(final)))
+
+        combined.sort(key=lambda pair: pair[1], reverse=True)
+        return combined[:top_k]
 
     def search(
         self,
@@ -214,8 +353,15 @@ class GVSMSearchEngine:
 
         query_vec = self.model.get_query_vector(query)
         if not query_vec:
-            return []
-        return self.rank_candidates(query_vec, candidate_doc_ids, top_k)
+            # still allow BM25-only fallback: build query vec empty but compute lexical ranks
+            # represent query_terms explicitly
+            query_terms = Index.tokenize(query)
+            # compute BM25-only ranking
+            return self.rank_candidates({}, candidate_doc_ids, query_terms, top_k)
+
+        # pass tokenized query terms into ranking for BM25
+        query_terms = Index.tokenize(query)
+        return self.rank_candidates(query_vec, candidate_doc_ids, query_terms, top_k)
 
 
 def _guess_file_type(record: Dict) -> str:
@@ -244,10 +390,14 @@ def _make_api_app(engine: GVSMSearchEngine):
     if Flask is None:
         return None
 
+    print("[init] Creating Flask app")
     app = Flask(__name__)
+
+    print("[init] Initializing RAGPipeline")
     rag = RAGPipeline(engine)
-    
+
     # Initialize web search pipeline for fallback
+    print("[init] Initializing WebSearchPipeline")
     web_search_config = WebSearchConfig()
     web_search_pipeline = WebSearchPipeline(web_search_config)
 
@@ -265,11 +415,16 @@ def _make_api_app(engine: GVSMSearchEngine):
         except ValueError:
             top_k = 40
 
+        print(f"[/search] Query: {q[:50]}... | top_k={top_k}")
+
         if not q:
+            print("[/search] Empty query, returning empty results")
             return jsonify({"query": q, "total": 0, "results": []})
 
         # primary ranked results from GVSM
+        print("[/search] Calling engine.search()")
         ranked = engine.search(query=q, top_k=top_k)
+        print(f"[/search] ✓ Got {len(ranked)} results from GVSM")
         qlow = q.lower()
 
         # Candidate map: doc_id -> payload with score and stable tie-breakers
@@ -279,6 +434,13 @@ def _make_api_app(engine: GVSMSearchEngine):
             rec = engine.records.get(doc_id)
             if not rec:
                 continue
+            # skip documents that are essentially empty (no title, no text, no url)
+            title = (rec.get("title") or "").strip()
+            text = (rec.get("text") or "").strip()
+            url = (rec.get("url") or "").strip()
+            if not (title or text or url):
+                continue
+
             candidates[doc_id] = {
                 "record": rec,
                 "score": float(score),
@@ -287,11 +449,15 @@ def _make_api_app(engine: GVSMSearchEngine):
             }
 
         # lightweight substring boost: scan titles/text for query matches
+        # lightweight substring boost: scan titles/text for query matches
         for doc_id, rec in engine.records.items():
             if doc_id in candidates:
                 continue
             title = (rec.get("title") or "").lower()
             text = (rec.get("text") or "").lower()
+            # skip empty records
+            if not (title or text or (rec.get("url") or "")):
+                continue
             if qlow in title or qlow in text:
                 candidates[doc_id] = {
                     "record": rec,
@@ -305,17 +471,26 @@ def _make_api_app(engine: GVSMSearchEngine):
         local_count = len(ranked)
         web_search_used = False
 
+        print("[/search] Activating web_search_pipeline.search_with_fallback()")
         web_records = web_search_pipeline.search_with_fallback(
             query=q,
             local_results_count=local_count,
             avg_score=avg_score,
         )
+        print(f"[/search] ✓ Web search returned {len(web_records) if web_records else 0} records")
         if web_records:
             web_search_used = True
             for rec in web_records:
                 doc_id = rec.get("doc_id")
                 if not doc_id:
                     continue
+                # skip web results that are empty
+                title = (rec.get("title") or "").strip()
+                text = (rec.get("text") or "").strip()
+                url = (rec.get("url") or "").strip()
+                if not (title or text or url):
+                    continue
+
                 engine.records[doc_id] = rec
                 web_score = float(rec.get("score_hint", 0.5))
                 source_rank = int(rec.get("web_rank", 10_000))
@@ -388,15 +563,20 @@ def _make_api_app(engine: GVSMSearchEngine):
         except ValueError:
             max_chars = 1200
 
+        print(f"[/rag] Query: {q[:50]}... | top_k={top_k} max_chars={max_chars}")
+
         if not q:
+            print("[/rag] Empty query, returning empty response")
             return jsonify({"query": q, "answer": "", "sources": [], "contexts": [], "total_sources": 0})
 
+        print("[/rag] Calling rag.answer()...")
         payload = rag.answer(
             query=q,
             top_k=top_k,
             max_sentences=max_sentences,
             max_chars=max_chars,
         )
+        print(f"[/rag] ✓ Completed: answer_len={len(payload.get('answer') or '')} sources={len(payload.get('sources') or [])}")
         return jsonify(payload)
 
     return app
@@ -405,12 +585,50 @@ def _make_api_app(engine: GVSMSearchEngine):
 if __name__ == "__main__":
     # allow running as: python main.py serve  -> start HTTP API
     if len(sys.argv) > 1 and sys.argv[1] == "serve":
-        print("Inicializando motor y servidor API...")
-        engine = GVSMSearchEngine()
-        app = _make_api_app(engine)
-        if app is None:
-            print("Flask no está disponible. Instala Flask para usar la API (pip install flask)")
+        print("=" * 70)
+        print("Inicializando Sistema de Recuperación de Información")
+        print("=" * 70)
+        print()
+        
+        print("[startup] Creando GVSMSearchEngine...")
+        try:
+            engine = GVSMSearchEngine()
+        except Exception as e:
+            print(f"[ERROR] GVSMSearchEngine falló: {e}")
+            import traceback
+            traceback.print_exc()
             sys.exit(1)
-        app.run(host="127.0.0.1", port=5000, debug=False)
+        
+        print()
+        print("[startup] Creando Flask app...")
+        try:
+            app = _make_api_app(engine)
+        except Exception as e:
+            print(f"[ERROR] Flask app falló: {e}")
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
+        
+        if app is None:
+            print("[ERROR] Flask no está disponible. Instala: pip install flask")
+            sys.exit(1)
+        
+        print()
+        print("=" * 70)
+        print("✓ Sistema inicializado correctamente")
+        print("=" * 70)
+        print()
+        print("🚀 Iniciando servidor en http://127.0.0.1:5000")
+        print("   Endpoint /search - para búsqueda GVSM")
+        print("   Endpoint /rag    - para generación RAG")
+        print()
+        print("Presiona CTRL+C para salir")
+        print()
+        
+        try:
+            app.run(host="127.0.0.1", port=5000, debug=False)
+        except KeyboardInterrupt:
+            print("\n\n[shutdown] Servidor detenido por el usuario")
+            sys.exit(0)
     else:
-        print("ERROR!")
+        print("ERROR! Uso: python3 scripts/main.py serve")
