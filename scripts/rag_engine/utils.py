@@ -1,5 +1,6 @@
 """Utility functions for RAG engine."""
 
+import re
 from typing import Dict, List, Set
 
 
@@ -21,12 +22,22 @@ def build_rag_prompt(query: str, documents: List[Dict[str, object]]) -> str:
     doc_context = "Documents Retrieved:\n"
     doc_context += "-" * 50 + "\n"
     
+    def _clean_text(s: str) -> str:
+        if not s:
+            return ""
+        # remove simple HTML tags and excessive whitespace
+        s = re.sub(r"<[^>]+>", " ", s)
+        s = re.sub(r"\s+", " ", s).strip()
+        return s
+
     for i, doc in enumerate(documents, 1):
-        title = doc.get("title", "(sin título)")
-        url = doc.get("url", "")
-        snippet = doc.get("snippet", "")
+        title = (doc.get("title") or "(sin título)")
+        url = doc.get("url") or ""
+        # prefer explicit snippet, otherwise use full text
+        raw_snip = doc.get("snippet") or doc.get("text") or ""
+        snippet = _clean_text(str(raw_snip))[:1000]
         doc_id = doc.get("doc_id", "?")
-        
+
         doc_context += f"\n[Document {i} - ID: {doc_id}]\n"
         doc_context += f"Title: {title}\n"
         if url:
@@ -47,6 +58,10 @@ Instructions:
 3. If information is not in the documents, say so clearly
 4. Provide a balanced, informative answer between 300-1200 characters
 5. Write in the same language as the query
+
+Output format requirement:
+- On the very first line of your response, output a single JSON object with a boolean key "sufficient" indicating whether the provided documents are sufficient to answer the query (true or false). Example: {"sufficient": false}
+- After that JSON line, provide a blank line, then the human-readable answer text.
 
 Answer:"""
     

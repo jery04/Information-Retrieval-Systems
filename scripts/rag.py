@@ -87,6 +87,7 @@ class RAGPipeline:
         top_k: int = 5,
         max_sentences: Optional[int] = None,
         max_chars: Optional[int] = None,
+        web_search_pipeline: Optional[object] = None,
     ) -> Dict[str, object]:
         """
         Retrieve documents and generate an enriched answer using Cerebras LLM.
@@ -113,13 +114,51 @@ class RAGPipeline:
                 "total_sources": 0,
             }
 
-        # Generate answer with Cerebras LLM (or fallback)
-        answer, used_doc_ids = self.generator.generate(
+        # Generate answer with Cerebras LLM (or fallback). Generator may also
+        # return a 'sufficient' boolean indicating whether the documents were
+        # adequate to answer the query.
+        answer, used_doc_ids, sufficient = self.generator.generate(
             query=query,
             documents=documents,
             max_sentences=max_sentences,
             max_chars=max_chars,
         )
+
+        web_search_used = False
+
+        # If LLM indicated documents are insufficient and we have a web search
+        # pipeline available, run web search, ingest results and retry once.
+        if not sufficient and web_search_pipeline is not None:
+            try:
+                web_records = web_search_pipeline.search_and_index(query)
+            except Exception:
+                web_records = []
+
+            if web_records:
+                web_search_used = True
+                # ingest new records into the retriever (engine) so next pass sees them
+                try:
+                    if hasattr(self.retriever, "ingest_records"):
+                        self.retriever.ingest_records(web_records)
+                    else:
+                        # best-effort: add to retriever.records if present
+                        for rec in web_records:
+                            try:
+                                did = int(rec.get("doc_id"))
+                            except Exception:
+                                continue
+                            self.retriever.records[did] = rec
+                except Exception:
+                    pass
+
+                # Re-run retrieval and generation once
+                documents = self.retrieve(query=query, top_k=top_k)
+                answer, used_doc_ids, _ = self.generator.generate(
+                    query=query,
+                    documents=documents,
+                    max_sentences=max_sentences,
+                    max_chars=max_chars,
+                )
 
         used_set = set(used_doc_ids)
         
@@ -152,6 +191,7 @@ class RAGPipeline:
             "sources": sources,
             "contexts": contexts,
             "total_sources": len(sources),
+            "web_search_used": web_search_used,
         }
 
     @staticmethod

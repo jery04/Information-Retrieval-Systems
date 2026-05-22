@@ -7,6 +7,7 @@ from .config import RAGConfig
 from .cerebras_client import CerebrasClient
 from .fallback_generator import ImprovedRAGGenerator
 from .utils import build_rag_prompt, extract_used_doc_ids, truncate_answer
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +61,7 @@ class CerebrasRAGGenerator:
         documents: List[Dict[str, object]],
         max_sentences: Optional[int] = None,
         max_chars: Optional[int] = None,
-    ) -> Tuple[str, List[int]]:
+    ) -> Tuple[str, List[int], bool]:
         """
         Generate an enriched answer using Cerebras LLM.
         
@@ -84,10 +85,10 @@ class CerebrasRAGGenerator:
         # Try LLM generation
         if self.cerebras_client:
             logger.info(f"Generating answer via Cerebras for query: {query[:50]}...")
-            answer, used_ids = self._generate_with_llm(query, documents, char_budget)
-            
+            answer, used_ids, sufficient = self._generate_with_llm(query, documents, char_budget)
+
             if answer:
-                return answer, used_ids
+                return answer, used_ids, sufficient
             
             # LLM failed, try fallback
             logger.info("LLM generation failed, attempting fallback...")
@@ -101,7 +102,8 @@ class CerebrasRAGGenerator:
                 max_sentences=6,
                 max_chars=char_budget,
             )
-            return answer, used_ids
+            # fallback generator cannot reliably signal sufficiency; assume True
+            return answer, used_ids, True
         
         # No fallback available
         logger.error("No generation method available")
@@ -127,13 +129,28 @@ class CerebrasRAGGenerator:
         try:
             # Build prompt
             prompt = build_rag_prompt(query, documents)
-            
+
             # Generate with Cerebras
             answer, success = self.cerebras_client.generate(prompt)
-            
+
             if not success or not answer:
                 logger.warning("Cerebras generation was not successful")
-                return "", []
+                return "", [], False
+
+            # Attempt to parse a leading JSON sufficiency marker on the first line
+            sufficient = True
+            try:
+                first_line = answer.splitlines()[0].strip() if answer.splitlines() else ""
+                if first_line.startswith("{") and first_line.endswith("}"):
+                    parsed = json.loads(first_line)
+                    if isinstance(parsed, dict) and "sufficient" in parsed:
+                        sufficient = bool(parsed.get("sufficient"))
+                        # remove the JSON line from the answer body
+                        rest = "\n".join(answer.splitlines()[1:]).lstrip()
+                        answer = rest
+            except Exception:
+                # If parsing fails, assume LLM did not provide the marker and keep going
+                sufficient = True
             
             # Truncate to budget
             answer = truncate_answer(answer, max_chars)
@@ -144,9 +161,9 @@ class CerebrasRAGGenerator:
             
             used_ids = extract_used_doc_ids(answer, doc_titles, doc_ids)
             
-            logger.info(f"Generated answer using {len(used_ids)} sources")
-            return answer, used_ids
+            logger.info(f"Generated answer using {len(used_ids)} sources; sufficient={sufficient}")
+            return answer, used_ids, sufficient
         
         except Exception as e:
             logger.error(f"Error during LLM generation: {e}", exc_info=True)
-            return "", []
+            return "", [], False

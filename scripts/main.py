@@ -15,6 +15,7 @@ from engine import (                # Imports core IR components from the engine
     CoOccurrenceIndex,              # Co-occurrence index for term-term statistics
     GeneralizedVectorSpaceModel,    # GVSM model for similarity with term correlations
 )
+from chroma_store import ChromaVectorStore
 from indexer import Index, PatriciaTrie   # Local indexing utilities: tokenizer and PatriciaTrie structure
 from rag import RAGPipeline
 from web_search import WebSearchPipeline, WebSearchConfig  # Web search fallback module
@@ -24,10 +25,13 @@ try:
     from flask import Flask, request, jsonify
 except Exception:
     Flask = None
-# Default paths for data files
-DEFAULT_DATASET_PATH = os.path.join("data", "extracted", "webpages", "webpages.jsonl")
-DEFAULT_TRIE_PATH = os.path.join("data", "processed", "inverted_index_trie.json")
-DEFAULT_COOC_PATH = os.path.join("data", "processed", "cooccurrence_index.json")
+# Resolve repository root (scripts/ is one level under repo root) and use absolute paths
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+# Default paths for data files (absolute, repo-root relative)
+DEFAULT_DATASET_PATH = os.path.join(REPO_ROOT, "data", "extracted", "webpages", "webpages.jsonl")
+DEFAULT_TRIE_PATH = os.path.join(REPO_ROOT, "data", "processed", "inverted_index_trie.json")
+DEFAULT_COOC_PATH = os.path.join(REPO_ROOT, "data", "processed", "cooccurrence_index.json")
 
 class GVSMSearchEngine:
     """Full pipeline: Trie candidate retrieval plus GVSM re-ranking."""
@@ -41,10 +45,11 @@ class GVSMSearchEngine:
         use_cosine: bool = True,
         force_rebuild_cooc: bool = False,
         # Fusion parameters for semantic+lexical scoring
-        alpha: float = 0.5,
+        alpha: float = 0.6,
         title_weight: float = 2.0,
-        bm25_k1: float = 1.5,
+        bm25_k1: float = 1.2,
         bm25_b: float = 0.75,
+        chroma_weight: float = 0.75,
     ):
         """Initialize engine: load trie, documents, and co-occurrence index."""
         self.dataset_path = dataset_path
@@ -56,6 +61,7 @@ class GVSMSearchEngine:
         self.title_weight = float(title_weight)
         self.bm25_k1 = float(bm25_k1)
         self.bm25_b = float(bm25_b)
+        self.chroma_weight = float(chroma_weight)
 
         # load inverted trie from disk
         print(f"  [1/7] Loading PatriciaTrie from {trie_path}...")
@@ -100,6 +106,16 @@ class GVSMSearchEngine:
         print("  [8/8] Building BM25 lexical index...")
         self._build_bm25_index()
         print("  [8/8] ✓ BM25 index ready")
+        print("  [9/9] Building Chroma vector index...")
+        self.chroma_store = ChromaVectorStore(
+            persist_directory=os.path.join(REPO_ROOT, "data", "processed", "chroma_db"),
+            collection_name="webpages",
+        )
+        if self.chroma_store.enabled:
+            chroma_count = self.chroma_store.upsert_documents(self.records)
+            print(f"  [9/9] ✓ Chroma index ready ({chroma_count} documents upserted)")
+        else:
+            print("  [9/9] ⚠ ChromaDB no está disponible; se omite la capa vectorial")
         print("[init] ✓ GVSMSearchEngine fully initialized")
 
     def load_tokenized_documents(self, dataset_path: str = DEFAULT_DATASET_PATH) -> Dict[int, List[str]]:
@@ -269,6 +285,7 @@ class GVSMSearchEngine:
         query_vec: Dict[str, float],
         candidate_doc_ids: List[int],
         query_terms: Optional[List[str]] = None,
+        chroma_scores: Optional[Dict[int, float]] = None,
         top_k: int = 20,
     ) -> List[Tuple[int, float]]:
         """Re-rank candidate doc ids by fusing GVSM (semantic) and BM25 (lexical).
@@ -278,6 +295,8 @@ class GVSMSearchEngine:
         """
         if query_terms is None:
             query_terms = list(query_vec.keys()) if query_vec else []
+        if chroma_scores is None:
+            chroma_scores = {}
 
         # filter out doc ids that point to empty records (no title, no text, no url)
         filtered_candidates: List[int] = []
@@ -310,12 +329,15 @@ class GVSMSearchEngine:
         # normalization: map to [0,1] dividing by max (avoid division by zero)
         max_sem = max(sem_scores.values()) if sem_scores else 0.0
         max_lex = max(lex_scores.values()) if lex_scores else 0.0
+        max_chroma = max(chroma_scores.values()) if chroma_scores else 0.0
 
         combined: List[Tuple[int, float]] = []
         for doc_id in candidate_doc_ids:
             sem_norm = (sem_scores.get(doc_id, 0.0) / max_sem) if max_sem > 0 else 0.0
             lex_norm = (lex_scores.get(doc_id, 0.0) / max_lex) if max_lex > 0 else 0.0
-            final = self.alpha * sem_norm + (1.0 - self.alpha) * lex_norm
+            base = self.alpha * sem_norm + (1.0 - self.alpha) * lex_norm
+            chroma_norm = (chroma_scores.get(doc_id, 0.0) / max_chroma) if max_chroma > 0 else 0.0
+            final = (1.0 - self.chroma_weight) * base + self.chroma_weight * chroma_norm
             combined.append((doc_id, float(final)))
 
         combined.sort(key=lambda pair: pair[1], reverse=True)
@@ -340,6 +362,15 @@ class GVSMSearchEngine:
             max_candidates=max_candidates,
         )
 
+        chroma_hits: List[Tuple[int, float]] = []
+        if getattr(self, "chroma_store", None) and self.chroma_store.enabled:
+            chroma_hits = self.chroma_store.search(query, top_k=max_candidates)
+        chroma_scores = {doc_id: score for doc_id, score in chroma_hits}
+
+        # combine trie and Chroma candidates (union)
+        if chroma_hits:
+            candidate_doc_ids = list(dict.fromkeys(candidate_doc_ids + [doc_id for doc_id, _ in chroma_hits]))
+
         # if strict matching yields no candidates, relax requirement
         if not candidate_doc_ids and resolved_min_match > 1:
             candidate_doc_ids = self.trie.get_parcial_AND(
@@ -348,8 +379,11 @@ class GVSMSearchEngine:
                 max_candidates=max_candidates,
             )
 
+            if chroma_hits:
+                candidate_doc_ids = list(dict.fromkeys(candidate_doc_ids + [doc_id for doc_id, _ in chroma_hits]))
+
         if not candidate_doc_ids:
-            return []
+            return chroma_hits[:top_k] if chroma_hits else []
 
         query_vec = self.model.get_query_vector(query)
         if not query_vec:
@@ -357,11 +391,71 @@ class GVSMSearchEngine:
             # represent query_terms explicitly
             query_terms = Index.tokenize(query)
             # compute BM25-only ranking
-            return self.rank_candidates({}, candidate_doc_ids, query_terms, top_k)
+            return self.rank_candidates({}, candidate_doc_ids, query_terms, chroma_scores, top_k)
 
         # pass tokenized query terms into ranking for BM25
         query_terms = Index.tokenize(query)
-        return self.rank_candidates(query_vec, candidate_doc_ids, query_terms, top_k)
+        return self.rank_candidates(query_vec, candidate_doc_ids, query_terms, chroma_scores, top_k)
+
+    def ingest_records(self, records: List[dict]) -> int:
+        """Ingest externally fetched records (e.g., from web search) into the engine.
+
+        This updates `self.records`, token lists, GVSM vectors, and BM25 structures.
+        It will also upsert to the Chroma store when enabled.
+        Returns number of records ingested.
+        """
+        count = 0
+        for rec in records:
+            try:
+                doc_id = int(rec.get("doc_id"))
+            except Exception:
+                continue
+
+            # basic sanity checks
+            title = (rec.get("title") or "").strip()
+            text = (rec.get("text") or "").strip()
+            url = (rec.get("url") or "").strip()
+            if not (title or text or url):
+                continue
+
+            # store record
+            self.records[doc_id] = rec
+
+            # tokenize and add
+            tokens = Index.tokenize(text)
+            self.doc_tokens_by_id[doc_id] = tokens
+
+            # compute and store document vector
+            try:
+                doc_vector = self.model.get_document_vector(tokens)
+                if doc_vector:
+                    self.doc_vectors[doc_id] = doc_vector
+            except Exception:
+                pass
+
+            count += 1
+
+        if count > 0:
+            # recompute idf/bm25 structures conservatively
+            try:
+                self.model.compute_idf()
+            except Exception:
+                pass
+            try:
+                self._build_bm25_index()
+            except Exception:
+                pass
+
+            # upsert into Chroma if available
+            try:
+                if getattr(self, "chroma_store", None) and self.chroma_store.enabled:
+                    # prepare mapping of new records
+                    rec_map = {int(r.get("doc_id")): r for r in records if r.get("doc_id")}
+                    self.chroma_store.upsert_documents(rec_map)
+            except Exception:
+                pass
+
+        return count
 
 
 def _guess_file_type(record: Dict) -> str:
@@ -575,6 +669,7 @@ def _make_api_app(engine: GVSMSearchEngine):
             top_k=top_k,
             max_sentences=max_sentences,
             max_chars=max_chars,
+            web_search_pipeline=web_search_pipeline,
         )
         print(f"[/rag] ✓ Completed: answer_len={len(payload.get('answer') or '')} sources={len(payload.get('sources') or [])}")
         return jsonify(payload)
