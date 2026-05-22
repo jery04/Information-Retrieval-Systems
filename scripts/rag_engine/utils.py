@@ -1,7 +1,8 @@
 """Utility functions for RAG engine."""
 
+import json
 import re
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 
 
 def build_rag_prompt(query: str, documents: List[Dict[str, object]]) -> str:
@@ -16,11 +17,16 @@ def build_rag_prompt(query: str, documents: List[Dict[str, object]]) -> str:
         Formatted prompt string
     """
     if not documents:
-        return f"User query: {query}\n\nNo documents available."
-    
-    # Build document context
-    doc_context = "Documents Retrieved:\n"
+        return f"Consulta del usuario: {query}\n\nNo hay documentos disponibles."
+
+    # Build document context with a total budget so the prompt does not grow
+    # unbounded when many long documents are retrieved.
+    doc_context = "Documentos recuperados:\n"
     doc_context += "-" * 50 + "\n"
+    total_budget = 2400
+    overhead_budget = 600
+    usable_budget = max(800, total_budget - overhead_budget)
+    per_doc_budget = max(160, usable_budget // max(1, len(documents)))
     
     def _clean_text(s: str) -> str:
         if not s:
@@ -30,12 +36,21 @@ def build_rag_prompt(query: str, documents: List[Dict[str, object]]) -> str:
         s = re.sub(r"\s+", " ", s).strip()
         return s
 
+    def _truncate_to_budget(text: str, max_chars: int) -> str:
+        if len(text) <= max_chars:
+            return text
+        clipped = text[:max_chars]
+        last_space = clipped.rfind(" ")
+        if last_space > max_chars * 0.7:
+            clipped = clipped[:last_space]
+        return clipped.strip()
+
     for i, doc in enumerate(documents, 1):
         title = (doc.get("title") or "(sin título)")
         url = doc.get("url") or ""
         # prefer explicit snippet, otherwise use full text
         raw_snip = doc.get("snippet") or doc.get("text") or ""
-        snippet = _clean_text(str(raw_snip))[:1000]
+        snippet = _truncate_to_budget(_clean_text(str(raw_snip)), per_doc_budget)
         doc_id = doc.get("doc_id", "?")
 
         doc_context += f"\n[Document {i} - ID: {doc_id}]\n"
@@ -45,27 +60,54 @@ def build_rag_prompt(query: str, documents: List[Dict[str, object]]) -> str:
         doc_context += f"Content: {snippet}\n"
         doc_context += "-" * 50 + "\n"
     
-    # Build main prompt
-    prompt = f"""You are a helpful AI assistant answering user queries using provided documents.
+    # Build main prompt in Spanish to reduce instruction-language mixing.
+    prompt = f"""Eres un asistente útil que responde usando únicamente los documentos proporcionados.
 
-User Query: {query}
+Consulta del usuario: {query}
 
 {doc_context}
 
-Instructions:
-1. Generate a comprehensive answer that integrates information from the provided documents
-2. Cite implicitly by mentioning information from the documents (you don't need explicit citations)
-3. If information is not in the documents, say so clearly
-4. Provide a balanced, informative answer between 300-1200 characters
-5. Write in the same language as the query
+Instrucciones:
+1. Responde de forma clara y directa usando la información de los documentos.
+2. Si los documentos no alcanzan para responder bien, dilo explícitamente.
+3. No inventes datos ni rellenes con contenido no respaldado por los documentos.
+4. Mantén la respuesta breve y útil, idealmente entre 300 y 1200 caracteres.
+5. Responde en el mismo idioma de la consulta.
 
-Output format requirement:
-- On the very first line of your response, output a single JSON object with a boolean key "sufficient" indicating whether the provided documents are sufficient to answer the query (true or false). Example: {"sufficient": false}
-- After that JSON line, provide a blank line, then the human-readable answer text.
+Formato de salida obligatorio:
+- En la primera línea de tu respuesta, escribe un único objeto JSON con la clave booleana "sufficient" para indicar si los documentos alcanzan para responder la consulta (true o false). Ejemplo: {{"sufficient": false}}
+- Después de esa línea JSON, deja una línea en blanco y luego escribe la respuesta en texto natural.
 
-Answer:"""
+Respuesta:"""
     
     return prompt
+
+
+def parse_sufficient_flag(answer: str) -> Tuple[bool, str]:
+    """Parse a leading JSON sufficiency marker from the model output.
+
+    Returns a tuple of (sufficient, cleaned_answer). If the marker is missing
+    or malformed, defaults to sufficient=True and returns the original answer.
+    """
+    if not answer:
+        return True, ""
+
+    lines = answer.splitlines()
+    if not lines:
+        return True, answer
+
+    first_line = lines[0].strip()
+    if first_line.startswith("{") and first_line.endswith("}"):
+        try:
+            parsed = json.loads(first_line)
+            if isinstance(parsed, dict) and "sufficient" in parsed:
+                sufficient = bool(parsed.get("sufficient"))
+                cleaned = "\n".join(lines[1:]).lstrip()
+                return sufficient, cleaned
+        except Exception:
+            pass
+
+    return True, answer
 
 
 def extract_used_doc_ids(
@@ -76,7 +118,9 @@ def extract_used_doc_ids(
     """
     Attempt to extract which documents were likely used in the LLM response.
     
-    This is a heuristic approach: checks if document titles or key terms appear in the answer.
+    This is a conservative heuristic: it only returns documents with a clear
+    title overlap in the answer. If nothing matches, it returns an empty list
+    instead of guessing the first document.
     
     Args:
         answer: The generated answer from LLM
@@ -105,9 +149,8 @@ def extract_used_doc_ids(
         if matching_words >= min(2, len(title_words)):
             used_ids.add(doc_id)
     
-    # If no documents detected via titles, assume the first one was used (fallback)
-    if not used_ids and document_ids:
-        used_ids.add(document_ids[0])
+    # Do not guess: if nothing matches, return an empty list.
+    # The caller can treat this as "source attribution unavailable".
     
     return sorted(list(used_ids))
 

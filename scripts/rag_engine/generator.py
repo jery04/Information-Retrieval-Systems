@@ -6,8 +6,7 @@ from typing import Dict, List, Optional, Tuple
 from .config import RAGConfig
 from .cerebras_client import CerebrasClient
 from .fallback_generator import ImprovedRAGGenerator
-from .utils import build_rag_prompt, extract_used_doc_ids, truncate_answer
-import json
+from .utils import build_rag_prompt, extract_used_doc_ids, parse_sufficient_flag, truncate_answer
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +79,7 @@ class CerebrasRAGGenerator:
         
         # Handle empty inputs
         if not query or not documents:
-            return "", []
+            return "", [], True
         
         # Try LLM generation
         if self.cerebras_client:
@@ -114,7 +113,7 @@ class CerebrasRAGGenerator:
         query: str,
         documents: List[Dict[str, object]],
         max_chars: int,
-    ) -> Tuple[str, List[int]]:
+    ) -> Tuple[str, List[int], bool]:
         """
         Generate answer using Cerebras LLM.
         
@@ -137,20 +136,7 @@ class CerebrasRAGGenerator:
                 logger.warning("Cerebras generation was not successful")
                 return "", [], False
 
-            # Attempt to parse a leading JSON sufficiency marker on the first line
-            sufficient = True
-            try:
-                first_line = answer.splitlines()[0].strip() if answer.splitlines() else ""
-                if first_line.startswith("{") and first_line.endswith("}"):
-                    parsed = json.loads(first_line)
-                    if isinstance(parsed, dict) and "sufficient" in parsed:
-                        sufficient = bool(parsed.get("sufficient"))
-                        # remove the JSON line from the answer body
-                        rest = "\n".join(answer.splitlines()[1:]).lstrip()
-                        answer = rest
-            except Exception:
-                # If parsing fails, assume LLM did not provide the marker and keep going
-                sufficient = True
+            sufficient, answer = parse_sufficient_flag(answer)
             
             # Truncate to budget
             answer = truncate_answer(answer, max_chars)

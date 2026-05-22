@@ -209,6 +209,28 @@ class GVSMSearchEngine:
 
         return max(1, min(min_match, unique_count))
 
+    def _record_has_lexical_match(self, record: Dict, query_terms: List[str]) -> bool:
+        """Return True when the record contains at least one query term.
+
+        This is intentionally lightweight: it checks title, body text and URL,
+        which is enough to block unrelated Chroma-only candidates for short queries.
+        """
+        if not query_terms:
+            return False
+
+        title = (record.get("title") or "")
+        text = (record.get("text") or "")
+        url = (record.get("url") or "")
+
+        title_terms = set(Index.tokenize(title))
+        text_terms = set(Index.tokenize(text))
+        url_low = url.lower()
+
+        for term in set(query_terms):
+            if term in title_terms or term in text_terms or term in url_low:
+                return True
+        return False
+
     def _build_bm25_index(self) -> None:
         """Precompute term frequencies, document lengths and IDF values for BM25.
 
@@ -365,6 +387,12 @@ class GVSMSearchEngine:
         chroma_hits: List[Tuple[int, float]] = []
         if getattr(self, "chroma_store", None) and self.chroma_store.enabled:
             chroma_hits = self.chroma_store.search(query, top_k=max_candidates)
+            if len(query_terms) == 1:
+                chroma_hits = [
+                    (doc_id, score)
+                    for doc_id, score in chroma_hits
+                    if self._record_has_lexical_match(self.records.get(doc_id, {}), query_terms)
+                ]
         chroma_scores = {doc_id: score for doc_id, score in chroma_hits}
 
         # combine trie and Chroma candidates (union)

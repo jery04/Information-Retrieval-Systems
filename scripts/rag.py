@@ -127,11 +127,13 @@ class RAGPipeline:
         web_search_used = False
 
         # If LLM indicated documents are insufficient and we have a web search
-        # pipeline available, run web search, ingest results and retry once.
+        # pipeline available, run web search directly, ingest results and retry once.
         if not sufficient and web_search_pipeline is not None:
+            logger.info("LLM indicated insufficient documents; running web search fallback")
             try:
                 web_records = web_search_pipeline.search_and_index(query)
-            except Exception:
+            except Exception as e:
+                logger.warning(f"Web search failed: {e}")
                 web_records = []
 
             if web_records:
@@ -148,8 +150,8 @@ class RAGPipeline:
                             except Exception:
                                 continue
                             self.retriever.records[did] = rec
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Failed to ingest web records: {e}")
 
                 # Re-run retrieval and generation once
                 documents = self.retrieve(query=query, top_k=top_k)
