@@ -86,10 +86,16 @@ webapp/
     i18n.js
     main.jsx
   .gitignore
+  Dockerfile
   index.html
   package.json
   vite.config.js
+.dockerignore
 .gitignore
+docker-compose.yml
+DOCKER.md
+Dockerfile
+Documentación SRi.pdf
 README.md
 requirements.txt
 </directory_structure>
@@ -1642,6 +1648,21 @@ dist/
 *.local
 </file>
 
+<file path="webapp/Dockerfile">
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+</file>
+
 <file path="webapp/index.html">
 <!doctype html>
 <html lang="es">
@@ -1687,6 +1708,106 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
 });
+</file>
+
+<file path=".dockerignore">
+.venv
+__pycache__/
+*.pyc
+node_modules/
+webapp/node_modules/
+logs/
+.git/
+.DS_Store
+</file>
+
+<file path="docker-compose.yml">
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    restart: unless-stopped
+</file>
+
+<file path="DOCKER.md">
+# Docker Setup
+
+This project runs two services:
+- API server (Flask) on port 5000
+- Web UI (Vite) on port 5173
+
+The required startup order is API first, then the UI.
+
+## Build images
+
+```bash
+docker compose build
+```
+
+## Run API first
+
+```bash
+docker compose up api
+```
+
+Keep that running. In a new terminal, start the UI.
+
+## Run UI after API
+
+```bash
+docker compose up web
+```
+
+## Stop services
+
+```bash
+docker compose down
+```
+
+## Notes
+
+- The API reads/writes data under `data/`, which is mounted into the container.
+- The UI is a dev server that calls `http://localhost:5000`.
+</file>
+
+<file path="Dockerfile">
+FROM python:3.12-slim
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY scripts ./scripts
+COPY data ./data
+
+EXPOSE 5000
+
+CMD ["python", "scripts/main.py", "serve"]
 </file>
 
 <file path="scripts/crawler_engine/__init__.py">
@@ -3546,20 +3667,6 @@ class RAGPipeline:
         return compact[:max_chars].strip()
 </file>
 
-<file path="requirements.txt">
-# Python Dependencies for This Project
-flask>=2.3
-spacy>=3.7,<3.8
-numpy>=1.24
-scipy>=1.10
-file-read-backwards>=3.0
-chromadb>=0.5,<1.0
-
-# spaCy language models (needed by Index.tokenize)
-en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
-es_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.7.0/es_core_news_sm-3.7.0-py3-none-any.whl
-</file>
-
 <file path="scripts/tech_crawler.py">
 """Professional focused tech crawler for JSONL corpus generation.
 
@@ -4257,6 +4364,22 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+</file>
+
+<file path="requirements.txt">
+# Python Dependencies for This Project
+flask>=2.3
+spacy>=3.7,<3.8
+numpy>=1.24
+scipy>=1.10
+file-read-backwards>=3.0
+chromadb>=0.5,<1.0
+posthog>=3.0
+cerebras-cloud-sdk>=1.2.0
+
+# spaCy language models (needed by Index.tokenize)
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
+es_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.7.0/es_core_news_sm-3.7.0-py3-none-any.whl
 </file>
 
 <file path="webapp/src/components/SearchPortal.jsx">
@@ -6683,6 +6806,10 @@ cd webapp
 npm run build
 npm run preview
 ```
+
+## Docker setup 🐳
+
+See the instructions in [DOCKER.md](DOCKER.md).
 
 ## How the retrieval pipeline works (brief) 🔬
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { GlobeIcon, GearIcon, FlagGB, FlagES } from "./icons";
+import { GlobeIcon, FlagGB, FlagES } from "./icons";
 
 function TopNav({ lang, onLanguageChange, copy }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,10 +50,6 @@ function TopNav({ lang, onLanguageChange, copy }) {
           )}
         </div>
 
-        <button className="action-button config-button" aria-label={copy.settings}>
-          <GearIcon />
-          <span className="action-text">{copy.settings}</span>
-        </button>
       </div>
     </header>
   );

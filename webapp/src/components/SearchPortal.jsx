@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import FilterPill from "./FilterPill";
+import { useEffect, useRef, useState } from "react";
 import {
   FileIcon,
   FolderIcon,
@@ -9,14 +8,6 @@ import {
   SearchIcon,
   VideoIcon,
 } from "./icons";
-
-const FILTERS = [
-  { id: "documents", icon: <FolderIcon /> },
-  { id: "images", icon: <ImageIcon /> },
-  { id: "videos", icon: <VideoIcon /> },
-  { id: "pdfs", icon: <PdfIcon /> },
-  { id: "other", icon: <FileIcon /> },
-];
 
 const FILE_TYPE_TO_KEY = {
   PDF: "pdf",
@@ -67,7 +58,6 @@ function SearchPortal({ copy }) {
   const [lastSearchedQuery, setLastSearchedQuery] = useState("");
   const [subtitleIndex, setSubtitleIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
-  const [activeFilters, setActiveFilters] = useState(new Set());
   const [results, setResults] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -75,6 +65,7 @@ function SearchPortal({ copy }) {
   const [ragSources, setRagSources] = useState([]);
   const [ragLoading, setRagLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const inputRef = useRef(null);
   const pageSize = 6;
 
   useEffect(() => {
@@ -153,16 +144,10 @@ function SearchPortal({ copy }) {
     }
   };
 
-  const toggleFilter = (filterId) => {
-    setActiveFilters((prev) => {
-      const next = new Set(prev);
-      if (next.has(filterId)) {
-        next.delete(filterId);
-      } else {
-        next.add(filterId);
-      }
-      return next;
-    });
+  const resizeInput = (element) => {
+    if (!element) return;
+    element.style.height = "0px";
+    element.style.height = `${Math.min(element.scrollHeight, 220)}px`;
   };
 
   return (
@@ -175,12 +160,17 @@ function SearchPortal({ copy }) {
       <form className="search-form" onSubmit={handleSubmit}>
         <SearchIcon />
 
-        <input
-          type="text"
+        <textarea
+          ref={inputRef}
           className="search-input"
           placeholder={copy.searchPlaceholder}
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            resizeInput(event.target);
+          }}
+          onInput={(event) => resizeInput(event.target)}
+          rows={1}
           aria-label={copy.searchInputAria}
         />
 
@@ -188,19 +178,6 @@ function SearchPortal({ copy }) {
           {copy.searchButton}
         </button>
       </form>
-
-      <div className="filters-row" aria-label={copy.filtersAria}>
-        {FILTERS.map((filter) => (
-          <FilterPill
-            key={filter.id}
-            icon={filter.icon}
-            label={copy.filters[filter.id]}
-            ariaLabelPrefix={copy.filterAriaPrefix}
-            active={activeFilters.has(filter.id)}
-            onToggle={() => toggleFilter(filter.id)}
-          />
-        ))}
-      </div>
 
       {loading ? (
         <p className="results-hint">{copy.getSearchingText(query)}</p>

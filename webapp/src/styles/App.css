@@ -201,15 +201,15 @@ body {
 .search-form {
   margin: 28px auto 16px;
   width: min(1080px, 100%);
-  height: clamp(64px, 5.5vw, 98px);
+  min-height: clamp(64px, 5.5vw, 98px);
   border: 2px solid #d8dee5;
   transition: border-color 200ms ease, box-shadow 200ms ease;
-  border-radius: 999px;
+  border-radius: 32px;
   background: #fafcfd;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
-  padding: 0 10px 0 24px;
+  padding: 12px 14px 12px 24px;
 }
 
 /* Cambia el color del borde cuando algún input dentro recibe foco */
@@ -231,6 +231,10 @@ body {
   font-size: clamp(28px, 2.2vw, 40px);
   color: #556357;
   font-weight: 500;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.2;
+  padding: 8px 0 6px;
 }
 
 .search-input::placeholder {
@@ -248,6 +252,7 @@ body {
   border-radius: 999px;
   box-shadow: 0 3px 8px rgba(64, 109, 143, 0.12);
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  align-self: center;
 }
 
 .search-button:hover {
