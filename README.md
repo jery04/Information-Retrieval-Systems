@@ -132,6 +132,10 @@ npm run build
 npm run preview
 ```
 
+## Docker setup 🐳
+
+See the instructions in [DOCKER.md](DOCKER.md).
+
 ## How the retrieval pipeline works (brief) 🔬
 
 1. 📝 Documents are tokenized with the Spanish `spaCy` model (`Index.tokenize()` in `scripts/indexer.py`).
