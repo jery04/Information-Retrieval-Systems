@@ -1,0 +1,2922 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="es">
+
+<head>
+<title>XML Path Language (XPath)</title>
+<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-REC">
+<style type="text/css">code         { font-family: monospace }
+</style>
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+</head>
+
+<body>
+<div align="center" class="barnav">
+ <a href="http://www.sidar.org/" title="P&aacute;gina principal del SIDAR.">Principal</a>&nbsp; | &nbsp; <a href="../../index.php" title="Traducciones del SIDAR.">Otras traducciones</a>
+</div>
+
+<div style="background-color : #ff9900;">
+ <h2><a href="http://www.sidar.org" title="P&aacute;gina principal del SIDAR."><img src="../../../../../graf/logo.gif" name="logotipo de SiD&#64;R" border="0" alt="Logotipo del SIDAR. LLeva a la p&aacute;gina principal." width="118" height="65"></a>&nbsp;Traducciones:</h2> 
+  <p><strong style="text-decoration: underline;">Nota sobre la traducci&oacute;n:</strong></p>
+  <p>Este documento es una traducci&oacute;n al castellano de la&nbsp; <a href="http://www.w3.org/Consortium/Process/#RecsW3C">Recomendaci&oacute;n</a>
+  del W3C:</p>
+  <p>&nbsp;&quot;XML Path Language (XPath) Version 1.0&quot;.</p>
+  <p>En este documento se han corregido los errores de la lista de errores
+  conocidos en la versi&oacute;n inglesa:</p>
+  <p><a href="http://www.w3.org/1999/11/REC-xpath-19991116-errata">http://www.w3.org/1999/11/REC-xpath-19991116-errata</a></p>
+  <p>Sin embargo pueden haberse introducido otros errores, que son de la
+  exclusiva responsabilidad del traductor. Para cualquier comentario dirigirse
+  al autor de la traducci&oacute;n: <a href="mailto:juangodu@teleline.es">Juan G&oacute;mez
+  Duaso</a></p>
+  <p>Esta traducci&oacute;n ha sido publicada el 19 de octubre de 2001.</p>
+  <p>La <strong>&uacute;nica</strong> versi&oacute;n normativa de este documento es la <a href="http://www.w3.org/TR/xpath">versi&oacute;n
+  original en ingl&eacute;s</a> que se encuentra en el sitio web del W3C. <b>Ninguna
+  parte del presente documento en castellano es normativa</b> aunque se
+  especifique lo contrario.</p>
+  <p><a href="http://www.w3.org/Consortium/Legal/ipr-notice.html#Copyright">Copyright</a>
+  &nbsp;&copy;&nbsp; 1999 <a href="http://www.w3.org">W3C</a><sup> &reg;</sup> (<a href="http://www.lcs.mit.edu">MIT</a>,
+  <a href="http://www.inria.fr/">INRIA</a>, <a href="http://www.keio.ac.jp/">Keio</a>),
+  Todos los Derechos Reservados. Son aplicables las reglas del W3C sobre&nbsp; <a href="http://www.w3.org/Consortium/Legal/ipr-notice.html#Legal_Disclaimer">obligaciones</a>,
+  <a href="http://www.w3.org/Consortium/Legal/ipr-notice.html#W3C_Trademarks">marcas
+  registradas</a>, <a href="http://www.w3.org/Consortium/Legal/copyright-documents.html">utilizaci&oacute;n
+  de documentos</a> y <a href="http://www.w3.org/Consortium/Legal/copyright-software.html">licencias
+  de software</a>.</p>
+</div>
+<hr title="Fin nota, sigue traducci&oacute;n.">
+<div class="head">
+  <a href="http://www.w3.org/"><img src="http://www.w3.org/Icons/WWW/w3c_home" alt="W3C" width="72" height="48"></a>
+  <h1>Lenguaje de Caminos XML (XPath)<br>
+  Versi&oacute;n 1.0</h1>
+  <h2>Recomendaci&oacute;n del W3C 16 Noviembre 1999</h2>
+  <dl>
+    <dt>Esta versi&oacute;n:</dt>
+    <dd><a href="http://www.w3.org/TR/1999/REC-xpath-19991116">http://www.w3.org/TR/1999/REC-xpath-19991116</a><br>
+      (disponible en <a href="http://www.w3.org/TR/1999/REC-xpath-19991116.xml">XML</a>
+      o <a href="http://www.w3.org/TR/1999/REC-xpath-19991116.html">HTML</a> )</dd>
+    <dt>&Uacute;ltima versi&oacute;n:</dt>
+    <dd><a href="http://www.w3.org/TR/xpath">http://www.w3.org/TR/xpath</a><br>
+    </dd>
+    <dt>Versiones anteriores:</dt>
+    <dd><a href="http://www.w3.org/TR/1999/PR-xpath-19991008">http://www.w3.org/TR/1999/PR-xpath-19991008</a><br>
+      <a href="http://www.w3.org/1999/08/WD-xpath-19990813">http://www.w3.org/1999/08/WD-xpath-19990813</a><br>
+      <a href="http://www.w3.org/1999/07/WD-xpath-19990709">http://www.w3.org/1999/07/WD-xpath-19990709</a><br>
+      <a href="http://www.w3.org/TR/1999/WD-xslt-19990421">http://www.w3.org/TR/1999/WD-xslt-19990421</a><br>
+    </dd>
+    <dt>Editores:</dt>
+    <dd>James Clark<a href="mailto:jjc@jclark.com">&lt;jjc@jclark.com&gt;</a><br>
+      Steve DeRose (Inso Corp. y Brown University) <a href="mailto:Steven_DeRose@Brown.edu">&lt;Steven_DeRose@Brown.edu&gt;</a><br>
+    </dd>
+  </dl>
+  <p class="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice.html#Copyright">Copyright</a>
+  &nbsp;&copy;&nbsp; 1999 <a href="http://www.w3.org">W3C</a><sup> &reg;</sup> (<a href="http://www.lcs.mit.edu">MIT</a>,
+  <a href="http://www.inria.fr/">INRIA</a>, <a href="http://www.keio.ac.jp/">Keio</a>),
+  Todos los Derechos Reservados. Son aplicables las reglas del W3C sobre&nbsp; <a href="http://www.w3.org/Consortium/Legal/ipr-notice.html#Legal_Disclaimer">obligaciones</a>,
+  <a href="http://www.w3.org/Consortium/Legal/ipr-notice.html#W3C_Trademarks">marcas
+  registradas</a>, <a href="http://www.w3.org/Consortium/Legal/copyright-documents.html">utilizaci&oacute;n
+  de documentos</a> y <a href="http://www.w3.org/Consortium/Legal/copyright-software.html">licencias
+  de software</a>.</p>
+  <hr title="Separator for header">
+</div>
+<h2><a name="abstract">Resumen</a></h2>
+<p>XPath es un lenguaje para direccionar partes de un documento XML, dise&ntilde;ado
+para ser utilizado tanto por XSL como por&nbsp; XPointer.</p>
+<h2><a name="status">Status de este documento</a></h2>
+<p>Este documento ha sido examinado por los miembros del&nbsp; W3C y otras
+partes interesadas y ha sido respaldado por el Director como una <a href="http://www.w3.org/Consortium/Process/#RecsW3C">Recomendaci&oacute;n</a>
+del W3C. Es un documento estable y puede ser usado como material de
+referencia&nbsp; o citado como referencia normativa en otros documentos. El
+papel del W3C al&nbsp; hacer la Recomendaci&oacute;n es atraer la atenci&oacute;n hacia la
+especificaci&oacute;n&nbsp; y promover su&nbsp; general difusi&oacute;n. Esto mejora la
+funcionalidad&nbsp; e interoperabilidad de la Web.</p>
+<p>La lista de errores conocidos en [la versi&oacute;n inglesa de] esta
+especificaci&oacute;n est&aacute; disponible en&nbsp; <a href="http://www.w3.org/1999/11/REC-xpath-19991116-errata">http://www.w3.org/1999/11/REC-xpath-19991116-errata</a>.</p>
+<p>Se pueden enviar comentarios sobre esta especificaci&oacute;n a <a href="mailto:www-xpath-comments@w3.org">www-xpath-comments@w3.org</a>
+; se dispone de <a href="http://lists.w3.org/Archives/Public/www-xpath-comments">archivos</a>
+de los comentarios.</p>
+<p>La versi&oacute;n inglesa de esta especificaci&oacute;n es la &uacute;nica versi&oacute;n normativa.
+Sin embargo, para traducciones de este documento, v&eacute;ase&nbsp; <a href="http://www.w3.org/Style/XSL/translations.html">http://www.w3.org/Style/XSL/translations.html</a>.</p>
+<p>Se puede encontrar una lista actualizada de Recomendaciones del W3C y otros
+documentos t&eacute;cnicos en&nbsp; <a href="http://www.w3.org/TR">http://www.w3.org/TR</a>.</p>
+<p>Esta especificaci&oacute;n es un trabajo conjunto del Grupo de Trabajo de XSL y del
+Grupo de Trabajo de Enlaces XML [XML Linking] y por&nbsp; tanto es parte de
+la&nbsp; <a href="http://www.w3.org/Style/Activity">Actividad&nbsp; de Estilo
+del W3C</a>&nbsp; y de la&nbsp; <a href="http://www.w3.org/XML/Activity">&nbsp;
+Actividad de XML del W3C</a>.</p>
+<h2><a name="contents">Tabla de contenidos</a></h2>
+1 <a href="#section-Introduction">Introducci&oacute;n</a><br>
+2 <a href="#location-paths">Caminos de Localizaci&oacute;n</a><br>
+&nbsp;&nbsp;&nbsp; 2.1 <a href="#section-Location-Steps">Pasos de Localizaci&oacute;n</a><br>
+&nbsp;&nbsp; 2.2 <a href="#axes">Ejes</a><br>
+&nbsp;&nbsp; 2.3 <a href="#node-tests">Pruebas de Nodo</a><br>
+&nbsp;&nbsp; 2.4 <a href="#predicates">Predicados</a><br>
+&nbsp;&nbsp; 2.5 <a href="#path-abbrev">Sintaxis Abreviada</a><br>
+3 <a href="#section-Expressions">Expresiones</a><br>
+&nbsp;&nbsp; 3.1 <a href="#section-Basics">Fundamentos</a><br>
+&nbsp;&nbsp; 3.2 <a href="#section-Function-Calls">Llamadas a funciones</a><br>
+&nbsp;&nbsp; 3.3 <a href="#node-sets">Conjuntos de nodos</a><br>
+&nbsp;&nbsp; 3.4 <a href="#booleans">Booleanos</a><br>
+&nbsp;&nbsp; 3.5 <a href="#numbers">N&uacute;meros</a><br>
+&nbsp;&nbsp; 3.6 <a href="#strings">Cadenas</a><br>
+&nbsp;&nbsp; 3.7 <a href="#exprlex">Estructura L&eacute;xica</a><br>
+4 <a href="#corelib">Biblioteca b&aacute;sica de funciones</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.1 <a href="#section-Node-Set-Functions">Funciones de
+conjuntos de nodos</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.2 <a href="#section-String-Functions">Funciones de
+cadenas</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.3 <a href="#section-Boolean-Functions">Funciones
+booleanas</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.4 <a href="#section-Number-Functions">Funciones
+num&eacute;ricas</a><br>
+5 <a href="#data-model">Modelo de datos</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.1 <a href="#root-node">Nodo ra&iacute;z</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.2 <a href="#element-nodes">Nodos elemento</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.2.1 <a href="#unique-id">Identificadores
+&uacute;nicos</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.3 <a href="#attribute-nodes">Nodos atributo</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.4 <a href="#namespace-nodes">Nodos espacio de nombres</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.5 <a href="#section-Processing-Instruction-Nodes">Nodos
+instrucci&oacute;n de procesamiento</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.6 <a href="#section-Comment-Nodes">Nodos comentario</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.7 <a href="#section-Text-Nodes">Nodos texto</a><br>
+6 <a href="#section-Conformance">Conformidad</a>
+<h3>Ap&eacute;ndices</h3>
+A <a href="#section-References">Referencias</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;A.1 <a href="#section-Normative-References">Referencias
+normativas</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;A.2 <a href="#section-Other-References">Otras
+Referencias</a><br>
+B <a href="#infoset">Correspondencias con el Conjunto de Informaci&oacute;n XML</a>
+(No-Normativo)<br>
+<hr>
+<h2><a name="section-Introduction"></a>1 Introducci&oacute;n</h2>
+<p>XPath es el resultado de un esfuerzo para proporcionar&nbsp; una sintaxis y
+sem&aacute;ntica comunes para&nbsp; funcionalidades compartidas entre XSL
+Transformations <a href="#XSLT">[XSLT]</a> y XPointer <a href="#XPTR">&nbsp;
+[XPointer]</a>.&nbsp; El objetivo principal de&nbsp; XPath es direccionar&nbsp;
+partes de un documento XML <a href="#XML">[XML]</a> .&nbsp; Como soporte
+para&nbsp; este objetivo principal, tambi&eacute;n proporciona facilidades b&aacute;sicas
+para&nbsp; manipulaci&oacute;n de cadenas, n&uacute;meros y booleanos.&nbsp; XPath utiliza
+una&nbsp; sintaxis compacta y no-XML para facilitar el uso de XPath dentro de
+URIs y de valores de atributos XML.&nbsp; XPath opera sobre la estructura
+l&oacute;gica&nbsp; abstracta de un documento XML, m&aacute;s que en su sintaxis
+superficial. XPath&nbsp; obtiene su denominaci&oacute;n por el uso que hace de una
+notaci&oacute;n&nbsp; de caminos, como en los URLs, para navegar a trav&eacute;s de la
+estructura jer&aacute;rquica&nbsp; de un documento XML.</p>
+<p>Adem&aacute;s de su uso para direccionar, XPath esta dise&ntilde;ado&nbsp; tambi&eacute;n de
+modo que tiene un subconjunto natural que puede usarse para cotejar (comprobar
+si un nodo encaja con un patr&oacute;n o no); este uso de XPath est&aacute; descrito en <a href="http://www.w3.org/TR/WD-xslt#patterns">&nbsp;
+XSLT</a>.</p>
+<p>XPath modela un documento XML como un &aacute;rbol de nodos. Hay diferentes tipos
+de nodos, incluyendo nodos elemento, nodos atributo y&nbsp; nodos texto. XPath
+define un modo de calcular un&nbsp; <a href="#dt-string-value">valor de cadena</a>&nbsp;
+para cada tipo de nodo. Algunos tipos de nodo tambi&eacute;n&nbsp; tienen
+nombres.&nbsp; XPath es totalmente compatible con&nbsp; XMLNamespaces <a href="#XMLNAMES">[XML
+Names]</a>.&nbsp; As&iacute;, el&nbsp; nombre de un nodo se modela como un par
+consistente en una parte local y&nbsp; un (quiz&aacute; nulo) URI de espacio de
+nombres; esto se llama un&nbsp; <a href="#dt-expanded-name">nombre expandido</a>.
+El modelo de datos est&aacute; descrito en detalle en <a href="#data-model">[<b>5
+Modelo&nbsp; de datos</b>]</a>.</p>
+<p>La construcci&oacute;n sint&aacute;ctica b&aacute;sica en XPath es la expresi&oacute;n.&nbsp; Una
+expresi&oacute;n se ajusta a la regla de producci&oacute;n <a href="#NT-Expr">Expr</a>.&nbsp;
+Las expresiones son evaluadas para producir un objeto, que tendr&aacute; uno de los
+siguientes cuatro tipos b&aacute;sicos:</p>
+<ul>
+  <li>Conjunto de nodos (una colecci&oacute;n desordenada de nodos sin duplicados)</li>
+  <li>booleano (verdadero o falso)</li>
+  <li>n&uacute;mero (un n&uacute;mero en punto flotante)</li>
+  <li>cadena (una secuencia de caracteres&nbsp; UCS)</li>
+</ul>
+<p>La evaluaci&oacute;n de expresiones tiene lugar respecto&nbsp; a un contexto.&nbsp;
+XSLT y XPointer especifican como se determina el contexto&nbsp; para las
+expresiones XPath usadas en XSLT y XPointer respectivamente. El&nbsp; contexto
+consiste en:</p>
+<ul>
+  <li>Un nodo (<a name="dt-context-node"></a>el <b>nodo contextual</b> )</li>
+  <li>un par de enteros positivos no nulos (<a name="dt-context-position"></a>
+    la <b>posici&oacute;n contextual</b> y <a name="dt-context-size"></a> el <b>tama&ntilde;o
+    contextual</b>)</li>
+  <li>un conjunto de asignaciones de&nbsp; variables</li>
+  <li>una biblioteca de funciones</li>
+  <li>el conjunto de declaraciones de espacios de nombres aplicables a la
+    expresi&oacute;n</li>
+</ul>
+<p>La posici&oacute;n contextual es siempre menor o igual que el tama&ntilde;o contextual.</p>
+<p>Las asignaciones de variables consisten en una correspondencia de nombres de
+variable a valores de variable.&nbsp; El valor de una variable es un objeto, que
+puede ser de cualquiera de los tipos posibles para el valor de una expresi&oacute;n, y
+puede tambi&eacute;n ser de tipos adicionales no especificados aqu&iacute;.</p>
+<p>La biblioteca de funciones consiste en una correspondencia&nbsp; de nombres
+de funciones a funciones.&nbsp; Cada funci&oacute;n toma cero&nbsp; o m&aacute;s argumentos
+y devuelve un &uacute;nico resultado.&nbsp; Este documento&nbsp; define una biblioteca
+b&aacute;sica de funciones que todas las implementaciones&nbsp; de XPath deben
+soportar (v&eacute;ase <a href="#corelib">[<b>4 Biblioteca b&aacute;sica&nbsp; de funciones</b>]</a>).Para
+las funciones de la biblioteca b&aacute;sica&nbsp; de funciones, los argumentos y el
+resultado son de los cuatro tipos b&aacute;sicos.&nbsp; Tanto&nbsp; XSLT como XPointer
+extienden XPath mediante la definici&oacute;n de funciones adicionales; algunas de
+esas funciones operan sobre los cuatro&nbsp; tipos b&aacute;sicos; otras operan sobre
+tipos de datos adicionales definidos&nbsp; por XSLT y XPointer.</p>
+<p>Las declaraciones de espacios de nombres consisten en una correspondencia de
+prefijos a URIs de espacios de nombres.</p>
+<p>Las asignaciones de variables, biblioteca de funciones y declaraciones de
+espacios de nombres utilizadas para evaluar una subexpresi&oacute;n son siempre las
+mismas que las que se emplean para evaluar la expresi&oacute;n que la contiene.&nbsp;
+EL nodo contextual, la posici&oacute;n contextual y el tama&ntilde;o contextual utilizados
+para evaluar una subexpresi&oacute;n son a veces diferentes de los que se emplean para
+evaluar la expresi&oacute;n que la contiene. Varios tipos de expresiones cambian el
+nodo contextual; solo los predicados cambian la posici&oacute;n contextual y el
+tama&ntilde;o contextual&nbsp; ( v&eacute;ase <a href="#predicates">[<b>2.4Predicados</b>]</a>).&nbsp;
+Al describir la evaluaci&oacute;n de un tipo de expresi&oacute;n, siempre se hace constar
+expl&iacute;citamente si el nodo contextual, la posici&oacute;n contextual y el tama&ntilde;o
+contextual cambian para la evaluaci&oacute;n de subexpresiones; si nada se dice sobre
+el nodo contextual, la posici&oacute;n contextual y el tama&ntilde;o contextual,
+permanecer&aacute;n inalterados en la evaluaci&oacute;n de subexpresiones de ese tipo de
+expresi&oacute;n.</p>
+<p>Las expresiones XPath a menudo aparecen en atributos XML.&nbsp; La gram&aacute;tica
+especificada en esta secci&oacute;n se aplica al valor&nbsp; del atributo tras la
+normalizaci&oacute;n&nbsp; XML1.0. As&iacute;, por ejemplo,&nbsp; si la gram&aacute;tica usa el
+caracter &lt;, este no debe aparecer en el&nbsp; c&oacute;digo fuente XML como &lt;
+sino que debe ser&nbsp; tratado conforme a&nbsp; las reglas de XML 1.0
+introduci&eacute;ndolo, por ejemplo, como&nbsp; <code>&amp;lt;</code>&nbsp;&nbsp; .
+Dentro de las expresiones, las cadenas literales se delimitan mediante&nbsp;
+comillas simples o dobles, las cuales se emplean tambi&eacute;n para delimitar
+atributos&nbsp; XML. Para evitar que una marca de entrecomillado en una
+expresi&oacute;n&nbsp; sea interpretada por el procesador XML como terminador del
+valor del atributo,&nbsp; la marca de entrecomillado puede introducirse como una
+referencia de caracter&nbsp; (<code>&amp;quot;</code> o <code>&amp;apos;</code>).&nbsp;
+Alternativamente,&nbsp; la expresi&oacute;n puede usar comillas simples si el atributo
+XML se delimita&nbsp; con comillas dobles o&nbsp; viceversa.</p>
+<p>Un tipo importante de expresi&oacute;n es el camino de localizaci&oacute;n. Un camino de
+localizaci&oacute;n selecciona un conjunto de nodos relativo al nodo de
+contexto.&nbsp; El resultado de evaluar una expresi&oacute;n que sea un camino de
+localizaci&oacute;n es el conjunto de nodos seleccionados por el camino de
+localizaci&oacute;n.&nbsp; Los caminos de localizaci&oacute;n pueden contener recursivamente
+expresiones utilizadas para filtrar conjuntos de nodos. Un camino de
+localizaci&oacute;n se ajusta a la regla de producci&oacute;n <a href="#NT-LocationPath">LocationPath</a>.</p>
+<p>En la gram&aacute;tica que sigue, los no-terminales&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+y&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-NCName">NCName</a>&nbsp;
+se definen en <a href="#XMLNAMES">[XML Names]</a>, y <a href="http://www.w3.org/TR/REC-xml#NT-S">S</a>
+se define en<a href="#XML">[XML]</a>.&nbsp; La gram&aacute;tica usa la misma notaci&oacute;n
+EBNF que <a href="#XML">[XML]</a> (salvo que los s&iacute;mbolos gramaticales siempre
+tienen iniciales en may&uacute;sculas).</p>
+<p>Las expresiones se analizan dividiendo primero la cadena de caracteres a
+analizar en &quot;tokens&quot; y a continuaci&oacute;n analizando la secuencia de
+tokens resultante. Se puede usar libremente espacio en blanco entre
+tokens.&nbsp; El proceso de &quot;tokenizaci&oacute;n&quot; se describe en <a href="#exprlex">[<b>3.7
+Estructura L&eacute;xica</b>]</a>.</p>
+<h2><a name="location-paths"></a>2 Caminos de Localizaci&oacute;n</h2>
+<p>Aunque los caminos de localizaci&oacute;n no son la construcci&oacute;n gramatical m&aacute;s
+general en el lenguaje (un <a href="#NT-LocationPath">LocationPath</a> es un
+caso especial de&nbsp; <a href="#NT-Expr">Expr</a> ), son la construcci&oacute;n m&aacute;s
+importante y se describir&aacute;n por tanto en primer lugar.</p>
+<p>Todo camino de localizaci&oacute;n se puede expresar utilizando una sintaxis
+directa aunque algo verbosa. Hay tambi&eacute;n ciertas abreviaturas sint&aacute;cticas que
+permiten expresar casos frecuentes con concisi&oacute;n. Esta secci&oacute;n explicar&aacute; la
+sem&aacute;ntica de los caminos de localizaci&oacute;n utilizando la sintaxis no abreviada.
+La sintaxis abreviada ser&aacute; entonces explicada mostrando como se expande en la
+sintaxis no abreviada (v&eacute;ase <a href="#path-abbrev">[<b>2.5 Sintaxis abreviada</b>]</a>).</p>
+<p>He aqu&iacute; algunos ejemplos de caminos de localizaci&oacute;n utilizando la sintaxis
+no abreviada:</p>
+<ul>
+  <li>
+    <p><code>child::para</code> selecciona los elementos <code>para</code>&nbsp;&nbsp;
+    hijos del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::*</code> selecciona todos los elementos hijos del nodo
+    contextual</p>
+  </li>
+  <li>
+    <p><code>child::text()</code> selecciona todos los nodos texto hijos del
+    nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::node()</code> selecciona todos los hijos del nodo
+    contextual, cualquiera que sea su tipo de nodo</p>
+  </li>
+  <li>
+    <p><code>attribute::name</code> selecciona el atributo <code>name</code>&nbsp;
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>attribute::*</code> selecciona todos los atributos del nodo
+    contextual</p>
+  </li>
+  <li>
+    <p><code>descendant::para</code> selecciona los elementos <code>para</code>&nbsp;
+    descendientes del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>ancestor::div</code> selecciona todos los ancestros&nbsp; <code>div</code>&nbsp;
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>ancestor-or-self::div</code> selecciona los ancestros<code>&nbsp;
+    div</code> del nodo contextual y, si el nodo contextual es un elemento<code>&nbsp;
+    div</code> , el nodo contextual tambi&eacute;n</p>
+  </li>
+  <li>
+    <p><code>descendant-or-self::para</code> selecciona los elementos <code>&nbsp;
+    para</code> descendientes del nodo contextual y, si el nodo contextual es un
+    elemento <code>para</code> , el nodo contextual tambi&eacute;n</p>
+  </li>
+  <li>
+    <p><code>self::para</code> selecciona el nodo contextual si este es un
+    elemento <code>para</code> , en otro caso no selecciona nada</p>
+  </li>
+  <li>
+    <p><code>child::chapter/descendant::para</code> selecciona los
+    elementos&nbsp; <code>para</code> descendientes de los elementos <code>chapter</code>
+    hijos del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::*/child::para</code> selecciona todos los nietos&nbsp; <code>&nbsp;
+    para</code> del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>/</code> selecciona la ra&iacute;z del documento (que es siempre el padre
+    del elemento de documento)</p>
+  </li>
+  <li>
+    <p><code>/descendant::para</code> selecciona todos los elementos <code>&nbsp;
+    para</code> en el mismo documento que el nodo contextual</p>
+  </li>
+  <li>
+    <p><code>/descendant::olist/child::item</code> selecciona todos los
+    elementos <code>item</code> que tienen un padre <code>olist</code> y que
+    est&eacute;n en el mismo documento que el nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::para[position()=1]</code> selecciona el primer hijo <code>para</code>
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::para[position()=last()]</code> selecciona el &uacute;ltimo hijo <code>para</code>
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::para[position()=last()-1]</code> selecciona el pen&uacute;ltimo
+    hijo&nbsp; <code>para</code> del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::para[position()&gt;1]</code> selecciona todos los hijos <code>para</code>
+    del nodo contextual salvo el primero</p>
+  </li>
+  <li>
+    <p><code>following-sibling::chapter[position()=1]</code>&nbsp;&nbsp;
+    selecciona el siguiente hermano&nbsp; <code>chapter</code> del nodo
+    contextual</p>
+  </li>
+  <li>
+    <p><code>preceding-sibling::chapter[position()=1]</code>&nbsp;&nbsp;
+    selecciona el anterior hermano <code>chapter</code> del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>/descendant::figure[position()=42]</code> selecciona el
+    cuadrag&eacute;simo segundo elemento <code>figure</code> en el documento</p>
+  </li>
+  <li>
+    <p><code>/child::doc/child::chapter[position()=5]/child::section[position()=2]</code>&nbsp;&nbsp;
+    selecciona la segunda&nbsp; <code>section</code> del quinto <code>chapter </code>del
+    elemento de documento <code>doc</code></p>
+  </li>
+  <li>
+    <p><code>child::para[attribute::type=&quot;warning&quot;]</code>&nbsp;&nbsp;
+    selecciona todos los hijos <code>para</code> del nodo contextual que tengan
+    un atributo <code>type</code> con valor <code>warning</code></p>
+  </li>
+  <li>
+    <p><code>child::para[attribute::type='warning'][position()=5]</code>&nbsp;&nbsp;
+    selecciona el quinto hijo <code>para</code> del nodo contextual que tenga un
+    atributo&nbsp; <code>type</code> con valor&nbsp; <code>warning</code></p>
+  </li>
+  <li>
+    <p><code>child::para[position()=5][attribute::type=&quot;warning&quot;]</code>&nbsp;&nbsp;
+    selecciona el quinto hijo&nbsp; <code>para</code>&nbsp; del nodo contextual
+    si ese hijo tiene un atributo <code>type</code> con valor&nbsp; <code>warning</code></p>
+  </li>
+  <li>
+    <p><code>child::chapter[child::title='Introduction']</code>&nbsp;&nbsp;
+    selecciona los hijos&nbsp; <code>chapter</code> del nodo contextual que
+    tengan uno o m&aacute;s hijos <code>title</code> con&nbsp; <a href="#dt-string-value">string-value</a>&nbsp;&nbsp;
+    igual a&nbsp; <code>Introduction</code></p>
+  </li>
+  <li>
+    <p><code>child::chapter[child::title]</code> selecciona los hijos <code>&nbsp;
+    chapter</code> del nodo contextual que tengan uno o m&aacute;s hijos&nbsp; <code>title</code></p>
+  </li>
+  <li>
+    <p><code>child::*[self::chapter or self::appendix]</code>&nbsp;&nbsp;
+    selecciona los hijos&nbsp; <code>chapter</code> y&nbsp; <code>appendix</code>
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>child::*[self::chapter or self::appendix][position()=last()]</code>&nbsp;&nbsp;
+    selecciona el &uacute;ltimo hijo <code>chapter</code> o <code>appendix</code> del
+    nodo contextual</p>
+  </li>
+</ul>
+<p>Hay dos tipos de caminos de localizaci&oacute;n: caminos de localizaci&oacute;n relativos
+y caminos de localizaci&oacute;n absolutos.</p>
+<p>Un camino de localizaci&oacute;n relativo consiste en una secuencia de uno o m&aacute;s
+pasos de localizaci&oacute;n separados por <code>/</code>.&nbsp; Los pasos en un
+camino de localizaci&oacute;n relativo se componen de izquierda a derecha. Cada paso
+selecciona un conjunto de nodos relativos a un nodo contextual. Una secuencia
+inicial de pasos se une al paso siguiente de la siguiente forma.&nbsp; La
+secuencia inicial de pasos selecciona un conjunto de nodos relativos a un nodo
+de contexto. Cada nodo de ese conjunto se usa como nodo de contexto para el
+siguiente paso. Los distintos conjuntos de nodos identificados por ese paso se
+unen. El conjunto de nodos identificado por la composici&oacute;n de pasos es dicha
+uni&oacute;n. Por ejemplo, <code>child::div/child::para</code>&nbsp;&nbsp; selecciona
+los elementos <code>para</code> hijos de los elementos <code>div</code> hijos
+del nodo contextual, o, en otras palabras, los elementos <code>para</code>
+nietos que tengan padres&nbsp; <code>div</code>.</p>
+<p>Un camino de localizaci&oacute;n absoluto consiste en&nbsp; <code>/</code> seguido
+opcionalmente por un camino de localizaci&oacute;n relativo.&nbsp; Una&nbsp; <code>/</code>
+por si misma selecciona el nodo ra&iacute;z del documento que contiene al nodo
+contextual. Si es seguida por un camino de localizaci&oacute;n relativo, entonces el
+camino de localizaci&oacute;n selecciona el conjunto de nodos que&nbsp; seleccionar&iacute;a
+el camino de localizaci&oacute;n relativo relativo al nodo ra&iacute;z del documento que
+contiene al nodo contextual.</p>
+<h5>Location Paths</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-LocationPath"></a>[1]&nbsp;&nbsp;&nbsp;</td>
+      <td>LocationPath</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-RelativeLocationPath">RelativeLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AbsoluteLocationPath">AbsoluteLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-AbsoluteLocationPath"></a>[2]&nbsp;&nbsp;&nbsp;</td>
+      <td>AbsoluteLocationPath</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'/' <a href="#NT-RelativeLocationPath">RelativeLocationPath</a> ?</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AbbreviatedAbsoluteLocationPath">AbbreviatedAbsoluteLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-RelativeLocationPath"></a>[3]&nbsp;&nbsp;&nbsp;</td>
+      <td>RelativeLocationPath</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-Step">Step</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-RelativeLocationPath">RelativeLocationPath</a> '/' <a href="#NT-Step">Step</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AbbreviatedRelativeLocationPath">AbbreviatedRelativeLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="section-Location-Steps"></a>2.1 Pasos de localizaci&oacute;n</h3>
+<p>Un paso de localizaci&oacute;n tiene tres partes:</p>
+<ul>
+  <li>
+    <p>un eje, que especifica la relaci&oacute;n jer&aacute;rquica entre los nodos
+    seleccionados por el paso de localizaci&oacute;n y el nodo contextual,</p>
+  </li>
+  <li>
+    <p>una prueba de nodo, que especifica el tipo de nodo y el&nbsp; <a href="#dt-expanded-name">nombre-expandido</a>
+    de los nodos seleccionados por el paso de localizaci&oacute;n, y</p>
+  </li>
+  <li>
+    <p>cero o m&aacute;s predicados, que usan expresiones arbitrarias para refinar
+    a&uacute;n m&aacute;s el conjunto de nodos seleccionado por el paso de localizaci&oacute;n.</p>
+  </li>
+</ul>
+<p>La sintaxis del paso de localizaci&oacute;n es el nombre de eje y prueba de nodo
+separados por dos caracteres de dos puntos, seguido de cero o m&aacute;s expresiones,
+cada una entre par&eacute;ntesis cuadrados. Por ejemplo, en <code>child::para[position()=1]</code>
+, <code>child</code> es el nombre del eje, <code>para</code> es la prueba de
+nodo y <code>[position()=1]</code> es un predicado.</p>
+<p>El conjunto de nodos seleccionado por el paso de localizaci&oacute;n es el que
+resulta de generar un conjunto de nodos inicial a partir del eje y prueba de
+nodo, y a continuaci&oacute;n filtrar dicho conjunto por cada uno de los predicados
+sucesivamente.</p>
+<p>El conjunto de nodos inicial se compone de los nodos que tengan la relaci&oacute;n
+con el nodo contextual que se especifica en el eje, y tengan el tipo de nodo
+y&nbsp; <a href="#dt-expanded-name">nombre-expandido</a> especificados por la
+prueba de nodo. Por ejemplo, un paso de localizaci&oacute;n<code> descendant::para</code>
+selecciona los elementos <code>para</code> descendientes del nodo contextual: <code>descendant</code>
+especifica que cada nodo en el conjunto de nodos inicial debe ser un
+descendiente del contexto; <code>para</code> especifica que cada nodo en el
+conjunto de nodos inicial debe ser un elemento llamado&nbsp; <code>para</code> .
+Los ejes disponibles se describen en&nbsp; <a href="#axes">[<b>2.2 Ejes</b>]</a>
+. Las pruebas de nodo disponibles se describen en <a href="#node-tests">[<b>2.3Pruebas
+de nodos</b>]</a>. El significado de algunas pruebas de nodos depende del eje.</p>
+<p>El conjunto de nodos inicial se filtra por el primer predicado para generar
+un nuevo conjunto de nodos; este nuevo conjunto de nodos es entonces filtrado
+usando el segundo predicado, y as&iacute; sucesivamente. El conjunto de nodos final es
+el conjunto de nodos seleccionado por el paso de localizaci&oacute;n. El eje afecta a
+la forma en que se eval&uacute;a la expresi&oacute;n de cada predicado y, por tanto, la
+sem&aacute;ntica de un predicado se define con respecto a un eje. V&eacute;ase <a href="#predicates">[<b>2.4
+Predicados</b>]</a>.</p>
+<h5>Location Steps</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-Step"></a>[4]&nbsp;&nbsp;&nbsp;</td>
+      <td>Step</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-AxisSpecifier">AxisSpecifier</a><a href="#NT-NodeTest">
+        NodeTest</a><a href="#NT-Predicate">Predicate</a>*</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AbbreviatedStep">AbbreviatedStep</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-AxisSpecifier"></a>[5]&nbsp;&nbsp;&nbsp;</td>
+      <td>AxisSpecifier</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-AxisName">AxisName</a> '::'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AbbreviatedAxisSpecifier">AbbreviatedAxisSpecifier</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="axes"></a>2.2 Ejes</h3>
+<p>Est&aacute;n disponibles los siguientes ejes:</p>
+<ul>
+  <li>
+    <p>El eje <code>child</code> contiene los hijos del nodo contextual</p>
+  </li>
+  <li>
+    <p>El eje <code>descendant</code> contiene los descendientes del nodo
+    contextual; un descendiente es un hijo o el hijo de un hijo, etc; de este
+    modo el eje descendant nunca contiene nodos atributo o espacio de nombres</p>
+  </li>
+  <li>
+    <p>El eje <code>parent</code> contiene el&nbsp; <a href="#dt-parent">padre</a>
+    del nodo contextual, si lo hay</p>
+  </li>
+  <li>
+    <p>El eje <code>ancestor</code> contiene los ancestros del nodo contextual;
+    los ancestros del nodo contextual consisten en el&nbsp;<a href="#dt-parent">
+    padre</a> del nodo contextual y el padre del padre, etc; as&iacute;, el eje
+    ancestor siempre incluir&aacute; al nodo ra&iacute;z, salvo que el nodo contextual sea
+    el nodo ra&iacute;z</p>
+  </li>
+  <li>
+    <p>El eje&nbsp; <code>following-sibling</code> contiene todos los siguientes
+    hermanos del nodo contextual; si el nodo contextual es un nodo atributo o un
+    nodo espacio de nombres, el eje <code>following-sibling</code> est&aacute; vac&iacute;o</p>
+  </li>
+  <li>
+    <p>El eje <code>preceding-sibling</code> contiene todos los hermanos
+    precedentes del nodo contextual; si el nodo contextual es un nodo atributo o
+    un nodo espacio de nombres, el eje <code>preceding-sibling </code>est&aacute;
+    vac&iacute;o</p>
+  </li>
+  <li>
+    <p>El eje&nbsp; <code>following</code> contiene todos los nodos del mismo
+    documento que el nodo contextual que est&aacute;n despu&eacute;s de este seg&uacute;n el orden
+    del documento, excluyendo los descendientes y excluyendo nodos atributo y
+    nodos espacio de nombres</p>
+  </li>
+  <li>
+    <p>El eje <code>preceding</code> contiene todos los nodos del mismo
+    documento que el nodo contextual que est&aacute;n antes de este seg&uacute;n el orden
+    del documento, excluyendo los ancestros y excluyendo nodos atributo y nodos
+    espacio de nombres</p>
+  </li>
+  <li>
+    <p>El eje <code>attribute</code> contiene los atributos del nodo contextual;
+    el eje estar&aacute; vac&iacute;o a no ser que el nodo contextual sea un elemento</p>
+  </li>
+  <li>
+    <p>El eje&nbsp; <code>namespace</code> contiene los nodos espacio de nombres
+    del nodo contextual; el eje estar&aacute; vac&iacute;o a no ser que el nodo contextual
+    sea un elemento</p>
+  </li>
+  <li>
+    <p>El eje <code>self</code> contiene simplemente el propio nodo contextual</p>
+  </li>
+  <li>
+    <p>El eje <code>descendant-or-self</code> contiene el nodo contextual y sus
+    descendientes</p>
+  </li>
+  <li>
+    <p>El eje <code>ancestor-or-self</code> contiene el nodo contextual y sus
+    ancestros; as&iacute;, el eje ancestor-or-self siempre incluir&aacute; el nodo ra&iacute;z</p>
+  </li>
+</ul>
+<blockquote>
+  <b>NOTA: </b>Los ejes <code>ancestor</code>, <code>descendant</code>,<code>following</code>,
+  <code>preceding</code> y <code>self</code> particionan un documento (ignorando
+  los nodos atributo y espacio de nombres): no se superponen y juntos contienen
+  todos los nodos del documento.
+</blockquote>
+<h5>Axes</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-AxisName"></a>[6]&nbsp;&nbsp;&nbsp;</td>
+      <td>AxisName</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'ancestor'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'ancestor-or-self'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'attribute'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'child'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'descendant'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'descendant-or-self'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'following'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'following-sibling'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'namespace'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'parent'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'preceding'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'preceding-sibling'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'self'</td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="node-tests"></a>2.3 Pruebas de nodo</h3>
+<p><a name="dt-principal-node-type"></a>Cada eje tiene un <b>tipo principal de
+nodo</b>. Si un eje puede contener elementos, entonces el tipo principal de nodo
+es elemento; en otro caso, ser&aacute; el tipo de los nodos que el eje contiene. As&iacute;,</p>
+<ul>
+  <li>Para el eje attribute, el tipo de nodo principal es atributo.</li>
+  <li>Para el eje namespace,&nbsp; el tipo de nodo principal es espacio de
+    nombres.</li>
+  <li>Para los dem&aacute;s ejes,&nbsp; el tipo de nodo principal es elemento.</li>
+</ul>
+<p>Una prueba de nodo que sea un&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+(nombre calificado) es verdadera si y s&oacute;lo si el tipo del nodo (v&eacute;ase <a href="#data-model">[<b>5
+Modelo de Datos</b>]</a>) es el tipo principal de nodo y tiene un&nbsp; <a href="#dt-expanded-name">nombre
+expandido</a> igual al&nbsp; <a href="#dt-expanded-name">nombre expandido</a>
+especificado por el&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+. Por ejemplo, <code>child::para</code> selecciona los elementos&nbsp; <code>para</code>
+hijos del nodo contextual; si el nodo contextual no tiene ning&uacute;n hijo <code>para</code>
+, seleccionar&aacute; un conjunto de nodos vac&iacute;o. <code>attribute::href</code>
+selecciona el atributo <code>href</code> del nodo contextual; si el nodo
+contextual no tiene atributo <code>href</code>, seleccionar&aacute; un conjunto de
+nodos vac&iacute;o.</p>
+<p>Un&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a> en
+la prueba de nodo se expande en un <a href="#dt-expanded-name">nombre expandido</a>
+utilizando las declaraciones de espacio de nombres del contexto de la
+expresi&oacute;n. Esta es la misma forma en que se hace la expansi&oacute;n para los nombres
+de tipos de elemento en las etiquetas de inicio y fin salvo que el espacio de
+nombres por defecto declarado con <code>xmlns</code> no se utiliza: si el&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+no tiene prefijo, entonces el URI de espacio de nombres es nulo (esta es la
+misma forma en que se expanden los nombres de atributos). Ser&aacute; un error que
+el&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a> tenga
+un prefijo para el cual no haya una declaraci&oacute;n de espacio de nombres en el
+contexto de la expresi&oacute;n.</p>
+<p>Una prueba de nodo <code>*</code> es verdadera para cualquier nodo del tipo
+principal de nodo. Por ejemplo, <code>child::*</code>&nbsp; seleccionar&aacute; todo
+elemento hijo del nodo contextual, y <code>attribute::*</code> seleccionar&aacute;
+todos los atributos del nodo contextual.</p>
+<p>Una prueba de nodo puede tener la forma <a href="http://www.w3.org/TR/REC-xml-names#NT-NCName">NCName</a><code>:*</code>.
+En este caso, el prefijo es expandido de la misma forma que con un&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+, utilizando las declaraciones de espacio de nombres del contexto. Ser&aacute; un
+error que no haya una declaraci&oacute;n de espacio de nombres para el prefijo en el
+contexto de la expresi&oacute;n. La prueba de nodo ser&aacute; verdadera para cualquier nodo
+del tipo principal cuyo <a href="#dt-expanded-name">expanded-name</a> tenga el
+URI de espacio de nombres al qu&eacute; el prefijo se expande, con independencia de la
+parte local del nombre.</p>
+<p>La prueba de nodo <code>text()</code> es verdadera para cualquier nodo de
+texto. Por ejemplo, <code>child::text()</code> seleccionar&aacute; los nodos de texto
+hijos del nodo contextual. An&aacute;logamente, la prueba de nodo <code>comment()</code>
+es verdadera para cualquier nodo comentario, y la prueba de nodo <code>processing-instruction()</code>
+es verdadera para cualquier instrucci&oacute;n de procesamiento. La prueba <code>processing-instruction()</code>&nbsp;
+puede tener un argumento que sea <a href="#NT-Literal">Literal</a>; en este
+caso, ser&aacute; verdadera para cualquier instrucci&oacute;n de procesamiento que tenga un
+nombre igual al valor del <a href="#NT-Literal">Literal</a>.</p>
+<p>Una prueba de nodo <code>node()</code> es verdadera para cualquier nodo de
+cualquier tipo que sea.</p>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-NodeTest"></a>[7]&nbsp;&nbsp;&nbsp;</td>
+      <td>NodeTest</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-NameTest">NameTest</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-NodeType">NodeType</a> '(' ')'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'processing-instruction' '(' <a href="#NT-Literal">Literal</a> ')'</td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="predicates"></a>2.4 Predicados</h3>
+<p>Los ejes est&aacute;n orientados hacia adelante o hacia atr&aacute;s. Un eje que s&oacute;lo
+puede contener el nodo contextual o nodos que est&aacute;n a continuaci&oacute;n del nodo
+contextual seg&uacute;n el&nbsp; <a href="#dt-document-order">orden de documento</a>
+es un eje hacia adelante. Un eje que s&oacute;lo puede contener el nodo contextual o
+nodos que est&aacute;n antes del nodo contextual seg&uacute;n el&nbsp; <a href="#dt-document-order">orden
+de documento</a> es un eje hacia atr&aacute;s. As&iacute;, los ejes ancestor,
+ancestor-or-self, preceding, y preceding-sibling son ejes hacia atr&aacute;s; todos
+los dem&aacute;s ejes son hacia adelante. Dado que el eje self siempre tendr&aacute; a lo
+sumo un nodo, no supone ninguna diferencia que sea un eje hacia adelante o hacia
+atr&aacute;s. <a name="dt-proximity-position"></a>La <b>posici&oacute;n de proximidad</b> de
+un miembro de un conjunto de nodos con respecto a un eje se define como la
+posici&oacute;n del nodo en el conjunto ordenado seg&uacute;n el orden de documento si el
+eje es hacia adelante y seg&uacute;n el orden inverso de documento si el eje es hacia
+atr&aacute;s. La primera posici&oacute;n es 1.</p>
+<p>Un predicado filtra un conjunto de nodos con respecto a un eje para producir
+un nuevo conjunto de nodos. Por cada nodo en el conjunto de nodos a filtrar, la <a href="#NT-PredicateExpr">PredicateExpr</a>
+es evaluada con dicho nodo como nodo contextual, con el n&uacute;mero de nodos en el
+conjunto de nodos como tama&ntilde;o contextual, y con la&nbsp; <a href="#dt-proximity-position">posici&oacute;n
+de proximidad</a> del nodo en el conjunto de nodos respecto al eje como
+posici&oacute;n contextual; si <a href="#NT-PredicateExpr">PredicateExpr</a> se
+eval&uacute;a como verdadera para ese nodo, el nodo se incluye en el nuevo conjunto de
+nodos; en otro caso,&nbsp; no se incluye.</p>
+<p>Una <a href="#NT-PredicateExpr">PredicateExpr</a> se eval&uacute;a evaluando
+la&nbsp; <a href="#NT-Expr">Expr</a>&nbsp; y convirtiendo el resultado en un
+booleano. Si el resultado es un n&uacute;mero, se convertir&aacute; en verdadero si el
+n&uacute;mero es igual a la posici&oacute;n contextual y se convertir&aacute; en falso en otro
+caso; si el resultado no es un n&uacute;mero, entonces el resultado se convertir&aacute;
+igual que con una llamada a la funci&oacute;n <b><a href="#function-boolean">boolean</a></b>.
+As&iacute; un camino de localizaci&oacute;n <code>para[3]</code> es equivalente a <code>para[position()=3]</code>
+.</p>
+<h5>Predicates</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-Predicate"></a>[8]&nbsp;&nbsp;&nbsp;</td>
+      <td>Predicate</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'[' <a href="#NT-PredicateExpr">PredicateExpr</a> ']'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-PredicateExpr"></a>[9]&nbsp;&nbsp;&nbsp;</td>
+      <td>PredicateExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-Expr">Expr</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="path-abbrev"></a>2.5 Sintaxis abreviada</h3>
+<p>He aqu&iacute; algunos ejemplos de caminos de localizaci&oacute;n usando la sintaxis
+abreviada:</p>
+<ul>
+  <li>
+    <p><code>para</code> selecciona los elementos&nbsp; <code>para</code>&nbsp;
+    hijos del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>*</code> selecciona todos los elementos hijos del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>text()</code> selecciona todos los nodos texto hijos del nodo
+    contextual</p>
+  </li>
+  <li>
+    <p><code>@name</code> selecciona el atributo <code>name</code> del nodo
+    contextual</p>
+  </li>
+  <li>
+    <p><code>@*</code> selecciona todos los atributos del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>para[1]</code> selecciona el primer hijo&nbsp; <code>para</code>
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>para[last()]</code> selecciona el &uacute;ltimo hijo&nbsp; <code>para</code>&nbsp;
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>*/para</code> selecciona todos los nietos <code>para</code> del
+    nodo contextual</p>
+  </li>
+  <li>
+    <p><code>/doc/chapter[5]/section[2]</code> selecciona la segunda <code>section</code>
+    del quinto <code>chapter</code> del <code>doc</code></p>
+  </li>
+  <li>
+    <p><code>chapter//para</code> selecciona los elementos <code>para</code>
+    descendientes de los elementos <code>chapter</code> hijos del nodo
+    contextual</p>
+  </li>
+  <li>
+    <p><code>//para</code> selecciona todos los descendientes <code>para</code>
+    de la ra&iacute;z del documento y por tanto selecciona todos los elementos <code>para</code>
+    que est&eacute;n en el mismo documento que el nodo contextual</p>
+  </li>
+  <li>
+    <p><code>//olist/item</code> selecciona todos los elementos <code>item</code>
+    que est&eacute;n en el mismo documento que el nodo contextual y tengan un padre <code>olist</code>
+    &nbsp;</p>
+  </li>
+  <li>
+    <p><code>.</code> selecciona el nodo contextual</p>
+  </li>
+  <li>
+    <p><code>.//para</code> selecciona los elementos&nbsp; <code>para</code>
+    descendientes del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>..</code> selecciona el padre del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>../@lang</code> selecciona el atributo <code>lang</code> del padre
+    del nodo contextual</p>
+  </li>
+  <li>
+    <p><code>para[@type=&quot;warning&quot;]</code> selecciona todos los hijos <code>para</code>&nbsp;
+    del nodo contextual que tengan un atributo <code>type</code> con valor <code>warning</code></p>
+  </li>
+  <li>
+    <p><code>para[@type=&quot;warning&quot;][5]</code> selecciona el quinto hijo
+    <code>para</code> del nodo contextual que tenga un atributo <code>type</code>
+    con valor <code>warning</code></p>
+  </li>
+  <li>
+    <p><code>para[5][@type=&quot;warning&quot;]</code> selecciona el quinto hijo
+    <code>para</code> del nodo contextual si dicho hijo tiene un atributo <code>type</code>
+    con valor <code>warning</code></p>
+  </li>
+  <li>
+    <p><code>chapter[title=&quot;Introduction&quot;]</code> selecciona los hijos
+    <code>chapter</code> del nodo contextual que tengan uno o m&aacute;s hijos&nbsp; <code>title</code>
+    con&nbsp; <a href="#dt-string-value">valor de cadena</a> igual a <code>Introduction</code></p>
+  </li>
+  <li>
+    <p><code>chapter[title]</code> selecciona los hijos <code>chapter</code> del
+    nodo contextual que tengan uno o m&aacute;s hijos&nbsp; <code>title</code></p>
+  </li>
+  <li>
+    <p><code>employee[@secretary and @assistant]</code> selecciona todos los
+    hijos <code>employee</code> del nodo contextual que tengan un atributo <code>secretary</code>&nbsp;
+    y un atributo <code>assistant</code></p>
+  </li>
+</ul>
+<p>La abreviatura m&aacute;s importante es que&nbsp; <code>child::</code> puede ser
+omitida en un paso de localizaci&oacute;n. A efectos pr&aacute;cticos, <code>child</code> es
+el eje por defecto. Por ejemplo, un camino de localizaci&oacute;n <code>div/para</code>
+es abreviatura de <code>child::div/child::para</code>.</p>
+<p>Hay tambi&eacute;n una abreviatura para atributos: <code>attribute::</code> puede
+abreviarse como <code>@</code>. Por ejemplo, un camino de localizaci&oacute;n <code>para[@type=&quot;warning&quot;]</code>
+es abreviatura de&nbsp; <code>child::para[attribute::type=&quot;warning&quot;]</code>
+y por tanto selecciona hijos <code>para</code> con un atributo <code>type</code>
+con valor igual a&nbsp; <code>warning</code>.</p>
+<p><code>//</code> es abreviatura de <code>/descendant-or-self::node()/</code> .
+Por ejemplo,<code>//para</code> es abreviatura de <code>/descendant-or-self::node()/child::para</code>
+y por tanto seleccionar&aacute; cualquier elemento <code>para</code> en el documento
+(incluso un elemento <code>para</code> que sea el elemento de documento ser&aacute;
+seleccionado por <code>//para</code> ya que el nodo elemento de documento es
+hijo del nodo ra&iacute;z); <code>div//para</code> es abreviatura de <code>child::div/descendant-or-self::node()/child::para</code>
+y por tanto seleccionar&aacute; todos los descendientes <code>para</code> de hijos <code>div</code>.</p>
+<blockquote>
+  <b>NOTA:</b> El camino de localizaci&oacute;n <code>//para[1]</code> <i>no</i>
+  significa lo mismo que el camino de localizaci&oacute;n <code>/descendant::para[1]</code>
+  . Este &uacute;ltimo selecciona el primer descendiente elemento <code>para</code>;
+  el primero selecciona todos los descendientes elementos <code>para</code> que
+  sean el primer hijo <code>para</code> de sus padres.
+</blockquote>
+<p>Un paso de localizaci&oacute;n <code>.</code> es abreviatura de<code> self::node()</code>.
+Esto es particularmente &uacute;til en conjunci&oacute;n&nbsp; con <code>//</code>. Por
+ejemplo, el camino de localizaci&oacute;n<code>.//para</code> es abreviatura de&nbsp;</p>
+<pre>self::node()/descendant-or-self::node()/child::para</pre>
+<p>y por tanto seleccionar&aacute; todos los descendientes elementos&nbsp; <code>para</code>
+del nodo contextual.</p>
+<p>An&aacute;logamente, un paso de localizaci&oacute;n <code>..</code> es abreviatura de <code>parent::node()</code>.
+Por ejemplo, <code>../title</code> es abreviatura de&nbsp; <code>parent::node()/child::title</code>
+y por tanto seleccionar&aacute; los hijos <code>title</code> del padre del nodo
+contextual.</p>
+<h5>Abbreviations</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-AbbreviatedAbsoluteLocationPath"></a>[10]&nbsp;&nbsp;&nbsp;</td>
+      <td>AbbreviatedAbsoluteLocationPath</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'//' <a href="#NT-RelativeLocationPath">RelativeLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-AbbreviatedRelativeLocationPath"></a>[11]&nbsp;&nbsp;&nbsp;</td>
+      <td>AbbreviatedRelativeLocationPath</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-RelativeLocationPath">RelativeLocationPath</a> '//' <a href="#NT-Step">Step</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-AbbreviatedStep"></a>[12]&nbsp;&nbsp;&nbsp;</td>
+      <td>AbbreviatedStep</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'.'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| '..'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-AbbreviatedAxisSpecifier"></a>[13]&nbsp;&nbsp;&nbsp;</td>
+      <td>AbbreviatedAxisSpecifier</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'@'?</td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2><a name="section-Expressions"></a>3 Expresiones</h2>
+<h3><a name="section-Basics"></a>3.1 Fundamentos</h3>
+<p>Una&nbsp; <a href="#NT-VariableReference">VariableReference</a> se eval&uacute;a
+como el valor al cual el nombre de variable est&aacute; asignado en el conjunto de
+asignaciones de variables en el contexto. Ocurre un error si el nombre de
+variable no est&aacute; asignado a ning&uacute;n valor en el conjunto de asignaciones de
+variables en el contexto de la expresi&oacute;n.</p>
+<p>Pueden utilizarse par&eacute;ntesis para agrupar.</p>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-Expr"></a>[14]&nbsp;&nbsp;&nbsp;</td>
+      <td>Expr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-OrExpr">OrExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-PrimaryExpr"></a>[15]&nbsp;&nbsp;&nbsp;</td>
+      <td>PrimaryExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-VariableReference">VariableReference</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| '(' <a href="#NT-Expr">Expr</a> ')'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-Literal">Literal</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-Number">Number</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-FunctionCall">FunctionCall</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="section-Function-Calls"></a>3.2 Llamadas a funciones</h3>
+<p>Una expresi&oacute;n&nbsp; <a href="#NT-FunctionCall">FunctionCall</a> se eval&uacute;a
+utilizando el&nbsp; <a href="#NT-FunctionName">FunctionName</a> para
+identificarla en la librer&iacute;a de funciones en el contexto de evaluaci&oacute;n de la
+expresi&oacute;n, evaluando cada uno de los&nbsp; <a href="#NT-Argument">Argument</a>s
+, convirtiendo cada argumento al tipo requerido por la funci&oacute;n, y finalmente
+llamando a la funci&oacute;n, pas&aacute;ndole los argumentos convertidos. Ocurre un error
+si el n&uacute;mero de argumentos es err&oacute;neo o si un argumento no puede ser
+convertido al tipo requerido. El resultado de la expresi&oacute;n <a href="#NT-FunctionCall">FunctionCall</a>
+es el resultado devuelto por la funci&oacute;n.</p>
+<p>Los argumentos se convierten al tipo cadena como si se aplicase la funci&oacute;n <b><a href="#function-string">string</a></b>.
+Los argumentos se convierten al tipo n&uacute;mero como si se aplicase la funci&oacute;n <b><a href="#function-number">number</a></b>
+. Los argumentos se convierten al tipo booleano como si se aplicase la funci&oacute;n <b><a href="#function-boolean">boolean</a></b>
+. Un argumento que no sea de tipo conjunto de nodos no puede ser convertido a
+conjunto de nodos.</p>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-FunctionCall"></a>[16]&nbsp;&nbsp;&nbsp;</td>
+      <td>FunctionCall</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-FunctionName">FunctionName</a> '(' ( <a href="#NT-Argument">Argument</a>
+        ( ',' <a href="#NT-Argument">Argument</a> )* )? ')'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-Argument"></a>[17]&nbsp;&nbsp;&nbsp;</td>
+      <td>Argument</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-Expr">Expr</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="node-sets"></a>3.3 Conjuntos de nodos</h3>
+<p>Puede usarse un camino de localizaci&oacute;n como expresi&oacute;n. La expresi&oacute;n
+devuelve el conjunto de nodos seleccionados por el camino.</p>
+<p>El operador <code>|</code> calcula la uni&oacute;n de sus operandos, que deben ser
+conjuntos de nodos.</p>
+<p>Se utilizan <a href="#NT-Predicate">Predicate</a>s para filtrar expresiones
+del mismo modo que se usan en los caminos de localizaci&oacute;n. Ocurre un error si
+la expresi&oacute;n a filtrar no se eval&uacute;a en un conjunto de nodos. El <a href="#NT-Predicate">Predicate</a>
+filtra el conjunto de nodos con respecto al eje child.</p>
+<blockquote>
+  <b>NOTA: </b>El significado de un&nbsp; <a href="#NT-Predicate">Predicate</a>
+  depende crucialmente de cual es el eje aplicable. Por ejemplo, <code>preceding::foo[1]</code>
+  devuelve el primer elemento <code>foo </code>en&nbsp; <i>orden inverso de
+  documento</i>, porque el eje que se aplica al predicado <code>[1]</code> es el
+  eje preceding; por el contrario, <code>(preceding::foo)[1]</code> devuelve el
+  primer elemento<code> foo</code>&nbsp; en <i>orden de documento</i>, porque el
+  eje que se aplica al predicado <code>[1]</code> es el eje child.
+</blockquote>
+<p>Los operadores&nbsp; <code>/</code> y <code>//</code> componen una expresi&oacute;n
+y un camino de localizaci&oacute;n relativo. Ocurre un error si la expresi&oacute;n no se
+eval&uacute;a en un conjunto de nodos. El operador&nbsp; <code>/</code> compone del
+mismo modo que cuando <code>/</code> se utiliza en un camino de localizaci&oacute;n.
+Al igual que en los caminos de localizaci&oacute;n, <code>//</code> es una abreviatura
+de <code>/descendant-or-self::node()/</code> .</p>
+<p>No hay ning&uacute;n tipo de objeto que pueda ser convertido a conjunto de nodos.</p>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-UnionExpr"></a>[18]&nbsp;&nbsp;&nbsp;</td>
+      <td>UnionExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-PathExpr">PathExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-UnionExpr">UnionExpr</a> '|' <a href="#NT-PathExpr">PathExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-PathExpr"></a>[19]&nbsp;&nbsp;&nbsp;</td>
+      <td>PathExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-LocationPath">LocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-FilterExpr">FilterExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-FilterExpr">FilterExpr</a> '/' <a href="#NT-RelativeLocationPath">RelativeLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-FilterExpr">FilterExpr</a> '//' <a href="#NT-RelativeLocationPath">RelativeLocationPath</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-FilterExpr"></a>[20]&nbsp;&nbsp;&nbsp;</td>
+      <td>FilterExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-PrimaryExpr">PrimaryExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-FilterExpr">FilterExpr</a><a href="#NT-Predicate">
+        Predicate</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="booleans"></a>3.4 Booleanos</h3>
+<p>Un objeto de tipo booleano puede tener uno de dos valores, verdadero o falso.</p>
+<p>Una expresi&oacute;n&nbsp; <code>or</code> se eval&uacute;a evaluando cada operando y
+convirtiendo su valor en booleano como si se aplicase la funci&oacute;n<b><a href="#function-boolean">
+boolean</a></b>. El resultado es verdadero si alguno de los dos valores es
+verdadero y falso en otro caso. El operando de la derecha no se eval&uacute;a si el
+operando de la izquierda se eval&uacute;a como verdadero.</p>
+<p>Una expresi&oacute;n <code>and</code> se eval&uacute;a evaluando&nbsp; cada operando y
+convirtiendo su valor en booleano como si se aplicase la funci&oacute;n<b><a href="#function-boolean">
+boolean</a></b>. El resultado es verdadero si ambos valores son verdaderos y
+falso en otro caso. El operando de la derecha no se eval&uacute;a si el operando de la
+izquierda se eval&uacute;a como falso.</p>
+<p>Una&nbsp; <a href="#NT-EqualityExpr">EqualityExpr</a> (que no sea simplemente
+una <a href="#NT-RelationalExpr">RelationalExpr</a>) o una <a href="#NT-RelationalExpr">RelationalExpr</a>
+(que no sea simplemente una <a href="#NT-AdditiveExpr">AdditiveExpr</a> ) se
+eval&uacute;an comparando los objetos que resultan de evaluar los dos operandos. La
+comparaci&oacute;n de los objetos resultantes se define en los tres p&aacute;rrafos
+siguientes. Primero, las comparaciones que involucran conjuntos de nodos se
+definen en t&eacute;rminos de comparaciones que no los involucran; esto se define
+uniformemente para&nbsp; <code>=</code>, <code>!=</code>, <code>&lt;=</code>,<code>&lt;</code>
+, <code>&gt;=</code> y <code>&gt;</code>. En segundo lugar, las comparaciones
+que no involucran conjuntos de nodos se definen para <code>=</code> y <code>!=</code>.
+En tercer lugar, las comparaciones que no involucran conjuntos de nodos se
+definen para&nbsp; <code>&lt;=</code> ,<code>&lt;</code>, <code>&gt;=</code> y <code>&gt;</code>.</p>
+<p>Si los dos objetos a comparar son conjuntos de nodos, entonces la
+comparaci&oacute;n ser&aacute; verdadera si y s&oacute;lo si hay un nodo en el primer conjunto de
+nodos y un nodo en el segundo conjunto de nodos tales que el resultado de
+realizar la comparaci&oacute;n de los&nbsp; <a href="#dt-string-value">valores de
+cadena</a> de los dos nodos es verdadero. Si uno de los objetos a comparar es un
+conjunto de nodos y el otro es un n&uacute;mero, entonces la comparaci&oacute;n ser&aacute;
+verdadera si y s&oacute;lo si hay un nodo en el conjunto tal que el resultado de
+realizar la comparaci&oacute;n entre el n&uacute;mero a comparar y el resultado de convertir
+el <a href="#dt-string-value">valor de cadena</a> de dicho nodo en un n&uacute;mero
+utilizando la funci&oacute;n <b><a href="#function-number">number</a></b>&nbsp; es
+verdadero. Si un objeto a comparar es un conjunto de nodos y el otro es una
+cadena, entonces la comparaci&oacute;n ser&aacute; verdadera si y s&oacute;lo si hay un nodo en el
+conjunto de nodos tal que el resultado de realizar la comparaci&oacute;n entre
+el&nbsp;&nbsp;<a href="#dt-string-value">valor de cadena</a> del nodo y la otra
+cadena es verdadero. Si un objeto a comparar es un conjunto de nodos y el otro
+es un booleano, entonces la comparaci&oacute;n ser&aacute; verdadera si y s&oacute;lo si el
+resultado de realizar la comparaci&oacute;n entre el booleano y el resultado de
+convertir el conjunto de nodos en un booleano usando la funci&oacute;n <b><a href="#function-boolean">boolean</a></b>
+es verdadero.</p>
+<p>Cuando ninguno de los objetos a comparar es un conjunto de nodos y el
+operador es <code>=</code> o <code>!=</code>, entonces los objetos se comparan
+convirti&eacute;ndolos en un tipo com&uacute;n tal como sigue y compar&aacute;ndolos a
+continuaci&oacute;n. Si al menos un objeto a comparar es booleano, entonces ambos
+objetos a comparar se convierten en booleanos como si se aplicase la funci&oacute;n <b><a href="#function-boolean">boolean</a></b>
+. En otro caso, si al menos un objeto a comparar es un n&uacute;mero, entonces ambos
+objetos a comparar se convierten en n&uacute;meros como si se aplicase la funci&oacute;n <b><a href="#function-number">number</a></b>
+. En otro caso, ambos objetos a comparar se convierten en cadenas como si se
+aplicase la funci&oacute;n <b><a href="#function-string">string</a></b> . La
+comparaci&oacute;n <code>=</code> ser&aacute; verdadera si y s&oacute;lo si los objetos son
+iguales; la comparaci&oacute;n <code>!= </code>ser&aacute; verdadera si y s&oacute;lo si los
+objetos no son iguales. Los n&uacute;meros se comparan para la igualdad de acuerdo
+con&nbsp; IEEE 754 <a href="#IEEE754">[IEEE 754]</a>. Dos booleanos son iguales
+si ambos son verdaderos o ambos son falsos. Dos cadenas son iguales si y s&oacute;lo
+si consisten en la misma secuencia de caracteres UCS.</p>
+<blockquote>
+  <b>NOTA: </b>Si <code>$x</code> est&aacute; asignada a un conjunto de nodos,
+  entonces <code>$x=&quot;foo&quot;</code> no significa lo mismo que <code>not($x!=&quot;foo&quot;)</code>
+  : la primera es verdadera si y s&oacute;lo si <i>alg&uacute;n</i> nodo en <code>$x</code>
+  tiene el valor de cadena <code>foo</code>; la segunda es verdadera si y s&oacute;lo
+  si&nbsp; <i>todos </i>los nodos en <code>$x</code> tienen el valor de cadena <code>foo</code>.
+</blockquote>
+<p>Cuando ninguno de los objetos a comparar es un conjunto de nodos y el
+operador es&nbsp; <code>&lt;=</code>, <code>&lt;</code>, <code>&gt;=</code> o <code>&gt;</code>,
+entonces los objetos se comparan convirtiendo ambos objetos en n&uacute;meros y
+comparando los n&uacute;meros de acuerdo con IEEE 754. La comparaci&oacute;n <code>&lt;</code>
+ser&aacute; verdadera si y s&oacute;lo si el primer n&uacute;mero es menor que el segundo. La
+comparaci&oacute;n <code>&lt;= </code>ser&aacute; verdadera si y s&oacute;lo si el primer n&uacute;mero
+es menor o igual que el segundo. La comparaci&oacute;n&nbsp; <code>&gt; </code>ser&aacute;
+verdadera si y s&oacute;lo si el primer n&uacute;mero es mayor que el segundo. La
+comparaci&oacute;n <code>&gt;=</code> ser&aacute; verdadera si y s&oacute;lo si el primer n&uacute;mero
+es mayor o igual que el segundo.</p>
+<blockquote>
+  <b>NOTA: </b>Cuando una expresi&oacute;n XPath aparece en un documento XML,
+  cualquier operador <code>&lt;</code> o <code>&lt;=</code> debe ser
+  &quot;escapado&quot; de acuerdo con las reglas de&nbsp; XML 1.0 usando, por
+  ejemplo,<code>&amp;lt;</code> y <code>&amp;lt;=</code>. En el siguiente
+  ejemplo el valor del atributo <code>test</code> es una expresi&oacute;n&nbsp; XPath:
+  <pre>&lt;xsl:if test=&quot;@value &amp;lt; 10&quot;&gt;...&lt;/xsl:if&gt;</pre>
+</blockquote>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-OrExpr"></a>[21]&nbsp;&nbsp;&nbsp;</td>
+      <td>OrExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-AndExpr">AndExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-OrExpr">OrExpr</a> 'or' <a href="#NT-AndExpr">AndExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-AndExpr"></a>[22]&nbsp;&nbsp;&nbsp;</td>
+      <td>AndExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-EqualityExpr">EqualityExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AndExpr">AndExpr</a> 'and' <a href="#NT-EqualityExpr">EqualityExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-EqualityExpr"></a>[23]&nbsp;&nbsp;&nbsp;</td>
+      <td>EqualityExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-RelationalExpr">RelationalExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-EqualityExpr">EqualityExpr</a> '=' <a href="#NT-RelationalExpr">RelationalExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-EqualityExpr">EqualityExpr</a> '!=' <a href="#NT-RelationalExpr">RelationalExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-RelationalExpr"></a>[24]&nbsp;&nbsp;&nbsp;</td>
+      <td>RelationalExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-AdditiveExpr">AdditiveExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-RelationalExpr">RelationalExpr</a> '&lt;' <a href="#NT-AdditiveExpr">AdditiveExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-RelationalExpr">RelationalExpr</a> '&gt;' <a href="#NT-AdditiveExpr">AdditiveExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-RelationalExpr">RelationalExpr</a> '&lt;=' <a href="#NT-AdditiveExpr">AdditiveExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-RelationalExpr">RelationalExpr</a> '&gt;=' <a href="#NT-AdditiveExpr">AdditiveExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<blockquote>
+  <b>NOTA: </b>El efecto de la gram&aacute;tica de arriba es que el orden de
+  precedencia sea (de menor a mayor precedencia):
+  <ul>
+    <li>
+      <p><code>or</code></p>
+    </li>
+    <li>
+      <p><code>and</code></p>
+    </li>
+    <li>
+      <p><code>=</code>, <code>!=</code></p>
+    </li>
+    <li>
+      <p><code>&lt;=</code>, <code>&lt;</code>, <code>&gt;=</code>,<code>&gt;</code></p>
+    </li>
+  </ul>
+  y los operadores son todos asociativos por la izquierda. Por ejemplo, <code>3
+  &gt; 2 &gt; 1</code> es equivalente a <code>(3&gt; 2) &gt; 1</code>, que se
+  eval&uacute;a como falso.
+</blockquote>
+<h3><a name="numbers"></a>3.5 N&uacute;meros</h3>
+<p>Un n&uacute;mero representa un n&uacute;mero de punto flotante. Un n&uacute;mero puede tener
+cualquier valor de doble precisi&oacute;n en formato de 64 bits IEEE 754 <a href="#IEEE754">[IEEE
+754]</a>. Estos incluyen un valor especial &quot;Not-a-Number&quot; (NaN),
+infinitos positivo y negativo, y ceros positivo y negativo. V&eacute;ase la&nbsp;<a href="http://java.sun.com/docs/books/jls/html/4.doc.html#9208">
+Section 4.2.3</a> de <a href="#JLS">[JLS]</a> para obtener un resumen de las
+reglas clave del est&aacute;ndar&nbsp; IEEE 754.</p>
+<p>Los operadores num&eacute;ricos convierten sus operandos en n&uacute;meros como si se
+aplicase la funci&oacute;n&nbsp; <b><a href="#function-number">number</a></b> .</p>
+<p>El operador <code>+</code> realiza la adici&oacute;n.</p>
+<p>El operador binario <code>-</code> realiza la substracci&oacute;n. El operador
+unario&nbsp; <code>-</code> realiza el cambio de signo. Debe notarse que&nbsp; <code>-0
+</code>se eval&uacute;a como cero negativo.</p>
+<blockquote>
+  <b>NOTA: </b>Dado que XML permite <code>-</code> en nombres, el operador <code>-</code>
+  necesitar&aacute; t&iacute;picamente ser precedido por espacio en blanco. Por <code>ejemplo,
+  foo-bar</code> se eval&uacute;a como un conjunto de nodos conteniendo los elementos
+  hijo llamados <code>foo-bar</code>; <code>foo - bar</code> se eval&uacute;a como la
+  diferencia entre el resultado de convertir en n&uacute;mero el <a href="#dt-string-value">valor
+  de cadena</a> del primer elemento hijo <code>foo</code> y el resultado de
+  convertir en n&uacute;mero el <a href="#dt-string-value">valor de cadena</a> del
+  primer hijo <code>bar</code>.
+</blockquote>
+<p>El operador * realiza la multiplicaci&oacute;n en punto flotante de acuerdo con
+IEEE 754. Debe notarse que, si el resultado no es NaN, ser&aacute; positivo si y s&oacute;lo
+si ambos operandos tienen el mismo signo.</p>
+<p>El operador&nbsp; <code>div</code> realiza la divisi&oacute;n en punto flotante de
+acuerdo con IEEE 754. Debe notarse que, si el resultado no es NaN, ser&aacute;
+positivo si y s&oacute;lo si ambos operandos tienen el mismo signo.</p>
+<p>El operador <code>mod</code> devuelve el resto de una divisi&oacute;n con
+truncamiento (divisi&oacute;n entera). Por ejemplo,</p>
+<ul>
+  <li>
+    <p><code>5 mod 2</code> devuelve <code>1</code></p>
+  </li>
+  <li>
+    <p><code>5 mod -2</code> devuelve <code>1</code></p>
+  </li>
+  <li>
+    <p><code>-5 mod 2</code> devuelve <code>-1</code></p>
+  </li>
+  <li>
+    <p><code>-5 mod -2</code> devuelve <code>-1</code></p>
+  </li>
+</ul>
+<blockquote>
+  <b>NOTA: </b>Este operador es el mismo que el operador&nbsp; <code>%</code> en
+  Java y ECMAScript.
+</blockquote>
+<blockquote>
+  <b>NOTA: </b>Esta operaci&oacute;n no es la misma que la operaci&oacute;n remainder de
+  IEEE 754, la cual devuelve el resto de una divisi&oacute;n con redondeo.
+</blockquote>
+<h5>Numeric Expressions</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-AdditiveExpr"></a>[25]&nbsp;&nbsp;&nbsp;</td>
+      <td>AdditiveExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-MultiplicativeExpr">MultiplicativeExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AdditiveExpr">AdditiveExpr</a> '+' <a href="#NT-MultiplicativeExpr">MultiplicativeExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AdditiveExpr">AdditiveExpr</a> '-' <a href="#NT-MultiplicativeExpr">MultiplicativeExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-MultiplicativeExpr"></a>[26]&nbsp;&nbsp;&nbsp;</td>
+      <td>MultiplicativeExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-UnaryExpr">UnaryExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-MultiplicativeExpr">MultiplicativeExpr</a><a href="#NT-MultiplyOperator">MultiplyOperator</a><a href="#NT-UnaryExpr">
+        UnaryExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-MultiplicativeExpr">MultiplicativeExpr</a> 'div' <a href="#NT-UnaryExpr">UnaryExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-MultiplicativeExpr">MultiplicativeExpr</a> 'mod' <a href="#NT-UnaryExpr">UnaryExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-UnaryExpr"></a>[27]&nbsp;&nbsp;&nbsp;</td>
+      <td>UnaryExpr</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-UnionExpr">UnionExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| '-' <a href="#NT-UnaryExpr">UnaryExpr</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="strings"></a>3.6 Cadenas</h3>
+<p>Las cadenas consisten en una secuencia de cero o m&aacute;s caracteres, donde los
+caracteres se definen seg&uacute;n la Recomendaci&oacute;n XML <a href="#XML">[XML]</a>. Un
+caracter individual en&nbsp; XPath se corresponde pues con un &uacute;nico caracter
+abstracto&nbsp; Unicode con un &uacute;nico valor escalar Unicode correspondiente
+(v&eacute;ase <a href="#UNICODE">[Unicode]</a>); esto no es lo mismo que un valor de
+c&oacute;digo Unicode de 16 bits: La representaci&oacute;n codificada en Unicode de un
+caracter abstracto con valor escalar Unicode mayor que U+FFFF es un par de
+valores de c&oacute;digo Unicode de 16 bits (un par substituto). En muchos lenguajes
+de programaci&oacute;n, una cadena se representa mediante una secuencia de valores de
+c&oacute;digo Unicode de 16 bits; las implementaciones de&nbsp; XPath en tales
+lenguajes deber&aacute;n preocuparse de asegurar que un par substituto sea
+correctamente tratado como un&nbsp; solo caracter XPath.</p>
+<blockquote>
+  <b>NOTA: </b>En Unicode puede haber dos cadenas que deber&iacute;an ser tratadas
+  como id&eacute;nticas a pesar de consistir en distintas secuencias de caracteres
+  abstractos Unicode. Por ejemplo, algunos caracteres acentuados se pueden
+  representar tanto&nbsp; de forma precompuesta como descompuesta.&nbsp; Por
+  consiguiente, las expresiones XPath pueden devolver resultados inesperados a
+  no ser que los caracteres en la expresi&oacute;n XPath y en el documento XML se
+  hayan normalizado a una forma can&oacute;nica. V&eacute;ase <a href="#CHARMOD">[Character
+  Model]</a>.
+</blockquote>
+<h3><a name="exprlex"></a>3.7 Estructura L&eacute;xica</h3>
+<p>En la &quot;tokenizaci&oacute;n&quot;, siempre se devuelve el token m&aacute;s largo
+posible.</p>
+<p>Para facilitar la lectura, se pueden utilizar espacios en blanco en las
+expresiones aunque no est&eacute;n expl&iacute;citamente permitidos por la gram&aacute;tica; Se
+puede a&ntilde;adir libremente <a href="#NT-ExprWhitespace">ExprWhitespace</a> en las
+expresiones antes o despu&eacute;s de cualquier <a href="#NT-ExprToken">ExprToken</a>
+.</p>
+<p>Las siguientes reglas especiales de &quot;tokenizaci&oacute;n&quot; se deben
+aplicar en el orden especificado para romper la ambig&uuml;edad de la gram&aacute;tica de
+la expresi&oacute;n <a href="#NT-ExprToken">ExprToken</a> :</p>
+<ul>
+  <li>
+    <p>Si existe un token anterior y este no es&nbsp; <code>@</code>, <code>::</code>,
+    <code>(</code> ,<code>[</code>, <code>,</code> o un <a href="#NT-Operator">Operator</a>
+    , entonces un <code>*</code> se deber&aacute; reconocer como un&nbsp; <a href="#NT-MultiplyOperator">MultiplyOperator</a>
+    y un <a href="http://www.w3.org/TR/REC-xml-names#NT-NCName">NCName</a> se
+    deber&aacute; reconocer como un&nbsp; <a href="#NT-OperatorName">OperatorName</a>
+    .</p>
+  </li>
+  <li>
+    <p>Si el caracter que sigue a un <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+    (quiz&aacute; tras la interposici&oacute;n de <a href="#NT-ExprWhitespace">ExprWhitespace</a>
+    ) es <code>(</code>, entonces el token se deber&aacute; reconocer como un&nbsp; <a href="#NT-NodeType">NodeType</a>
+    o un <a href="#NT-FunctionName">FunctionName</a>.</p>
+  </li>
+  <li>
+    <p>Si los dos caracteres siguientes a un&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-NCName">NCName</a>
+    (quiz&aacute; tras la interposici&oacute;n de <a href="#NT-ExprWhitespace">ExprWhitespace</a>
+    ) son <code>::</code>, entonces el token se deber&aacute; reconocer como un&nbsp; <a href="#NT-AxisName">AxisName</a>.</p>
+  </li>
+  <li>
+    <p>En otro caso, el token no se deber&aacute; reconocer como un <a href="#NT-MultiplyOperator">MultiplyOperator</a>,
+    un <a href="#NT-OperatorName">OperatorName</a> , un <a href="#NT-NodeType">NodeType</a>,
+    un <a href="#NT-FunctionName">FunctionName</a> , o un <a href="#NT-AxisName">AxisName</a>.</p>
+  </li>
+</ul>
+<h5>Expression Lexical Structure</h5>
+<table class="scrap">
+  <tbody>
+    <tr valign="Baseline">
+      <td><a name="NT-ExprToken"></a>[28]&nbsp;&nbsp;&nbsp;</td>
+      <td>ExprToken</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'(' | ')' | '[' | ']' | '.' | '..' | '@' | ',' | '::'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-NameTest">NameTest</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-NodeType">NodeType</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-Operator">Operator</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-FunctionName">FunctionName</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-AxisName">AxisName</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-Literal">Literal</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-Number">Number</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-VariableReference">VariableReference</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-Literal"></a>[29]&nbsp;&nbsp;&nbsp;</td>
+      <td>Literal</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'&quot;' [^&quot;]* '&quot;'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| &quot;'&quot; [^']* &quot;'&quot;</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-Number"></a>[30]&nbsp;&nbsp;&nbsp;</td>
+      <td>Number</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-Digits">Digits</a> ('.' <a href="#NT-Digits">Digits</a>?)?</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| '.' <a href="#NT-Digits">Digits</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-Digits"></a>[31]&nbsp;&nbsp;&nbsp;</td>
+      <td>Digits</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>[0-9]+</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-Operator"></a>[32]&nbsp;&nbsp;&nbsp;</td>
+      <td>Operator</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="#NT-OperatorName">OperatorName</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="#NT-MultiplyOperator">MultiplyOperator</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| '/' | '//' | '|' | '+' |'-' | '=' | '!=' | '&lt;' | '&lt;=' | '&gt;'
+        | '&gt;='</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-OperatorName"></a>[33]&nbsp;&nbsp;&nbsp;</td>
+      <td>OperatorName</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'and' | 'or' | 'mod' | 'div'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-MultiplyOperator"></a>[34]&nbsp;&nbsp;&nbsp;</td>
+      <td>MultiplyOperator</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'*'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-FunctionName"></a>[35]&nbsp;&nbsp;&nbsp;</td>
+      <td>FunctionName</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>- <a href="#NT-NodeType">NodeType</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-VariableReference"></a>[36]&nbsp;&nbsp;&nbsp;</td>
+      <td>VariableReference</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'$' <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-NameTest"></a>[37]&nbsp;&nbsp;&nbsp;</td>
+      <td>NameTest</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'*'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="http://www.w3.org/TR/REC-xml-names#NT-NCName">NCName</a>
+        ':' '*'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a></td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-NodeType"></a>[38]&nbsp;&nbsp;&nbsp;</td>
+      <td>NodeType</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td>'comment'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'text'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'processing-instruction'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td><br>
+      </td>
+      <td>| 'node'</td>
+      <td><br>
+      </td>
+    </tr>
+    <tr valign="Baseline">
+      <td><a name="NT-ExprWhitespace"></a>[39]&nbsp;&nbsp;&nbsp;</td>
+      <td>ExprWhitespace</td>
+      <td>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;&nbsp;</td>
+      <td><a href="http://www.w3.org/TR/REC-xml#NT-S">S</a></td>
+      <td><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2><a name="corelib"></a>4 Biblioteca b&aacute;sica de funciones</h2>
+<p>En esta secci&oacute;n se describen funciones que las implementaciones de XPath
+deben incluir siempre en la biblioteca de funciones que se usa para evaluar
+expresiones.</p>
+<p>Cada funci&oacute;n en la biblioteca se especifica utilizando un prototipo de
+funci&oacute;n, que da el tipo devuelto, el nombre de la funci&oacute;n y el tipo de los
+argumentos. Si un tipo de argumento es seguido por un signo de interrogaci&oacute;n,
+entonces el argumento es opcional; en otro caso, el argumento es obligatorio.</p>
+<h3><a name="section-Node-Set-Functions"></a> 4.1 Funciones de conjuntos de
+nodos</h3>
+<p><a name="function-last"><b>Function: </b><i>number</i><b>last</b>()</a></p>
+<p>La funci&oacute;n&nbsp; <b><a href="#function-last">last</a></b>&nbsp; devuelve un
+n&uacute;mero igual al&nbsp; <a href="#dt-context-size">tama&ntilde;o contextual</a> del
+contexto de evaluaci&oacute;n de la expresi&oacute;n.</p>
+<p><a name="function-position"><b>Function: </b><i>number</i><b>position</b>()</a></p>
+<p>La funci&oacute;n <b><a href="#function-position">position</a></b> devuelve un
+n&uacute;mero igual a la&nbsp; <a href="#dt-context-position">posici&oacute;n contextual</a>
+del contexto de evaluaci&oacute;n de la expresi&oacute;n.</p>
+<p><a name="function-count"><b>Function: </b><i>number</i><b>count</b>(<i>node-set</i>
+)</a></p>
+<p>La funci&oacute;n <b><a href="#function-count">count</a></b> devuelve el n&uacute;mero de
+nodos en el conjunto de nodos argumento.</p>
+<p><a name="function-id"><b>Function: </b><i>node-set</i><b>id</b>(<i>object</i>
+)</a></p>
+<p>La funci&oacute;n&nbsp; <b><a href="#function-id">id</a></b> selecciona elementos
+mediante su identificador &uacute;nico (v&eacute;ase <a href="#unique-id">[<b> 5.2.1
+Identificadores &uacute;nicos</b>]</a>). Cuando el argumento de<b><a href="#function-id">
+id</a></b> es de tipo conjunto de nodos, entonces el resultado es la uni&oacute;n de
+los resultados de aplicar <b><a href="#function-id">id</a></b> a los <a href="#dt-string-value">valores
+de cadena</a> de cada uno de los nodos en el conjunto de nodos argumento. Cuando
+el argumento de <b><a href="#function-id">id</a></b> es de cualquier otro tipo,
+el argumento se convierte en cadena como si se aplicase la funci&oacute;n <b><a href="#function-string">string</a></b>;
+la cadena es dividida en una lista de tokens separados por espacios en blanco
+(el espacio en blanco es cualquier secuencia de caracteres que se ajuste a la
+regla de producci&oacute;n <a href="http://www.w3.org/TR/REC-xml#NT-S">S</a>) ; el
+resultado es un conjunto de nodos conteniendo los elementos en el mismo
+documento que el nodo contextual que tengan un identificador &uacute;nico igual a
+alguno de los tokens de la lista.</p>
+<ul>
+  <li>
+    <p><code>id(&quot;foo&quot;)</code> selecciona el elemento con identificador
+    &uacute;nico <code>foo</code></p>
+  </li>
+  <li>
+    <p><code>id(&quot;foo&quot;)/child::para[position()=5]</code> selecciona el
+    quinto hijo <code>para</code> del elemento con identificador &uacute;nico<code>
+    foo</code></p>
+  </li>
+</ul>
+<p><a name="function-local-name"><b>Function: </b><i>string</i><b>local-name</b>(<i>
+node-set</i>?)</a></p>
+<p>La funci&oacute;n&nbsp; <b><a href="#function-local-name">local-name</a></b>
+devuelve la parte local del&nbsp; <a href="#dt-expanded-name">nombre expandido</a>
+del nodo, en el conjunto de nodos argumento, que es el primero en&nbsp; <a href="#dt-document-order">orden
+de documento</a>. Si el conjunto de nodos argumento es vac&iacute;o o el primer nodo
+no tiene <a href="#dt-expanded-name">nombre expandido</a>, se devuelve una
+cadena vac&iacute;a. Si se omite el argumento, toma por defecto un conjunto de nodos
+con el nodo contextual como &uacute;nico miembro.</p>
+<p><a name="function-namespace-uri"><b>Function: </b><i>string</i><b>namespace-uri</b>(<i>node-set</i>?)</a></p>
+<p>La funci&oacute;n&nbsp; <b><a href="#function-namespace-uri">namespace-uri</a></b>
+devuelve el URI del espacio de nombres del&nbsp; <a href="#dt-expanded-name">nombre
+expandido</a> del nodo, en el conjunto de nodos argumento, que es el primero
+en&nbsp; <a href="#dt-document-order">orden de documento</a>. Si el conjunto de
+nodos argumento es vac&iacute;o, el primer nodo no tiene <a href="#dt-expanded-name">nombre
+expandido</a> , o el URI del espacio de nombres del <a href="#dt-expanded-name">nombre
+expandido</a> es nulo, se devuelve una cadena vac&iacute;a. Si se omite el argumento,
+toma por defecto un conjunto de nodos con el nodo contextual como &uacute;nico
+miembro.</p>
+<blockquote>
+  <b>NOTA: </b>La cadena devuelta por la funci&oacute;n <b><a href="#function-namespace-uri">namespace-uri</a></b>
+  ser&aacute; vac&iacute;a excepto para nodos elemento y nodos atributo.
+</blockquote>
+<p><a name="function-name"><b>Function: </b><i>string</i><b>name</b>(<i>node-set</i>
+?)</a></p>
+<p>La funci&oacute;n <b><a href="#function-name">name</a></b>&nbsp; devuelve una
+cadena conteniendo un&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+que representa el <a href="#dt-expanded-name">nombre expandido</a> del nodo, en
+el conjunto de nodos argumento, que es el primero en <a href="#dt-document-order">orden
+de documento</a>. El <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+debe representar al <a href="#dt-expanded-name">nombre expandido</a> con
+respecto a las declaraciones de espacio de nombres con efecto sobre el nodo cuyo
+<a href="#dt-expanded-name">nombre expandido</a> se est&aacute; representando. Este
+ser&aacute;, t&iacute;picamente, el&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+que aparec&iacute;a en la fuente XML. Esto no es necesariamente as&iacute; si hay
+declaraciones de espacio de nombres, con efecto sobre el nodo, que asocien
+m&uacute;ltiples prefijos con el mismo espacio de nombres. Sin embargo, las
+implementaciones pueden incluir informaci&oacute;n sobre el prefijo original en su
+representaci&oacute;n de los nodos; en este caso, la implementaci&oacute;n puede asegurarse
+de que la cadena devuelta sea siempre la misma que el&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+utilizado en la fuente XML. Si el conjunto de nodos argumento es vac&iacute;o o el
+primer nodo no tiene <a href="#dt-expanded-name">nombre expandido</a>, se
+devuelve una cadena vac&iacute;a. Si se omite el argumento, toma por defecto un
+conjunto de nodos con el nodo contextual como &uacute;nico miembro.</p>
+<blockquote>
+  <b>NOTA: </b>La cadena devuelta por la funci&oacute;n <b><a href="#function-name">name</a></b>
+  ser&aacute; la misma que la cadena devuelta por la funci&oacute;n <b><a href="#function-local-name">local-name</a></b>&nbsp;
+  salvo para nodos elemento y nodos atributo.
+</blockquote>
+<h3><a name="section-String-Functions"></a> 4.2 Funciones de cadenas</h3>
+<p><a name="function-string"><b>Function: </b><i>string</i><b>string</b>(<i>
+object</i>?)</a></p>
+<p>La funci&oacute;n <b><a href="#function-string">string</a></b> convierte un objeto
+en cadena del siguiente modo:</p>
+<ul>
+  <li>
+    <p>Un conjunto de nodos se convierte en cadena devolviendo el&nbsp; <a href="#dt-string-value">valor
+    de cadena</a> del nodo, en el conjunto de nodos, que es el primero en <a href="#dt-document-order">orden
+    de documento</a>. Si el conjunto de nodos es vac&iacute;o, se devuelve una cadena
+    vac&iacute;a.</p>
+  </li>
+  <li>
+    <p>Un n&uacute;mero se convierte en cadena del siguiente modo</p>
+    <ul>
+      <li>
+        <p>NaN se convierte en la cadena <code>NaN</code></p>
+      </li>
+      <li>
+        <p>el cero positivo se convierte en la cadena <code>0</code></p>
+      </li>
+      <li>
+        <p>el cero negativo se convierte en la cadena <code>0</code></p>
+      </li>
+      <li>
+        <p>el infinito positivo se convierte en la cadena <code>Infinity</code></p>
+      </li>
+      <li>
+        <p>el infinito negativo se convierte en la cadena <code>-Infinity</code></p>
+      </li>
+      <li>
+        <p>Si el n&uacute;mero es un entero, el n&uacute;mero se representa en forma decimal
+        como un&nbsp; <a href="#NT-Number">Number</a> sin punto decimal ni ceros
+        a la izquierda, precedido con un signo menos (<code> -</code>) si el
+        n&uacute;mero es negativo</p>
+      </li>
+      <li>
+        <p>En otro caso,&nbsp; el n&uacute;mero se representa en forma decimal como un
+        <a href="#NT-Number">Number</a> incluyendo el punto decimal con al menos
+        un d&iacute;gito antes del punto decimal y al menos un d&iacute;gito despu&eacute;s del
+        punto decimal, precedido por un signo menos (<code>-</code> ) si el
+        n&uacute;mero es negativo; no debe haber ceros a la izquierda antes del punto
+        decimal salvo quiz&aacute; el d&iacute;gito obligatorio inmediatamente anterior al
+        punto decimal; a continuaci&oacute;n del d&iacute;gito obligatorio tras el punto
+        decimal deber&aacute; haber tantos, pero s&oacute;lo tantos, d&iacute;gitos adicionales
+        como sean necesarios para distinguir singularmente el n&uacute;mero de todos
+        los dem&aacute;s valores num&eacute;ricos en IEEE 754.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>El valor falso booleano se convierte en la cadena <code>false</code>. El
+    valor verdadero booleano se convierte en la cadena <code>true</code>.</p>
+  </li>
+  <li>
+    <p>Un objeto de un tipo distinto de los cuatro tipos b&aacute;sicos se convierte
+    en cadena de una forma dependiente del tipo en cuesti&oacute;n.</p>
+  </li>
+</ul>
+<p>Si se omite el argumento, toma por defecto un conjunto de nodos con el nodo
+contextual como &uacute;nico miembro.</p>
+<blockquote>
+  <b>NOTA: </b>La funci&oacute;n <code>string</code> no est&aacute; pensada para convertir
+  n&uacute;meros en cadenas para su presentaci&oacute;n al usuario. La funci&oacute;n <code>format-number</code>
+  y el elemento <code>xsl:number</code> en <a href="#XSLT">[XSLT]</a>
+  proporcionan esta funcionalidad.
+</blockquote>
+<p><a name="function-concat"><b>Function: </b><i>string</i><b>concat</b>(<i>string</i>,
+<i>string</i>, <i>string</i>*)</a></p>
+<p>La funci&oacute;n <b><a href="#function-concat">concat</a></b> devuelve la
+concatenaci&oacute;n de sus argumentos.</p>
+<p><a name="function-starts-with"><b>Function: </b><i>boolean</i><b>starts-with</b>(<i>string</i>,
+<i>string</i> )</a></p>
+<p>La funci&oacute;n <b><a href="#function-starts-with">starts-with</a></b> devuelve
+verdadero si la primera cadena argumento empieza con la segunda cadena
+argumento, y&nbsp; devuelve falso en otro caso.</p>
+<p>Si el segundo argumento es la cadena vac&iacute;a, entonces se devuelve verdadero.</p>
+<p><a name="function-contains"><b>Function: </b><i>boolean</i><b>contains</b>(<i>string</i>,
+<i>string</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-contains">contains</a></b> devuelve
+verdadero si la primera cadena argumento contiene a la segunda cadena argumento,
+y devuelve falso en otro caso.</p>
+<p>Si el segundo argumento es la cadena vac&iacute;a, entonces se devuelve verdadero.</p>
+<p><a name="function-substring-before"><b>Function: </b><i>string</i><b>substring-before</b>(<i>string</i>,
+<i>string</i> )</a></p>
+<p>La funci&oacute;n <b><a href="#function-substring-before">substring-before</a></b>
+devuelve la subcadena de la primera cadena argumento que precede a la primera
+aparici&oacute;n de la segunda cadena argumento en la primera cadena argumento, o la
+cadena vac&iacute;a si la primera cadena argumento no contiene a la segunda cadena
+argumento. Por ejemplo, <code>substring-before(&quot;1999/04/01&quot;,&quot;/&quot;)</code>
+devuelve <code>1999</code>.</p>
+<p>Si el segundo argumento es la cadena vac&iacute;a, entonces se devuelve la cadena
+vac&iacute;a.</p>
+<p><a name="function-substring-after"><b>Function: </b><i>string</i><b>substring-after</b>(<i>string</i>,
+<i>string</i> )</a></p>
+<p>La funci&oacute;n <b><a href="#function-substring-after">substring-after</a></b>
+devuelve la subcadena de la primera cadena argumento que sigue a la primera
+aparici&oacute;n de la segunda cadena argumento en la primera cadena argumento, o la
+cadena vac&iacute;a si la primera cadena argumento no contiene a la segunda cadena
+argumento. Por ejemplo, <code>substring-after(&quot;1999/04/01&quot;,&quot;/&quot;)</code>
+devuelve <code>04/01</code>, y <code>substring-after(&quot;1999/04/01&quot;,&quot;19&quot;)</code>
+devuelve <code>99/04/01</code>.</p>
+<p>Si el segundo argumento es la cadena vac&iacute;a, entonces se devuelve la primera
+cadena argumento.</p>
+<p><a name="function-substring"><b>Function: </b><i>string</i><b>substring</b>(<i>string</i>,
+<i>number</i>, <i>number</i>?)</a></p>
+<p>La funci&oacute;n <b><a href="#function-substring">substring</a></b> devuelve la
+subcadena del primer argumento que comienza en la posici&oacute;n especificada en el
+segundo argumento y tiene la longitud especificada en el tercer argumento. Por
+ejemplo, <code>substring(&quot;12345&quot;,2,3)</code> devuelve <code>&quot;234&quot;</code>.
+Si no se especifica el tercer argumento, devuelve la subcadena que comienza en
+la posici&oacute;n especificada en el segundo argumento y contin&uacute;a hasta el final de
+la cadena. Por ejemplo,<code> substring(&quot;12345&quot;,2)</code> devuelve <code>&quot;2345&quot;</code>.</p>
+<p>M&aacute;s exactamente, se considera que cada caracter en la cadena (v&eacute;ase <a href="#strings">[<b>3.6
+Strings</b>]</a>) tiene una posici&oacute;n num&eacute;rica: la posici&oacute;n del primer
+caracter es 1, la posici&oacute;n del segundo caracter es 2 y as&iacute; sucesivamente.</p>
+<blockquote>
+  <b>NOTA: </b>Esto difiere de Java y ECMAScript, en donde el m&eacute;todo <code>String.substring</code>
+  trata la posici&oacute;n del primer caracter como 0.
+</blockquote>
+<p>La subcadena devuelta contiene aquellos caracteres cuya posici&oacute;n es mayor o
+igual que el valor redondeado del segundo argumento y, si se ha especificado un
+tercer argumento, menor que la suma de los valores redondeados del segundo y
+tercer argumento; las comparaciones y la suma utilizadas en lo anterior siguen
+las reglas del est&aacute;ndar IEEE754; el redondeo se realiza como si se aplicase la
+funci&oacute;n <b><a href="#function-round">round</a></b>. Los siguientes ejemplos
+ilustran varios casos inusuales:</p>
+<ul>
+  <li>
+    <p><code>substring(&quot;12345&quot;, 1.5, 2.6)</code> devuelve <code>&quot;234&quot;</code></p>
+  </li>
+  <li>
+    <p><code>substring(&quot;12345&quot;, 0, 3)</code> devuelve <code>&quot;12&quot;</code></p>
+  </li>
+  <li>
+    <p><code>substring(&quot;12345&quot;, 0 div 0, 3)</code> devuelve <code>&quot;&quot;</code></p>
+  </li>
+  <li>
+    <p><code>substring(&quot;12345&quot;, 1, 0 div 0)</code> devuelve <code>&quot;&quot;</code></p>
+  </li>
+  <li>
+    <p><code>substring(&quot;12345&quot;, -42, 1 div 0)</code> devuelve <code>&quot;12345&quot;</code></p>
+  </li>
+  <li>
+    <p><code>substring(&quot;12345&quot;, -1 div 0, 1 div 0)</code> devuelve <code>&quot;&quot;</code></p>
+  </li>
+</ul>
+<p><a name="function-string-length"><b>Function: </b><i>number</i><b>string-length</b>(<i>string</i>?)</a></p>
+<p>La funci&oacute;n <b><a href="#function-string-length">string-length</a></b>
+devuelve el n&uacute;mero de caracteres en la cadena (v&eacute;ase <a href="#strings">[<b>3.6
+Cadenas</b> ]</a>). Si se omite el argumento, toma por defecto el nodo
+contextual convertido en cadena, es decir, el <a href="#dt-string-value">valor
+de cadena</a> del nodo contextual.</p>
+<p><a name="function-normalize-space"><b>Function: </b><i>string</i><b>normalize-space</b>(<i>string</i>?)</a></p>
+<p>La funci&oacute;n <b><a href="#function-normalize-space">normalize-space</a></b>
+devuelve la cadena argumento con el espacio en blanco normalizado mediante la
+eliminaci&oacute;n del que se encuentra al principio y al final y la substituci&oacute;n de
+secuencias de caracteres de espacio en blanco por un solo espacio. Los
+caracteres de espacio en blanco son los mismos que se permiten en la regla de
+producci&oacute;n <a href="http://www.w3.org/TR/REC-xml#NT-S">S</a> de XML. Si se
+omite el argumento, toma por defecto el nodo contextual convertido en
+cadena&nbsp; es decir, el <a href="#dt-string-value">valor de cadena</a> del
+nodo contextual.</p>
+<p><a name="function-translate"><b>Function: </b><i>string</i><b>translate</b>(<i>string</i>,
+<i>string</i>, <i>string</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-translate">translate</a></b> devuelve la
+cadena primer argumento con las apariciones de caracteres del segundo argumento
+substituidas por los caracteres en las posiciones correspondientes de la tercera
+cadena argumento. Por ejemplo, <code>translate(&quot;bar&quot;,&quot;abc&quot;,&quot;ABC&quot;)</code>
+devuelve la cadena <code>BAr</code>. Si hay un caracter en la segunda cadena
+argumento sin caracter en la posici&oacute;n correspondiente en la tercera cadena
+argumento (debido a que la segunda cadena argumento es m&aacute;s larga que la tercera
+cadena argumento), entonces las apariciones de dicho caracter en la primera
+cadena argumento son eliminadas. Por ejemplo, <code>translate(&quot;--aaa--&quot;,&quot;abc-&quot;,&quot;ABC&quot;)</code>
+devuelve <code>&quot;AAA&quot;</code>. Si un caracter aparece m&aacute;s de una vez en
+la segunda cadena argumento, entonces la primera aparici&oacute;n determina el
+caracter de reemplazo. Si la cadena tercer argumento es m&aacute;s larga que la cadena
+segundo argumento, entonces los caracteres extra son ignorados.</p>
+<blockquote>
+  <b>NOTA: </b>La funci&oacute;n <b><a href="#function-translate">translate</a></b> no
+  es una soluci&oacute;n suficiente para la conversi&oacute;n entre may&uacute;sculas y
+  min&uacute;sculas en todos los idiomas. Una futura versi&oacute;n de XPath podr&iacute;a aportar
+  funciones adicionales para esa conversi&oacute;n.
+</blockquote>
+<h3><a name="section-Boolean-Functions"></a> 4.3 Funciones Booleanas</h3>
+<p><a name="function-boolean"><b>Function: </b><i>boolean</i><b>boolean</b>(<i>object</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-boolean">boolean</a></b> convierte su
+argumento en booleano como sigue:</p>
+<ul>
+  <li>
+    <p>un n&uacute;mero es verdadero si y s&oacute;lo si no es ni cero positivo o negativo
+    ni NaN</p>
+  </li>
+  <li>
+    <p>un conjunto de nodos es verdadero si y s&oacute;lo si es no vac&iacute;o</p>
+  </li>
+  <li>
+    <p>una cadena es verdadera si y s&oacute;lo si su longitud no es cero</p>
+  </li>
+  <li>
+    <p>un objeto de un tipo distinto a los cuatro tipos b&aacute;sicos se convierte en
+    booleano de una forma dependiente de dicho tipo</p>
+  </li>
+</ul>
+<p><a name="function-not"><b>Function: </b><i>boolean</i><b>not</b>(<i>boolean</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-not">not</a></b> devuelve verdadero si su
+argumento es falso, y falso en otro caso.</p>
+<p><a name="function-true"><b>Function: </b><i>boolean</i><b>true</b>()</a></p>
+<p>La funci&oacute;n <b><a href="#function-true">true</a></b> devuelve verdadero.</p>
+<p><a name="function-false"><b>Function: </b><i>boolean</i><b>false</b>()</a></p>
+<p>La funci&oacute;n <b><a href="#function-false">false</a></b> devuelve falso.</p>
+<p><a name="function-lang"><b>Function: </b><i>boolean</i><b>lang</b>(<i>string</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-lang">lang</a></b> devuelve verdadero o
+falso dependiendo de si el lenguaje del nodo contextual tal como se especifica
+por los atributos <code>xml:lang</code> es el mismo que, o es un sublenguaje de,
+el lenguaje especificado por la cadena argumento. El lenguaje del nodo
+contextual se determina por el valor del atributo <code>xml:lang </code>en el
+nodo contextual, o, si el nodo contextual no tiene atributo <code>xml:lang</code>
+, por el valor del atributo <code>xml:lang</code> en el ancestro m&aacute;s cercano
+del nodo contextual que tenga atributo <code>xml:lang</code>. Si no hay tal
+atributo, entonces <b><a href="#function-lang">lang</a></b> devuelve falso. Si
+hay tal atributo, entonces <b><a href="#function-lang">lang</a></b> devuelve
+verdadero si el valor del atributo es igual al argumento ignorando may&uacute;sculas y
+min&uacute;sculas, o si hay alg&uacute;n sufijo empezando con&nbsp; <code>-</code> tal que
+el valor del atributo es igual al argumento ignorando dicho sufijo en el valor
+del atributo e ignorando may&uacute;sculas y min&uacute;sculas. Por ejemplo, <code>lang(&quot;en&quot;)</code>
+devolver&iacute;a verdadero si el nodo contextual fuese alguno de estos cinco
+elementos:</p>
+<pre>&lt;para xml:lang=&quot;en&quot;/&gt;
+&lt;div xml:lang=&quot;en&quot;&gt;&lt;para/&gt;&lt;/div&gt;
+&lt;para xml:lang=&quot;EN&quot;/&gt;
+&lt;para xml:lang=&quot;en-us&quot;/&gt;</pre>
+<h3><a name="section-Number-Functions"></a> 4.4 Funciones num&eacute;ricas</h3>
+<p><a name="function-number"><b>Function: </b><i>number</i><b>number</b>(<i>object</i>?)</a></p>
+<p>La funci&oacute;n <b><a href="#function-number">number</a></b> convierte su
+argumento en un n&uacute;mero como sigue:</p>
+<ul>
+  <li>
+    <p>una cadena que consista en espacio en blanco opcional seguido de un signo
+    menos opcional seguido de un&nbsp; <a href="#NT-Number">Number</a> seguido
+    de espacio en blanco se convierte en el n&uacute;mero IEEE 754 que est&eacute; m&aacute;s
+    pr&oacute;ximo (seg&uacute;n la regla de redondeo al mas cercano de IEEE 754) al valor
+    matem&aacute;tico representado por la cadena; cualquier otra cadena se convierte
+    en NaN</p>
+  </li>
+  <li>
+    <p>el valor booleano verdadero se convierte en 1; el valor booleano falso se
+    convierte en 0</p>
+  </li>
+  <li>
+    <p>Un conjunto de nodos se convierte primero en cadena como si se aplicase
+    la funci&oacute;n <b><a href="#function-string">string</a></b> y a continuaci&oacute;n
+    se convierte de la misma forma que los argumentos de tipo cadena</p>
+  </li>
+  <li>
+    <p>Un objeto de un tipo distinto de los cuatro tipos b&aacute;sicos se convierte
+    en n&uacute;mero de una forma dependiente de dicho tipo</p>
+  </li>
+</ul>
+<p>Si se omite el argumento, toma por defecto un conjunto de nodos con el nodo
+contextual como &uacute;nico miembro.</p>
+<blockquote>
+  <b>NOTA: </b>La funci&oacute;n&nbsp; <b><a href="#function-number">number</a></b>&nbsp;
+  no deber&iacute;a ser usada para la conversi&oacute;n de datos num&eacute;ricos que aparezcan en
+  un elemento de un documento XML a no ser que el elemento sea de un tipo que
+  represente datos num&eacute;ricos en un formato independiente de los lenguajes (que
+  ser&iacute;a t&iacute;picamente transformado en un formato espec&iacute;fico de un lenguaje para
+  su presentaci&oacute;n al usuario). Adem&aacute;s, la funci&oacute;n <b><a href="#function-number">number</a></b>
+  no puede ser usada salvo que el formato independiente de los lenguajes que
+  utiliza el elemento sea consistente con la sintaxis de XPath para&nbsp; <a href="#NT-Number">Number</a>.
+</blockquote>
+<p><a name="function-sum"><b>Function: </b><i>number</i><b>sum</b>(<i>node-set</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-sum">sum</a></b> devuelve la suma, a lo
+largo de todos los nodos del conjunto de nodos argumento, del resultado de
+convertir los <a href="#dt-string-value">valores de cadena</a> de los nodos en
+n&uacute;meros.</p>
+<p><a name="function-floor"><b>Function: </b><i>number</i><b>floor</b>(<i>number</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-floor">floor</a></b> devuelve el mayor
+(m&aacute;s cercano al infinito positivo) n&uacute;mero que no sea mayor que el argumento y
+que sea entero.</p>
+<p>Si el argumento es NaN entonces se devuelve NaN. Si el argumento es el
+infinito positivo, entonces se devuelve el infinito positivo. Si el argumento es
+el infinito negativo, entonces se devuelve el infinito negativo. Si el argumento
+es el cero positivo, entonces se devuelve el cero positivo. Si el argumento es
+el cero negativo, entonces se devuelve el cero negativo. Si el argumento es
+mayor que cero, pero menor que 1, entonces se devuelve el cero positivo.</p>
+<p><a name="function-ceiling"><b>Function: </b><i>number</i><b>ceiling</b>(<i>number</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-ceiling">ceiling</a></b> devuelve el menor
+(m&aacute;s cercano al infinito negativo) n&uacute;mero que no sea menor que el argumento y
+que sea entero.</p>
+<p>Si el argumento es NaN entonces se devuelve NaN. Si el argumento es el
+infinito positivo, entonces se devuelve el infinito positivo. Si el argumento es
+el infinito negativo, entonces se devuelve el infinito negativo. Si el argumento
+es el cero positivo, entonces se devuelve el cero positivo. Si el argumento es
+el cero negativo, entonces se devuelve el cero negativo. Si el argumento es
+menor que cero, pero mayor que -1, entonces se devuelve el cero negativo.</p>
+<p><a name="function-round"><b>Function: </b><i>number</i><b>round</b>(<i>number</i>)</a></p>
+<p>La funci&oacute;n <b><a href="#function-round">round</a></b> devuelve el n&uacute;mero
+que est&eacute; m&aacute;s pr&oacute;ximo al argumento y que sea entero. Si hay dos n&uacute;meros en
+esas condiciones, entonces devuelve el m&aacute;s cercano al infinito positivo. Si el
+argumento es NaN, entonces se devuelve NaN. Si el argumento es el infinito
+positivo, entonces se devuelve el infinito positivo. Si el argumento es el
+infinito negativo, entonces se devuelve el infinito negativo. Si el argumento es
+el cero positivo, entonces se devuelve el cero positivo. Si el argumento es el
+cero negativo, entonces se devuelve el cero negativo. Si el argumento es menor
+que cero, pero mayor o igual que&nbsp; -0.5, entonces se devuelve el cero
+negativo.</p>
+<blockquote>
+  <b>NOTA: </b>Para estos dos &uacute;ltimos caso, el resultado de llamar a la
+  funci&oacute;n&nbsp;<b><a href="#function-round"> round</a></b> no es el mismo que
+  el resultado de a&ntilde;adir 0.5 y a continuaci&oacute;n llamar a la funci&oacute;n <b><a href="#function-floor">floor</a></b>.
+</blockquote>
+<h2><a name="data-model"></a> 5 Modelo de datos</h2>
+<p>XPath opera sobre un documento XML consider&aacute;ndolo como un &aacute;rbol. Esta
+secci&oacute;n describe la forma en que XPath modela un documento XML como un &aacute;rbol.
+Este modelo es solamente conceptual y no impone ninguna implementaci&oacute;n en
+particular. La relaci&oacute;n entre este modelo y el Conjunto de Informaci&oacute;n XML <a href="#XINFO">[XML
+Infoset]</a> se describe en <a href="#infoset">[<b>B XML Information Set Mapping</b>
+]</a>.</p>
+<p>Los documentos XML sobre los que opera XPath deben ser acordes con la
+Recomendaci&oacute;n de Espacios de Nombres XML&nbsp; <a href="#XMLNAMES">[XML Names]</a>.</p>
+<p>El &aacute;rbol contiene nodos. Hay siete tipos de nodos:</p>
+<ul>
+  <li>
+    <p>nodos ra&iacute;z</p>
+  </li>
+  <li>
+    <p>nodos elemento</p>
+  </li>
+  <li>
+    <p>nodos texto</p>
+  </li>
+  <li>
+    <p>nodos atributo</p>
+  </li>
+  <li>
+    <p>nodos espacio de nombres</p>
+  </li>
+  <li>
+    <p>nodos instrucci&oacute;n de procesamiento</p>
+  </li>
+  <li>
+    <p>nodos comentario</p>
+  </li>
+</ul>
+<p><a name="dt-string-value"></a> Para cada tipo de nodo, hay una forma de
+determinar un&nbsp; <b>valor de cadena</b> para los nodos de ese tipo. Para
+algunos tipos de nodo, el valor de cadena es parte del nodo; para otros tipos de
+nodo, el valor de cadena se calcula a partir del valor de cadena de nodos
+descendientes.</p>
+<blockquote>
+  <b>NOTA: </b>Para nodos elemento y nodos ra&iacute;z, el valor de cadena de un nodo
+  no es lo mismo que la cadena devuelta por el m&eacute;todo DOM<code>nodeValue</code>&nbsp;
+  (v&eacute;ase <a href="#DOM">[DOM]</a>).
+</blockquote>
+<p><a name="dt-expanded-name"></a> Algunos tipos de nodo tienen tambi&eacute;n
+un&nbsp; <b>nombre expandido</b>, que es un par formado por una parte local y un
+URI de espacio de nombres. La parte local es una cadena. EL URI de espacio de
+nombres es o bien nulo o bien una cadena. Un <a href="http://www.w3.org/TR/REC-xml-names#dt-NSName">namespace
+name</a> especificado en una declaraci&oacute;n de espacio de nombres de un documento
+XML, es una referencia URI tal como se define en <a href="http://www.w3.org/TR/xpath#RFC2396">[RFC2396]</a>;
+Esto implica que puede tener un identificador de fragmento y puede ser relativo.
+El componente URI de espacio de nombres de un <a href="http://www.w3.org/TR/xpath#dt-expanded-name">nombre
+expandido</a> depende de la implementaci&oacute;n si el <a href="http://www.w3.org/TR/xpath#dt-expanded-name">nombre
+expandido</a> es la expansi&oacute;n de un&nbsp; <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+cuyo prefijo se declara en una declaraci&oacute;n de espacio de nombres con un nombre
+de espacio de nombres que es un URI relativo (con o sin identificador de
+fragmento). Una expresi&oacute;n XPath que dependa del valor del componente URI de
+espacio de nombres de uno de tales&nbsp; <a href="http://www.w3.org/TR/xpath#dt-expanded-name">nombres
+expandidos</a> no es interoperable. Dos <a href="#dt-expanded-name">nombres
+expandidos</a> son iguales si tienen la misma parte local, y o bien ambos tienen
+un URI de espacio de nombres nulo o bien ambos tienen URIs de espacio de nombres
+no nulos que son iguales.</p>
+<p><a name="dt-document-order"></a> Hay una ordenaci&oacute;n, el <b>orden de
+documento</b>, definida sobre todos los nodos del documento correspondiente con
+el orden en que el primer caracter de la representaci&oacute;n XML de cada nodo
+aparece en la representaci&oacute;n XML del documento tras la expansi&oacute;n de las
+entidades generales. As&iacute;, el nodo ra&iacute;z ser&aacute; el primer nodo. Los nodos
+elemento aparecen antes de sus hijos. Por tanto, el orden de documento ordena
+los nodos elemento en el orden de aparici&oacute;n de sus etiquetas de apertura en el
+XML (tras la expansi&oacute;n de entidades). Los nodos atributo y los nodos espacio de
+nombres de un elemento aparecen antes que los hijos del elemento. Los nodos
+espacio de nombres aparecen por definici&oacute;n antes que los nodos atributo. El
+orden relativo de los nodos espacio de nombres depende de la implementaci&oacute;n. El
+orden relativo de los nodos atributo depende de la implementaci&oacute;n. <a name="dt-reverse-document-order"></a><b>
+</b>El <b>Orden inverso de documento</b>&nbsp; es el inverso del <a href="#dt-document-order">orden
+de documento</a>.</p>
+<p>Los nodos ra&iacute;z y los nodos elemento tienen una lista ordenada de nodos hijo.
+Los nodos nunca comparten un hijo: si un nodo no es el mismo nodo que otro,
+entonces ninguno de los hijos del primer nodo ser&aacute; el mismo nodo que ninguno de
+los hijos del otro nodo. <a name="dt-parent"></a> Todos los nodos salvo el nodo
+ra&iacute;z tienen exactamente un&nbsp; <b>padre</b>, que es o bien un nodo elemento o
+bien el nodo ra&iacute;z. Un nodo ra&iacute;z o un nodo elemento es el padre de cada uno de
+sus nodos hijo. <a name="dt-descendants"></a>Los <b>descendientes</b> de un nodo
+son los hijos del nodo y los descendientes de los hijos del nodo.</p>
+<h3><a name="root-node"></a> 5.1 Nodo Ra&iacute;z</h3>
+<p>El nodo ra&iacute;z es la ra&iacute;z del &aacute;rbol. No aparecen nodos ra&iacute;z salvo como
+ra&iacute;z del &aacute;rbol. El nodo elemento del elemento de documento es hijo del nodo
+ra&iacute;z. El nodo ra&iacute;z tiene tambi&eacute;n como hijos los nodos instrucci&oacute;n de
+procesamiento y comentario correspondientes a las instrucciones de procesamiento
+y comentarios que aparezcan en el pr&oacute;logo y tras el fin del elemento de
+documento.</p>
+<p>El <a href="#dt-string-value">valor de cadena</a> del nodo ra&iacute;z es la
+concatenaci&oacute;n de los&nbsp; <a href="#dt-string-value">valores de cadena</a> de
+todos los nodos texto <a href="#dt-descendants">descendientes</a> del nodo ra&iacute;z
+en orden de documento.</p>
+<p>El nodo ra&iacute;z no tiene <a href="#dt-expanded-name">nombre expandido</a>.</p>
+<h3><a name="element-nodes"></a> 5.2 Nodos elemento</h3>
+<p>Hay un nodo elemento por cada elemento en el documento. Los nodos elemento
+tienen un&nbsp; <a href="#dt-expanded-name">nombre expandido</a> calculado
+expandiendo el <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+del elemento especificado en la etiqueta de acuerdo con la Recomendaci&oacute;n de
+Espacios de Nombres XML <a href="#XMLNAMES">[XML Names]</a>. El URI de espacio
+de nombres del <a href="#dt-expanded-name">nombre expandido</a> del elemento
+ser&aacute; nulo si el <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+no tiene prefijo y no hay un espacio de nombres por defecto aplicable.</p>
+<blockquote>
+  <b>NOTA: </b>En la notaci&oacute;n del Ap&eacute;ndice A.3 de <a href="#XMLNAMES">[XML
+  Names]</a>, la parte local del nombre expandido se corresponde con el atributo
+  <code>type</code> del elemento <code>ExpEType</code>; El URI de espacio de
+  nombres del nombre expandido se corresponde con el atributo <code>ns</code>
+  del elemento <code>ExpEType</code>, y es nulo si el atributo <code>ns</code>
+  del elemento <code>ExpEType</code> es omitido.
+</blockquote>
+<p>Los hijos de un nodo elemento son los nodos elemento, nodos comentario, nodos
+instrucci&oacute;n de procesamiento y nodos texto que contiene. Las referencias de
+entidades tanto a entidades internas como externas son expandidas. Las
+referencias de caracteres son resueltas.</p>
+<p>El <a href="#dt-string-value">valor de cadena</a> de un nodo elemento es la
+concatenaci&oacute;n de los <a href="#dt-string-value">valores de cadena</a> de todos
+los nodos texto <a href="#dt-descendants">descendientes</a> del nodo elemento en
+orden de documento.</p>
+<h4><a name="unique-id"></a> 5.2.1 Identificadores &uacute;nicos</h4>
+<p>Los nodos elemento pueden tener un identificador &uacute;nico (ID). Este es el
+valor del atributo que se declara en el DTD como de tipo <code>ID</code>. No
+puede haber dos elementos en un documento con el mismo ID. Si un procesador XML
+informa de la existencia de dos elementos de un documento con el mismo ID (lo
+cuales posible s&oacute;lo si el documento es no valido)&nbsp; entonces el segundo
+elemento en orden de documento debe ser tratado como si no tuviese ID.</p>
+<blockquote>
+  <b>NOTA: </b>Si un documento no tiene DTD, entonces ning&uacute;n elemento del
+  documento tendr&aacute; ID.
+</blockquote>
+<h3><a name="attribute-nodes"></a> 5.3 Nodos atributo</h3>
+<p>Cada nodo elemento tiene asociado un conjunto de nodos atributo; el elemento
+es el&nbsp; <a href="#dt-parent">padre</a> de cada uno de esos nodos atributo;
+sin embargo, los nodos atributo no son hijos de su elemento padre.</p>
+<blockquote>
+  <b>NOTA: </b>Esto es distinto de lo que ocurre en el DOM, que no se refiere a
+  los elementos que llevan un atributo como padres del atributo (v&eacute;ase <a href="#DOM">[DOM]</a>).
+</blockquote>
+<p>Los elementos nunca comparten nodos atributo: Si dos nodos elemento son
+distintos, entonces ninguno de los nodos atributo del primer elemento ser&aacute; el
+mismo nodo que ning&uacute;n nodo atributo del otro nodo elemento.</p>
+<blockquote>
+  <b>NOTA: </b>El operador <code>=</code> comprueba si dos nodos tienen el mismo
+  valor, <i>no</i> si son el mismo nodo. As&iacute;, atributos de dos elementos
+  diferentes pueden ser comparados como iguales utilizando <code>=</code>, a
+  pesar de que no son el mismo nodo.
+</blockquote>
+<p>Un atributo tomado por defecto se trata igual que uno especificado. Si un
+atributo se hab&iacute;a declarado para el tipo del elemento en la DTD, aunque el
+valor por defecto se hab&iacute;a declarado como <code>#IMPLIED</code> , y el atributo
+no fue especificado en el elemento, entonces el conjunto de nodos atributo del
+elemento no contendr&aacute; un nodo para el atributo.</p>
+<p>Algunos atributos, tal como <code>xml:lang</code> y <code>xml:space</code>,
+tienen la sem&aacute;ntica de ser aplicables a todos los elementos que sean
+descendientes del elemento que lleva el atributo, salvo que sean redefinidos por
+una instancia del mismo atributo en otro elemento descendiente. Sin embargo,
+esto no afecta a donde aparecen los nodos atributo en el &aacute;rbol: un elemento
+tiene nodos atributo correspondientes &uacute;nicamente a atributos expl&iacute;citamente
+especificados en la etiqueta de apertura o etiqueta de elemento vac&iacute;o de dicho
+elemento o que fueron expl&iacute;citamente declarados en la DTD con un valor por
+defecto.</p>
+<p>Los nodos atributo tienen un <a href="#dt-expanded-name">nombre expandido</a>
+y un <a href="#dt-string-value">valor de cadena</a>. El <a href="#dt-expanded-name">nombre
+expandido</a> se calcula expandiendo el <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+especificado en la etiqueta en el documento XML de acuerdo con la Recomendaci&oacute;n
+de Espacios de Nombres XML <a href="#XMLNAMES">[XML Names]</a>. El URI de
+espacio de nombres del nombre del atributo ser&aacute; nulo si el <a href="http://www.w3.org/TR/REC-xml-names#NT-QName">QName</a>
+del atributo no tiene prefijo.</p>
+<blockquote>
+  <b>NOTA: </b>En la notaci&oacute;n del Ap&eacute;ndice A.3 de <a href="#XMLNAMES">[XML
+  Names]</a> , la parte local del nombre expandido se corresponde con el
+  atributo <code>name </code>del elemento <code>ExpAName</code>; el URI de
+  espacio de nombres del nombre expandido se corresponde con el atributo <code>ns</code>
+  del elemento <code>ExpAName</code>, y es nulo si el atributo <code>ns</code>
+  del elemento <code>ExpAName</code> es omitido.
+</blockquote>
+<p>Los nodos atributo tienen un <a href="#dt-string-value">valor de cadena</a>.
+El <a href="#dt-string-value">valor de cadena</a> es el valor normalizado tal
+como se especifica en la Recomendaci&oacute;n XML <a href="#XML">[XML]</a>. Un
+atributo cuyo valor normalizado es una cadena de longitud cero no es tratado de
+una forma especial: da lugar a un nodo atributo cuyo <a href="#dt-string-value">valor
+de cadena</a> es una cadena de longitud cero.</p>
+<blockquote>
+  <b>NOTA: </b>Para atributos por defecto es posible que la declaraci&oacute;n tenga
+  lugar en una DTD externa o una entidad de par&aacute;metro externa. La
+  Recomendaci&oacute;n XML no impone a los procesadores XML la lectura de DTDs
+  externas o par&aacute;metros externos salvo que el procesador incluya validaci&oacute;n.
+  Una hoja de estilo u otro mecanismo que asuma que el &aacute;rbol XPath contiene
+  valores de atributos por defecto declarados en una DTD externa o entidad de
+  par&aacute;metro podr&iacute;a no funcionar con algunos procesadores XML no validadores.
+</blockquote>
+<p>No hay nodos atributo correspondientes a atributos que declaran espacios de
+nombres (v&eacute;ase <a href="#XMLNAMES">[XML Names]</a>).</p>
+<h3><a name="namespace-nodes"></a> 5.4 Nodos espacio de nombres</h3>
+<p>Cada elemento tiene un conjunto asociado de nodos espacio de nombres, uno
+para cada uno de los distintos prefijos de espacio de nombres con efecto sobre
+el elemento (incluyendo el prefijo <code>xml</code>, que est&aacute; impl&iacute;citamente
+declarado seg&uacute;n la Recomendaci&oacute;n de Espacios de Nombres XML <a href="#XMLNAMES">[XML
+Names]</a>) y uno para el espacio de nombres por defecto si hay alguno con
+efecto sobre el elemento. El elemento es el <a href="#dt-parent">padre</a> de
+cada uno de los nodos espacio de nombres; sin embargo, los nodos espacio de
+nombres no son hijos de su elemento padre. Los elementos nunca comparten nodos
+espacio de nombres: Si dos nodos elemento son distintos, entonces ninguno de los
+nodos espacio de nombres del primer elemento ser&aacute; el mismo nodo que ning&uacute;n
+nodo espacio de nombres del otro nodo elemento. Esto significa que los elementos
+tendr&aacute;n un nodo espacio de nombres:</p>
+<ul>
+  <li>
+    <p>para cada atributo del elemento cuyo nombre empiece por <code>xmlns:</code>;</p>
+  </li>
+  <li>
+    <p>para cada atributo de un elemento ancestro cuyo nombre empiece por <code>xmlns:</code>
+    salvo que el propio elemento o un ancestro m&aacute;s cercano&nbsp; redeclaren el
+    prefijo;</p>
+  </li>
+  <li>
+    <p>para atributos <code>xmlns</code>, si el elemento o alguno de sus
+    ancestros tienen dicho atributo y el valor del atributo en el&nbsp; m&aacute;s
+    cercano de los elementos que lo tienen es no vac&iacute;o</p>
+    <blockquote>
+      <b>NOTA: </b>Un atributo <code>xmlns=&quot;&quot;</code>
+      &quot;desdeclara&quot; el espacio de nombres por defecto (v&eacute;ase <a href="#XMLNAMES">[XML
+      Names]</a>).
+    </blockquote>
+  </li>
+</ul>
+<p>Los nodos espacio de nombres tienen un <a href="#dt-expanded-name">nombre
+expandido</a>: la parte local es el prefijo de espacio de nombres (este es
+vac&iacute;o si el nodo espacio de nombres corresponde al espacio de nombres por
+defecto); el URI de espacio de nombres es siempre nulo.</p>
+<p>El&nbsp; <a href="#dt-string-value">valor de cadena</a> de un nodo espacio de
+nombres es el URI de espacio de nombres que se est&aacute; asociando al prefijo de
+espacio de nombres; si el nombre de espacio de nombres que aparece en la
+declaraci&oacute;n de espacio de nombres del documento XML es un URI relativo (con o
+sin identificador de fragmento), entonces el <a href="#dt-string-value">valor de
+cadena</a> depende de la implementaci&oacute;n. Una expresi&oacute;n XPath que dependa
+del&nbsp; <a href="#dt-string-value">valor de cadena</a> de uno de tales nodos
+de espacio de nombres no es interoperable.&nbsp;</p>
+<h3><a name="section-Processing-Instruction-Nodes"></a> 5.5 Nodos instrucci&oacute;n
+de procesamiento</h3>
+<p>Hay un nodo instrucci&oacute;n de procesamiento para cada instrucci&oacute;n de
+procesamiento, salvo para aquellas que aparezcan dentro de la declaraci&oacute;n de
+tipo de documento.</p>
+<p>Las instrucciones de procesamiento tienen un <a href="#dt-expanded-name">nombre
+expandido</a>: la parte local es el destinatario de la instrucci&oacute;n de
+procesamiento; el URI de espacio de nombres es nulo. El <a href="#dt-string-value">valor
+de cadena</a> de un nodo instrucci&oacute;n de procesamiento es la parte de la
+instrucci&oacute;n de procesamiento que sigue al destinatario y todo el espacio en
+blanco. No incluye la terminaci&oacute;n <code>?&gt;</code>.</p>
+<blockquote>
+  <b>NOTA: </b>La declaraci&oacute;n XML no es una instrucci&oacute;n de procesamiento. En
+  consecuencia, no hay nodo instrucci&oacute;n de procesamiento correspondiente a
+  ella.
+</blockquote>
+<h3><a name="section-Comment-Nodes"></a> 5.6 Nodos comentario</h3>
+<p>Hay un nodo comentario para cada comentario, salvo para aquellos que
+aparezcan dentro de la declaraci&oacute;n de tipo de documento.</p>
+<p>El <a href="#dt-string-value">valor de cadena</a> de los comentarios es el
+contenido del comentario sin incluir el inicio <code>&lt;!--</code> ni la
+terminaci&oacute;n&nbsp; <code>--&gt;</code>.</p>
+<p>Los nodos comentario no tienen&nbsp; <a href="#dt-expanded-name">nombre
+expandido</a>.</p>
+<h3><a name="section-Text-Nodes"></a> 5.7 Nodos texto</h3>
+<p>Los datos de caracter se agrupan en nodos texto. En cada nodo texto se
+agrupan todos los datos de caracter que sea posible: un nodo texto nunca tiene
+un hermano inmediatamente anterior o siguiente que sea nodo texto. El <a href="#dt-string-value">valor
+de cadena</a> de los nodos texto son los datos de caracter. Los nodos texto
+siempre tienen al menos un caracter.</p>
+<p>Cada caracter en una secci&oacute;n CDATA se trata como datos de caracter. As&iacute;, <code>&lt;![CDATA[&lt;]]&gt;</code>
+en el documento fuente ser&aacute; tratado igual que <code>&amp;lt;</code>. Ambos
+dar&aacute;n lugar a un &uacute;nico caracter&nbsp; <code>&lt;</code> en un nodo texto en el
+&aacute;rbol. Por tanto, una secci&oacute;n CDATA se trata como si&nbsp; <code>&lt;![CDATA[</code>
+y <code>]]&gt;</code> se quitasen y cada aparici&oacute;n de <code>&lt;</code> y <code>&amp;</code>
+fuese reemplazada por <code>&amp;lt;</code> y <code>&amp;amp;</code>
+respectivamente.</p>
+<blockquote>
+  <b>NOTA: </b>Cuando un nodo texto que contiene un caracter <code>&lt;</code>
+  se escribe como XML, el caracter <code>&lt;</code>&nbsp; debe ser escapado
+  mediante, por ejemplo, el uso de <code>&amp;lt;</code>, o incluy&eacute;ndolo en una
+  secci&oacute;n CDATA.
+</blockquote>
+<p>Los caracteres dentro de comentarios, instrucciones de procesamiento y
+valores de atributos no producen nodos texto. Los finales de l&iacute;nea en entidades
+externas se normalizan como #xA tal como se especifica en la Recomendaci&oacute;n XML <a href="#XML">[XML]</a>.
+El espacio en blanco fuera del elemento de documento no produce nodos de texto.</p>
+<p>Los nodos de texto no tienen <a href="#dt-expanded-name">nombre expandido</a>
+.</p>
+<h2><a name="section-Conformance"></a> 6 Conformidad</h2>
+<p>XPath est&aacute; dise&ntilde;ado principalmente para ser un componente que puede ser
+utilizado por otras especificaciones. Por consiguiente, XPath conf&iacute;a a las
+especificaciones que lo usan (tales como&nbsp; <a href="#XPTR">[XPointer]</a> y <a href="#XSLT">[XSLT]</a>)
+la especificaci&oacute;n de criterios de conformidad de las implementaciones de XPath
+y no define ning&uacute;n criterio de conformidad para implementaciones de XPath
+independientes.</p>
+<hr title="Separator from footer">
+<h2><a name="section-References"></a> A Referencias</h2>
+<h3><a name="section-Normative-References"></a> A.1 Referencias Normativas</h3>
+<dl>
+  <dt><a name="IEEE754">IEEE 754</a></dt>
+  <dd>Institute of Electrical and Electronics Engineers. <i>IEEE Standard for
+    Binary Floating-Point Arithmetic</i>. ANSI/IEEE Std 754-1985.</dd>
+  <dt><a name="RFC2396">RFC2396</a></dt>
+  <dd>T. Berners-Lee, R. Fielding y L. Masinter. <i>Uniform Resource Identifiers
+    (URI): Generic Syntax</i>. IETF RFC 2396. V&eacute;ase <a href="http://www.ietf.org/rfc/rfc2396.txt">http://www.ietf.org/rfc/rfc2396.txt</a>.</dd>
+  <dt><a name="XML">XML</a></dt>
+  <dd>World Wide Web Consortium. <i>Extensible Markup Language (XML) 1.0.</i>
+    W3C Recommendation. V&eacute;ase <a href="http://www.w3.org/TR/1998/REC-xml-19980210">http://www.w3.org/TR/1998/REC-xml-19980210</a></dd>
+  <dt><a name="XMLNAMES">XML Names</a></dt>
+  <dd>World Wide Web Consortium. <i>Namespaces in XML.</i> W3C Recommendation.
+    V&eacute;ase <a href="http://www.w3.org/TR/REC-xml-names">http://www.w3.org/TR/REC-xml-names</a></dd>
+</dl>
+<h3><a name="section-Other-References"></a> A.2 Otras Referencias</h3>
+<dl>
+  <dt><a name="CHARMOD">Character Model</a></dt>
+  <dd>World Wide Web Consortium. <i>Character Model for the World Wide Web.</i>W3C
+    Working Draft. V&eacute;ase <a href="http://www.w3.org/TR/WD-charmod">http://www.w3.org/TR/WD-charmod</a></dd>
+  <dt><a name="DOM">DOM</a></dt>
+  <dd>World Wide Web Consortium. <i>Document Object Model (DOM) Level 1
+    Specification.</i> W3C Recommendation. V&eacute;ase <a href="http://www.w3.org/TR/REC-DOM-Level-1">http://www.w3.org/TR/REC-DOM-Level-1</a></dd>
+  <dt><a name="JLS">JLS</a></dt>
+  <dd>J. Gosling, B. Joy y G. Steele. <i>The Java Language Specification</i> .
+    V&eacute;ase <a href="http://java.sun.com/docs/books/jls/index.html">http://java.sun.com/docs/books/jls/index.html</a>
+    .</dd>
+  <dt><a name="ISO10646">ISO/IEC 10646</a></dt>
+  <dd>ISO (International Organization for Standardization). <i>ISO/IEC
+    10646-1:1993, Information technology -- Universal Multiple-Octet Coded
+    Character Set(UCS) -- Part 1: Architecture and Basic Multilingual Plane</i>.
+    International Standard. V&eacute;ase <a href="http://www.iso.ch/cate/d18741.html">http://www.iso.ch/cate/d18741.html</a>
+    .</dd>
+  <dt><a name="TEI">TEI</a></dt>
+  <dd>C.M. Sperberg-McQueen, L. Burnard <i>Guidelines for Electronic Text
+    Encoding and Interchange</i>. V&eacute;ase <a href="http://etext.virginia.edu/TEI.html">http://etext.virginia.edu/TEI.html</a>
+    .</dd>
+  <dt><a name="UNICODE">Unicode</a></dt>
+  <dd>Unicode Consortium. <i>The Unicode Standard</i>. V&eacute;ase <a href="http://www.unicode.org/unicode/standard/standard.html">http://www.unicode.org/unicode/standard/standard.html</a>.</dd>
+  <dt><a name="XINFO">XML Infoset</a></dt>
+  <dd>World Wide Web Consortium. <i>XML Information Set.</i> W3C Working
+    Draft.V&eacute;ase<a href="http://www.w3.org/TR/xml-infoset">
+    http://www.w3.org/TR/xml-infoset</a></dd>
+  <dt><a name="XPTR">XPointer</a></dt>
+  <dd>World Wide Web Consortium. <i>XML Pointer Language (XPointer).</i> W3C
+    Working Draft. V&eacute;ase <a href="http://www.w3.org/TR/WD-xptr">http://www.w3.org/TR/WD-xptr</a></dd>
+  <dt><a name="XQL">XQL</a></dt>
+  <dd>J. Robie, J. Lapp, D. Schach. <i>XML Query Language (XQL)</i>.
+    V&eacute;ase&nbsp;<a href="http://www.w3.org/TandS/QL/QL98/pp/xql.html">
+    http://www.w3.org/TandS/QL/QL98/pp/xql.html</a></dd>
+  <dt><a name="XSLT">XSLT</a></dt>
+  <dd>World Wide Web Consortium. <i>XSL Transformations (XSLT).</i> W3C
+    Recommendation. V&eacute;ase <a href="http://www.w3.org/TR/xslt">http://www.w3.org/TR/xslt</a></dd>
+</dl>
+<h2><a name="infoset"></a> B Correspondencias con el Conjunto de Informaci&oacute;n
+XML (No-Normativo)</h2>
+<p>Los nodos del modelo de datos de XPath se pueden derivar de los items de
+informaci&oacute;n proporcionados por el Conjunto de Informaci&oacute;n XML <a href="#XINFO">[XML
+Infoset]</a> del siguiente modo:</p>
+<blockquote>
+  <b>NOTA: </b>Una&nbsp; nueva versi&oacute;n del&nbsp; XML Information Set Working
+  Draft, que reemplazar&aacute; a la versi&oacute;n del 17 de Mayo, estaba pr&oacute;xima a
+  completarse en el momento en que se complet&oacute; la preparaci&oacute;n de esta versi&oacute;n
+  de XPath y se esperaba que fuese publicada al mismo tiempo o poco despu&eacute;s de
+  la publicaci&oacute;n de esta versi&oacute;n de XPath. La correspondencia se da respecto a
+  esta nueva versi&oacute;n del XML Information Set Working Draft. Si la nueva
+  versi&oacute;n del XML Information Set Working no ha sido a&uacute;n publicada, los
+  miembros del W3C pueden consultar la versi&oacute;n interna del grupo de trabajo <a href="http://www.w3.org/XML/Group/1999/09/WD-xml-infoset-19990915.html">http://www.w3.org/XML/Group/1999/09/WD-xml-infoset-19990915.html</a>(<a href="http://cgi.w3.org/MemberAccess/">
+  members only</a>).
+</blockquote>
+<ul>
+  <li>
+    <p>El nodo ra&iacute;z proviene del item de informaci&oacute;n documento. Los hijos del
+    nodo ra&iacute;z provienen de las propiedades <i>children</i> y <i>children -
+    comments</i>.</p>
+  </li>
+  <li>
+    <p>Los nodos elemento provienen de items de informaci&oacute;n elemento. Los hijos
+    de un nodo elemento provienen de las propiedades <i>children</i> y <i>children
+    - comments</i>. Los atributos de un nodo elemento provienen de la propiedad <i>attributes</i>.
+    Los espacios de nombres de un nodo elemento provienen de la propiedad <i>in-scope
+    namespaces</i>. La parte local de un <a href="#dt-expanded-name">nombre
+    expandido</a> del nodo elemento proviene de la propiedad <i>local name</i>.
+    El URI de espacio de nombres del <a href="#dt-expanded-name">nombre
+    expandido</a> del nodo elemento proviene de la propiedad <i>namespace URI</i>.
+    El ID&nbsp; del nodo elemento proviene de la propiedad <i>children</i> del
+    item de informaci&oacute;n atributo en la propiedad <i>attributes</i> que tenga
+    una propiedad <i>attribute type</i> igual a <code>ID</code>.</p>
+  </li>
+  <li>
+    <p>Los nodos atributo provienen de items de informaci&oacute;n atributo. La parte
+    local del <a href="#dt-expanded-name">nombre expandido</a> del nodo atributo
+    proviene de la propiedad <i>local name</i>. El URI de espacio de nombres del
+    <a href="#dt-expanded-name">nombre expandido</a> del nodo atributo proviene
+    de la propiedad <i>namespace URI</i>. El <a href="#dt-string-value">valor de
+    cadena</a> del nodo proviene de concatenar la propiedad <i>character code</i>
+    de cada miembro de la propiedad <i>children</i>.</p>
+  </li>
+  <li>
+    <p>Los nodos de texto provienen de la secuencia de uno o m&aacute;s items de
+    informaci&oacute;n de caracter consecutivos. El <a href="#dt-string-value">valor
+    de cadena</a> del nodo proviene de concatenar la propiedad <i>character code</i>
+    de cada uno de los items de informaci&oacute;n de caracter.</p>
+  </li>
+  <li>
+    <p>Los nodos instrucci&oacute;n de procesamiento provienen de items de
+    informaci&oacute;n instrucci&oacute;n de procesamiento. La parte local del <a href="#dt-expanded-name">nombre
+    expandido</a> del nodo proviene de la propiedad <i>target</i>. (La parte URI
+    de espacio de nombres del <a href="#dt-expanded-name">nombre expandido</a>
+    del nodo es nula.) El <a href="#dt-string-value">valor de cadena</a> del
+    nodo proviene de la propiedad <i>content</i>. No hay nodos instrucci&oacute;n de
+    procesamiento correspondientes a items instrucci&oacute;n de procesamiento&nbsp;
+    que sean hijos del item de informaci&oacute;n declaraci&oacute;n de tipo de documento.</p>
+  </li>
+  <li>
+    <p>Los nodos comentario provienen de items de informaci&oacute;n comentario. El <a href="#dt-string-value">valor
+    de cadena</a> del nodo proviene de la propiedad <i>content</i>. No hay nodos
+    comentario correspondientes a items de informaci&oacute;n comentario que sean
+    hijos del item de informaci&oacute;n declaraci&oacute;n de tipo de documento.</p>
+  </li>
+  <li>
+    <p>Los nodos espacio de nombres provienen de items de informaci&oacute;n
+    declaraci&oacute;n de espacio de nombres. La parte local del <a href="#dt-expanded-name">nombre
+    expandido</a> del nodo proviene de la propiedad <i>prefix</i>. (La parte URI
+    de espacio de nombres del <a href="#dt-expanded-name">nombre expandido</a>
+    del nodo es nula.) El <a href="#dt-string-value">valor de cadena</a> del
+    nodo proviene de la propiedad <i>namespace URI</i>.</p>
+  </li>
+</ul>
+
+<hr width="45%" title="Fin de la traducci&oacute;n. Siguen enlaces de navegaci&oacute;n.">
+<div align="center" class="barnav">
+ <a href="http://www.sidar.org/" title="P&aacute;gina principal del SIDAR.">Principal</a>&nbsp; | &nbsp; <a href="../../index.php" title="Traducciones del SIDAR.">Otras traducciones</a>
+</div>
+
+</body>
+
+</html>

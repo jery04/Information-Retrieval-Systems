@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+	<title>Enhancing Web Design: Recognizing Accessibility Issues Now</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//stats.wp.com' />
+<link rel='dns-prefetch' href='//widgets.wp.com' />
+<link rel='dns-prefetch' href='//0.gravatar.com' />
+<link rel='dns-prefetch' href='//1.gravatar.com' />
+<link rel='dns-prefetch' href='//2.gravatar.com' />
+<link rel='preconnect' href='//i0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="A List Apart &raquo; Feed" href="https://alistapart.com/main/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://alistapart.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Falistapart.com%2Farticle%2Fgood-designers-bad-websites-a-proposal%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://alistapart.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Falistapart.com%2Farticle%2Fgood-designers-bad-websites-a-proposal%2F&#038;format=xml" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='wp-block-heading-inline-css' type='text/css'>
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=https://alistapart.com/wp-includes/blocks/heading/style.min.css */
+</style>
+<style id='wp-block-list-inline-css' type='text/css'>
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+/*# sourceURL=https://alistapart.com/wp-includes/blocks/list/style.min.css */
+</style>
+<style id='wp-block-paragraph-inline-css' type='text/css'>
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=https://alistapart.com/wp-includes/blocks/paragraph/style.min.css */
+</style>
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='ala-style-css' href='https://alistapart.com/wp-content/themes/ala/style.css?ver=1757090064' type='text/css' media='all' />
+<link rel='stylesheet' id='ala-prism-style-css' href='https://alistapart.com/wp-content/themes/ala/js/prism/prism.css?ver=1.0' type='text/css' media='all' />
+<style id='jetpack_likes-inline-css' type='text/css'>
+#jp-post-flair{padding-top:.5em}#content div.sharedaddy,#main div.sharedaddy,div.sharedaddy{clear:both}div.sharedaddy h3.sd-title{display:inline-block;font-size:9pt;font-weight:700;line-height:1.2;margin:0 0 1em}div.sharedaddy h3.sd-title:before{border-top:1px solid #dcdcde;content:"";display:block;margin-bottom:1em;min-width:30px;width:100%}div.jetpack-likes-widget-wrapper{min-height:50px;position:relative;width:100%}div.jetpack-likes-widget-wrapper .sd-link-color{font-size:12px}div.jetpack-comment-likes-widget-wrapper{min-height:31px;position:relative;width:100%}div.jetpack-comment-likes-widget-wrapper iframe{margin-bottom:0}#likes-other-gravatars{background-color:#fff;border:1px solid #dcdcde;border-radius:4px;box-shadow:none;display:none;height:auto;max-height:240px;min-width:220px;overflow:auto;padding:9px 12px 10px;position:absolute;z-index:1000}#likes-other-gravatars *{line-height:normal}#likes-other-gravatars .likes-text{color:#101517;font-size:12px;font-weight:500;padding-bottom:8px}#likes-other-gravatars li,#likes-other-gravatars ul{list-style-type:none;margin:0;padding:0;text-indent:0}#likes-other-gravatars li:before{content:""}#likes-other-gravatars ul.wpl-avatars{display:block;max-height:190px;overflow:auto}#likes-other-gravatars ul.wpl-avatars li{float:none;height:28px;margin:0 0 4px;width:196px}#likes-other-gravatars ul.wpl-avatars li a{align-items:center;border-bottom:none!important;display:flex;gap:8px;margin:0 2px 0 0;text-decoration:none}#likes-other-gravatars ul.wpl-avatars li a span{color:#2c3338;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#likes-other-gravatars ul.wpl-avatars li a img{background:none;border:none;border-radius:50%;box-sizing:border-box;margin:0!important;padding:1px!important;position:static}div.sd-box{border-top:1px solid #00000021}.jetpack-likes-widget-loaded iframe,.jetpack-likes-widget-loading .likes-widget-placeholder,.jetpack-likes-widget-unloaded .likes-widget-placeholder{display:block}.jetpack-likes-widget-loaded .likes-widget-placeholder,.jetpack-likes-widget-loading iframe,.jetpack-likes-widget-unloaded iframe{display:none}.comment-likes-widget,.entry-content .post-likes-widget,.post-likes-widget{border-width:0;margin:0}.comment-likes-widget-placeholder,.post-likes-widget-placeholder{border-width:0;margin:0;position:relative}.comment-likes-widget-placeholder{display:flex;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;height:18px;position:absolute}.comment-likes-widget-placeholder:before{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath fill='%232ea2cc' d='m12 2 2.582 6.953L22 9.257l-5.822 4.602L18.18 21 12 16.89 5.82 21l2.002-7.14L2 9.256l7.418-.304'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:16px 16px;color:#2ea2cc;content:"";display:inline-block;height:16px;padding-right:5px;position:relative;top:3px;width:16px}.post-likes-widget-placeholder .button{display:none}.comment-likes-widget-placeholder .loading,.post-likes-widget-placeholder .loading{color:#999;font-size:12px}.comment-likes-widget-placeholder .loading{align-self:center;color:#4e4e4e;margin-top:4px;padding-left:5px}div.sharedaddy.sd-like-enabled .sd-like h3{display:none}div.sharedaddy.sd-like-enabled .sd-like .post-likes-widget{float:none;position:absolute;top:0;width:100%}.comment-likes-widget{width:100%}.cs-rating,.pd-rating{display:block!important}.sd-gplus .sd-title{display:none}@media print{.jetpack-likes-widget-wrapper{display:none}}
+/*# sourceURL=https://alistapart.com/wp-content/plugins/jetpack/_inc/build/likes/style.min.css */
+</style>
+<link rel='stylesheet' id='sharedaddy-css' href='https://alistapart.com/wp-content/plugins/jetpack/modules/sharedaddy/sharing.css?ver=15.9-a.1' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css' href='https://alistapart.com/wp-content/plugins/jetpack/_inc/build/social-logos/social-logos.css?ver=15.9-a.1' type='text/css' media='all' />
+<script type="text/javascript" src="https://alistapart.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<link rel="https://api.w.org/" href="https://alistapart.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://alistapart.com/wp-json/wp/v2/article/7175547" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://alistapart.com/xmlrpc.php?rsd" />
+
+<link rel="canonical" href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/" />
+	<style>img#wpstats{display:none}</style>
+		<meta name="description" content="Explore the importance of accessibility in design and discover how to create inclusive experiences that accommodate all users." />
+		<style type="text/css">
+						.site-title,
+			.site-description {
+				position: absolute;
+				clip: rect(1px, 1px, 1px, 1px);
+			}
+
+						</style>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Enhancing Web Design: Recognizing Accessibility Issues Now" />
+<meta property="og:url" content="https://alistapart.com/article/good-designers-bad-websites-a-proposal/" />
+<meta property="og:description" content="Explore the importance of accessibility in design and discover how to create inclusive experiences that accommodate all users." />
+<meta property="article:published_time" content="2026-04-23T12:57:21+00:00" />
+<meta property="article:modified_time" content="2026-04-23T12:57:22+00:00" />
+<meta property="og:site_name" content="A List Apart" />
+<meta property="og:image" content="https://s0.wp.com/_si/?t=eyJpbWciOiJodHRwczpcL1wvaTAud3AuY29tXC9hbGlzdGFwYXJ0LmNvbVwvd3AtY29udGVudFwvdXBsb2Fkc1wvMjAxOVwvMDNcL2Nyb3BwZWQtaWNvbl9uYXZpZ2F0aW9uLWxhdXJlbC01MTIuanBnP2ZpdD01MTIlMkM1MTImcXVhbGl0eT04OSZzc2w9MSIsInR4dCI6IkEgTGlzdCBBcGFydCIsInRlbXBsYXRlIjoiZWRnZSIsImZvbnQiOiIiLCJibG9nX2lkIjoxNTgwOTQ3MjZ9.0oP5GNj3vHR_yLJaXkr_AaWMuS_ItN_HPB-deU1HBBgMQ" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@alistapart" />
+<meta name="twitter:text:title" content="Good designers, bad websites: a proposal" />
+<meta name="twitter:image" content="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=240%2C240&amp;quality=89&amp;ssl=1" />
+<meta name="twitter:card" content="summary" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="icon" href="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=32%2C32&#038;quality=89&#038;ssl=1" sizes="32x32" />
+<link rel="icon" href="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=192%2C192&#038;quality=89&#038;ssl=1" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=180%2C180&#038;quality=89&#038;ssl=1" />
+<meta name="msapplication-TileImage" content="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=270%2C270&#038;quality=89&#038;ssl=1" />
+		<style type="text/css" id="wp-custom-css">
+			/*2025-05-20 Tonci https://wp.me/p9MPsk-1eo#comment-44317*/
+
+.ala-share div.sharedaddy .sd-social-icon .sd-content ul li[class*="share-"] a.sd-button
+{
+	max-width:unset!important;
+}
+
+.mailpoet_page-template-default .ala-author, .mailpoet_page-template-default .entry-meta
+{
+	display:none;
+}
+
+/*before 2025-05-13*/
+.ala-editors-note a {
+	text-decoration: underline;
+}
+i, em, cite {
+	font-weight: inherit;
+}
+
+code, kbd, tt, var {
+    font-size: .9375em;
+    text-transform: none;
+}
+.ala-opening-quote figure.quote blockquote p {
+	display: inline;
+}
+.ala-opening-quote figure.quote blockquote::before, .ala-opening-quote figure.quote blockquote::after {
+	content: "";
+}
+.ala-opening-quote figure.quote blockquote > p:first-child::before {
+	content: "“";
+}
+.ala-opening-quote figure.quote blockquote > p:first-child::after {
+	content: "”";
+}
+
+@media only screen and (max-width: 47.9375em) {
+	/* ----------------------	RESPONSIVE TABLES	---------------------- */
+	figure:not(.not-rwd) table {
+	    display: block;
+	    width: 100%;
+	    border-bottom: 1px solid #bfbfbf;
+	}
+
+	figure:not(.not-rwd) table caption {
+		display: block;
+	}
+
+	figure:not(.not-rwd) table thead {
+		display: none;
+		visibility: hidden;
+	}
+
+	figure:not(.not-rwd) table tbody, figure:not(.not-rwd) table tr, figure:not(.not-rwd) table th, figure:not(.not-rwd) table td {
+		border: 0;
+		display: block;
+		padding: 0;
+		text-align: left;
+		white-space: normal;
+	}
+
+	figure:not(.not-rwd) table tr {
+		margin: 1em 0;
+	}
+	
+	figure:not(.not-rwd) .gist table {
+		display: table;
+	}
+
+	figure:not(.not-rwd) .gist table tr {
+		display: table-row;
+		margin-bottom: 0;
+	}
+
+	figure:not(.not-rwd) .gist table td {
+		display: table-cell;
+	}
+
+	table th[data-title]:before,
+	table td[data-title]:before {
+		content: attr(data-title) ": ";
+		font-weight: bold;
+		font-family: "Franklin ITC", sans-serif;
+	}
+
+	table th:not([data-title]) {
+		font-weight: bold;
+		font-family: "Franklin ITC", sans-serif;
+	}
+
+	table td:empty {
+		display: none;
+	}
+	.main-content > figure:not(.not-rwd) table tbody tr:nth-child(odd) td {
+     	background: none; 
+	}
+
+.col-1 tr :nth-child(1):not(code), .col-2 tr :nth-child(2):not(code), .col-3 tr :nth-child(3):not(code):not(span), .col-4 tr :nth-child(4):not(code) {
+		border: none;
+	}
+
+	caption {
+		border: none;
+		border-bottom: 1px solid #bfbfbf;
+	}
+
+	.main-content > figure table th, .main-content > figure table td {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+	
+	figure.not-rwd {
+		overflow: auto;
+	}
+	
+	.entry-content>figure table tbody tr:nth-child(2n+1) td, .entry-content>table tbody tr:nth-child(2n+1) td {
+    background: transparent;
+}
+}
+
+
+/* Author archives - add margin below list of authors / kathrynwp */
+body.author .ala-sidebar-author {
+    margin-bottom: 35px;
+}
+		</style>
+		</head>
+
+<body class="wp-singular article-template-default single single-article postid-7175547 wp-custom-logo wp-theme-ala article-good-designers-bad-websites-a-proposal" itemscope itemtype="http://schema.org/Article">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header">
+		<div class="site-branding">
+			<a href="https://alistapart.com/" class="custom-logo-link" rel="home"><img width="960" height="98" src="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?fit=960%2C98&amp;quality=80&amp;ssl=1" class="custom-logo" alt="A List Apart" decoding="async" fetchpriority="high" srcset="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?w=960&amp;quality=80&amp;ssl=1 960w, https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?resize=300%2C31&amp;quality=80&amp;ssl=1 300w, https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?resize=768%2C78&amp;quality=80&amp;ssl=1 768w" sizes="(max-width: 960px) 100vw, 960px" /></a>				<p class="site-title"><a href="https://alistapart.com/" rel="home"  itemscope itemtype="http://schema.org/ImageObject">A List Apart</a></p>
+								<p class="site-description">For people who make websites</p>
+					</div><!-- .site-branding -->
+
+		<nav id="site-navigation" class="main-navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><span class="screen-reader-text">Primary Menu</span></button>
+			<div class="menu-site-header-container"><ul id="primary-menu" class="menu"><li id="menu-item-6000493" class="ala-home-url menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-6000493"><a href="https://alistapart.com" itemprop="url"><span itemprop="name">Home</span></a></li>
+<li id="menu-item-6000494" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-6000494"><a href="https://alistapart.com/articles/" itemprop="url"><span itemprop="name">Articles</span></a></li>
+<li id="menu-item-6000495" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000495"><a href="https://alistapart.com/events/" itemprop="url"><span itemprop="name">Events</span></a></li>
+<li id="menu-item-6000496" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000496"><a href="https://alistapart.com/topics/" itemprop="url"><span itemprop="name">Topics</span></a></li>
+<li id="menu-item-6000497" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000497"><a href="https://alistapart.com/about/contribute/" itemprop="url"><span itemprop="name">Write for Us</span></a></li>
+</ul></div>
+			<form role="search" method="get" class="search-form" action="https://alistapart.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form>		</nav><!-- #site-navigation -->
+
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main">
+
+			
+<article id="post-7175547" class="post-7175547 article type-article status-publish hentry category-accessibility category-community category-user-experience category-user-research category-workflow-tools tag-a11y tag-accessibility tag-creative tag-empathy tag-heuristics tag-personas tag-process tag-product-design tag-software-design tag-usability tag-web-design tag-websites">
+
+	<figure class="hero-wide" itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject">
+		
+	</figure>
+
+	<header class="entry-header">
+		
+		<h1 class="entry-title" itemprop="headline">Good designers, bad websites: a proposal</h1>		<div class="entry-meta">
+			<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/alan-dalton/" itemprop="url"> <span itemprop="name">Alan Dalton</span></a></span></span><span class="posted-on"><time class="entry-date published" datetime="2026-04-23T08:57:21-04:00">April 23, 2026</time><time class="updated" datetime="2026-04-23T08:57:22-04:00">April 23, 2026</time></span>			<div class="entry-topic">
+				<span class="cat-links">Published in <a href="https://alistapart.com/blog/topic/accessibility/" rel="category tag">Accessibility</a>, <a href="https://alistapart.com/blog/topic/community/" rel="category tag">Community</a>, <a href="https://alistapart.com/blog/topic/user-experience/" rel="category tag">User Experience</a>, <a href="https://alistapart.com/blog/topic/user-research/" rel="category tag">User Research</a>, <a href="https://alistapart.com/blog/topic/workflow-tools/" rel="category tag">Workflow &amp; Tools</a></span>			</div>
+		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	
+	
+	
+	<div class="entry-content">
+		
+<p>I want to discuss <a href="https://www.w3.org/WAI/fundamentals/accessibility-intro/#what">accessibility</a> because it is the most important thing for making websites. Other <a href="https://alistapart.com/articles/"><em>A List Apart </em>articles</a> give you innovation and insight. This article will give you homework. These are just my personal views, but they’re pretty good.</p>		<div class="aside-breaker"><span>Article Continues Below</span></div>
+		<div class="ala-single-sidebar-wrapper">
+			<span class="screen-reader-text">Article Continues Below</span>
+			<aside class="ala-single-sidebar-minutiae">
+				<a href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/#comments" class="ala-comment-bubble" >2 Comments</a>					<div class="ala-share">
+					<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 id="section1" class="sd-title">Share this:<a class="subhead-anchor" href="#section1">#section1</a></h3><div class="sd-content"><ul><li class="share-bluesky"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-bluesky-7175547"
+				class="share-bluesky sd-button share-icon no-text"
+				href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/?share=bluesky"
+				target="_blank"
+				aria-labelledby="sharing-bluesky-7175547"
+				>
+				<span id="sharing-bluesky-7175547" hidden>Share on Bluesky (Opens in new window)</span>
+				<span>Bluesky</span>
+			</a></li><li class="share-mastodon"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-mastodon-7175547"
+				class="share-mastodon sd-button share-icon no-text"
+				href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/?share=mastodon"
+				target="_blank"
+				aria-labelledby="sharing-mastodon-7175547"
+				>
+				<span id="sharing-mastodon-7175547" hidden>Share on Mastodon (Opens in new window)</span>
+				<span>Mastodon</span>
+			</a></li><li class="share-threads"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-threads-7175547"
+				class="share-threads sd-button share-icon no-text"
+				href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/?share=threads"
+				target="_blank"
+				aria-labelledby="sharing-threads-7175547"
+				>
+				<span id="sharing-threads-7175547" hidden>Share on Threads (Opens in new window)</span>
+				<span>Threads</span>
+			</a></li><li class="share-end"></li></ul></div></div></div>					</div>
+										<section id="custom_html-6" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/alistapart" class="patreon-bubble">Become a patron</a></div></section>					
+							</aside>
+
+			<aside class="ala-single-sidebar-1">
+				<section id="block-2" class="widget widget_block"><div class="banner">
+	<a href="https://sps.northwestern.edu/ala">
+	<img decoding="async" class="banner-logo" src="https://alistapart.com/wp-content/uploads/2026/03/IDS_700x200_Logo-300x86.jpg" alt="Northwestern Information Design and Strategy, School Of Professional Studies" />
+<p><br />Ready to advance in content strategy, UX/UI, data communication, or learning design? Explore Northwestern’s online MS in Information Design & Strategy.</p>
+	</a>
+</div>
+
+
+<div class="banner ala-banner">
+	<a href="https://abookapart.com/">				<img decoding="async" src="https://alistapart.com/wp-content/uploads/2019/03/logo_a-book-apart-color.png" alt="A Book Apart Logo" class="banner-logo" />
+		<p>A Book Apart:<br> Brief books for people who make websites.</p>		
+		</a>
+</div></section>			</aside>
+
+		</div>
+		
+
+
+
+<p>I want to start off with a couple of statements, and you will agree:</p>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Designers are good people.</strong> I have never heard a designer say, “I don’t care if somebody can’t read this text”, “Not my fault if somebody can’t use this device”, or “Who cares if this is confusing?”</li>
+
+
+
+<li><strong>Some designs exclude people.</strong> You have seen people unable to read the text on a website or app that somebody designed. You’ve seen people unable to use a physical device that somebody has designed. You’ve seen people utterly bamboozled while trying to use a service that somebody designed.</li>
+</ol>
+
+
+
+<h2 id="section2" class="wp-block-heading">So what?<a class="subhead-anchor" href="#section2">#section2</a></h2>
+
+
+
+<p>The first question is, “Is this life-or-death stuff?” The answer is, “Yes.” In my favorite essay, <a href="http://www.breakingthin.gs/this-is-all-there-is.html">This Is All There Is</a>, <a href="https://ar.al/bio/">Aral Balkan</a> makes the point that pretty much everything that we design can affect life events and death events. Aral gives the example of how even a straightforward bus timetable app can affect life and death events, if we design it badly:</p>
+
+
+
+<ul class="wp-block-list">
+<li>somebody might miss a life event, such as their daughter’s fifth birthday party; or</li>
+
+
+
+<li>somebody might miss a death event, such as the chance to say goodbye to a dying grandmother.</li>
+</ul>
+
+
+
+<p>The next—and frustrating—question is, “Why do some designs still exclude people?” After all, we know that:</p>
+
+
+
+<ul class="wp-block-list">
+<li>not everybody can see perfectly;</li>
+
+
+
+<li>not everybody can hear perfectly;</li>
+
+
+
+<li>not everybody thinks the same way; and</li>
+
+
+
+<li>not everybody moves the same way.</li>
+</ul>
+
+
+
+<p>I think the answer is that there’s too much to recall. Consider, if you will, the wide variety of <a href="https://alistapart.com/topics/">topics that <em>A List Apart</em> articles cover</a>. Designers are expected to remember all of that guidance, plus all of the accessibility guidance, plus so much more. It is too much.</p>
+
+
+
+<h2 id="section3" class="wp-block-heading">Recognizing accessibility issues while designing<a class="subhead-anchor" href="#section3">#section3</a></h2>
+
+
+
+<p>I’d like to point toward one possible solution, starting from <a href="https://www.uxtigers.com/about/people">Jakob Nielsen</a>’s <a href="https://www.nngroup.com/articles/ten-usability-heuristics/">10 Usability Heuristics for User Interface Design</a>. These are from the mid-1990s, and—although there’s a good chance that you, gentle reader, are a lot younger than that—please bear with me.&nbsp;</p>
+
+
+
+<p>Seeing as the problem is that there’s too much to recall, I want to look at heuristic <a href="https://www.nngroup.com/articles/ten-usability-heuristics/#:~:text=Prevention-,6:%20Recognition%20Rather%20than%20Recall,-Minimize">№ 6, “Recognition rather than Recall.”</a> Jakob Nielsen said that for users, information required to use the design should be visible or easily retrievable when needed. I suggest we tweak that to make life easier for designers. Let’s say that the information required to <strong>produce</strong> the design should be visible or easily retrievable when needed. In other words, <em>let’s make it easier to recognise accessibility issues </em><strong><em>while</em></strong><em> we’re designing</em>.</p>
+
+
+
+<p>How are we going to do that? I really like the book <a href="https://rosenfeldmedia.com/books/a-web-for-everyone/"><em>A Web for Everyone—Designing Accessible User Experiences</em></a> by <a href="https://sarahhortondesign.com/about-sarah-horton/">Sarah Horton</a> and <a href="https://www.wqusability.com/biography.html">Whitney Quesenbery</a>. I really like this book not only because it includes a quote from me—actually two quotes, but I don’t like to boast—but because it includes personas that are perfect for helping us to recognise accessibility issues. That’s the good news. The even better news is that these personas are available now for free on the companion website to the book <a href="https://www.routledge.com/What-Every-Engineer-Should-Know-About-Digital-Accessibility/Horton-Sloan/p/book/9781032263861">What Every Engineer Should Know About Digital Accessibility</a>, again by Sarah Horton, with <a href="https://58sound.com/about/">David Sloan</a> this time.</p>
+
+
+
+<h2 id="section4" class="wp-block-heading">Meet your users<a class="subhead-anchor" href="#section4">#section4</a></h2>
+
+
+
+<p>I’m going to introduce you to these personas now:</p>
+
+
+
+<ul class="wp-block-list">
+<li><a href="https://knowaboutaccessibility.org/2025/05/08/vishnu-engineer-global-citizen-with-low-vision/">Vishnu, an engineer and global citizen with low vision</a> says, “I want to be on the same level as everyone else”, “If I can adjust my screen, I can read comfortably”, and, “Translating in my head is easier with simpler sentences.”</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/05/08/trevor-high-school-student-with-autism/">Trevor, a high school student with autism</a>, says, “I like consistent, familiar places on the web”, “When I can learn the pattern, I can find my way”, and, “Reading is hard for me”.</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/05/08/steven-deaf-graphic-artist-and-asl-speaker/">Steven, a deaf graphic artist and American Sign Language speaker</a>, says, “My only disability is that everyone doesn’t sign”, and, “Without captions, it’s meaningless to me”.</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/04/28/maria-bilingual-community-health-worker/">Maria, a bilingual community health worker</a>, says, “I love this. It’s all here … when I can find it”, “When a site is confusing, I just leave”—fair enough, Maria!—and, “When I hear and see it, health information makes more sense”.</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/04/28/lea-editor-living-with-fatigue-and-pain/">Lea, an editor living with fatigue and pain</a>, says, “No one gets that this really is a disability”, “Don’t make me work so hard”—please do not bombard this lady with drop-down lists—and, “Links at the top of the page make navigation easier for me”.</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/04/28/jacob-blind-paralegal-and-a-bit-of-a-geek/">Jacob, a blind paralegal and a bit of a geek</a>, says, “The right technology lets me do anything”, and “This makes it possible to do my job”.</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/04/28/emily-cerebral-palsy-living-independently/">Emily, who has cerebral palsy and is living independently</a>, says, “I want to do everything for myself”, “Simpler screens are easier screens”—hell yeah, Emily!—and, “Tell me what I need in advance”.</li>
+
+
+
+<li><a href="https://knowaboutaccessibility.org/2025/04/21/carol-grandmother-with-macular-degeneration/">Carol, a grandmother with macular degeneration</a> which affects her sight, says, “My grandkids are dragging me into the world of technology”, “I don’t understand what the screen is saying”, and, “Why can’t the text be just a little bit larger?”</li>
+</ul>
+
+
+
+<p>I want to throw one more persona at you now, because, well, <em>A List Apart</em> readers are overachievers. One of my favorite authors, <a href="https://cennydd.com/">Cennydd Bowles</a>—who literally wrote the book on <a href="https://cennydd.com/future-ethics"><em>Future Ethics</em></a>—says to create <a href="https://ethical.net/ethical/future-ethics-with-cennydd-bowles-at-sustainableux/#:~:text=persona%20non%20grata">Personas Non Grata</a>. In other words, every time we design something, we have to think about what a bad guy could do with that thing, and whom that might affect.</p>
+
+
+
+<p>To actually use these personas while designing, I like what <a href="https://meyerweb.com/eric/">Eric Meyer</a> and <a href="https://www.sarawb.com/#about">Sara Wachter-Boettcher</a> in <a href="https://dfrlbook.com/"><em>Design for Real Life</em></a> call <a href="https://dfrlbook.com/chapter7#:~:text=The%20Designated%20Dissenter">the Designated Dissenter</a>: for each project that you work on, one of your teams should be responsible for asking, “Will this work for Vishnu?”, “How’s Trevor going to get on with this?”, and so on.&nbsp;</p>
+
+
+
+<p>Then, once you’ve used the personas to recognise the accessibility issues, you can look up the guidelines for whichever platforms you’re designing for: </p>
+
+
+
+<ul class="wp-block-list">
+<li><a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2</a></li>
+
+
+
+<li><a href="https://m3.material.io/foundations/designing/overview">Accessibility designing — Material Design 3</a></li>
+
+
+
+<li><a href="https://learn.microsoft.com/en-us/windows/apps/design/accessibility/accessibility">Accessibility — Windows apps</a></li>
+
+
+
+<li><a href="https://developer.apple.com/design/human-interface-guidelines/accessibility">Accessibility | Apple Developer Documentation</a></li>
+
+
+
+<li><a href="https://documentation.ubuntu.com/project/contributors/check-accessibility/">Check your interface for accessibility (Ubuntu)</a></li>
+</ul>
+
+
+
+<h2 id="section5" class="wp-block-heading">Your mission, should you choose to accept it<a class="subhead-anchor" href="#section5">#section5</a></h2>
+
+
+
+<p>I told you in the introduction of this article that I would give you homework. You thought I was joking. So, here’s your homework: I want you to grab <a href="https://knowaboutaccessibility.org/tag/personas/">the personas from the Know About Accessibility website</a>, and use them throughout every design project to help you recognise accessibility issues while you work—and reclaim design for everyone.</p>
+
+
+
+<p><br><em>NOTE: This article is based on “<a href="https://youtube.com/watch?v=rm5Ag6x-dRo&amp;list=PLsaoWzR87FsUvLEI7xjThSdIB5TqMrOc0&amp;index=3">Recognise</a>,” my five-minute presentation from <a href="https://ixda.ie/">Interaction Design Association (IxDA) Dublin</a>’s <a href="https://defuse.ixd.ie/2025/">Defuse (Design for Use) event in 2025</a>.</em></p>
+
+
+
+<p></p>
+<div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-158094726-7175547-6a0a8afc775e7' data-src='https://widgets.wp.com/likes/?ver=15.9-a.1#blog_id=158094726&amp;post_id=7175547&amp;origin=alistapart.com&amp;obj_id=158094726-7175547-6a0a8afc775e7' data-name='like-post-frame-158094726-7175547-6a0a8afc775e7' data-title='Like or Reblog'><h3 id="section6" class="sd-title">Like this:<a class="subhead-anchor" href="#section6">#section6</a></h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading"><svg class="jetpack-spinner" width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="46" fill="none" stroke="#ddd" stroke-width="8"/><path d="M 50 4 A 46 46 0 0 1 96 50" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" dur="1.4s" from="0 50 50" to="360 50 50" repeatCount="indefinite"/></path></svg><span class="screen-reader-text">Loading…</span></span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>		<div class="ala-single-sidebar-wrapper sidebar-related">
+			<aside id="related" class="ala-single-sidebar-related">
+				<div class="ala-sidebar-content" >
+									<section class="ala-sb-rel__category">
+						<h3 class="ala-sb-rel__cat__title">
+							Further reading about							<a href="https://alistapart.com/blog/topic/accessibility/">Accessibility</a>
+						</h3>
+													<article>
+								<h3 class="ala-sb-rel__cat__entry-title">
+									<a href="https://alistapart.com/article/opportunities-for-ai-in-accessibility/">Opportunities for AI in Accessibility									</a></h3>
+								<div class="ala-sb-rel__cat__entry-content">Microsoft's Accessibility Innovation Strategist discusses AI's potential for accessibility, emphasizing the need for responsible use and diverse teams to mitigate harm and promote inclusion for people with disabilities.</div>
+							</article>
+														<article>
+								<h3 class="ala-sb-rel__cat__entry-title">
+									<a href="https://alistapart.com/article/designing-inclusive-content-models/">Designing Inclusive Content Models									</a></h3>
+								<div class="ala-sb-rel__cat__entry-content">You may not realize it, but your site might be actively discouraging user engagement because your content models are shaped by bias. Daniel Carter and Carra Martinez are here to help you to understand this phenomena and the steps you can take to address it.</div>
+							</article>
+												</section>
+									</div>
+			</aside>
+		</div>
+			</div><!-- .entry-content -->
+	</article><!-- #post-7175547 -->
+
+				<footer class="ala-author">
+					<div class="ala-author__content clear">
+						<a name="panelist0"></a>
+													<h4 class="ala-author__about">About the Author</h4>
+													<div class="ala-author__avatar">
+							<img width="150" height="150" src="https://i0.wp.com/alistapart.com/wp-content/uploads/2026/04/alan-dalton-copy.jpg?resize=150%2C150&amp;quality=89&amp;ssl=1" class="avatar avatar-150 photo wp-post-image" alt="Alan Dalton" />						</div>
+
+						<h3 class="ala-author__name">Alan Dalton</h3>
+						<div class="ala-author__description"><p>Alan Dalton worked for Ireland’s <a href="https://nda.ie">National Disability Authority</a> for eight and a half years, mostly as Accessibility Development Advisor. He later wrote a trilogy of web accessibility articles for the <a href="https://24ways.org">24 ways</a> advent calendar: <a href="https://24ways.org/2017/wcag-for-people-who-havent-read-them/">Web Content Accessibility Guidelines—for People Who Haven’t Read Them</a>, <a href="https://24ways.org/2018/wcag-for-people-who-havent-read-the-update/">Web Content Accessibility Guidelines 2.1—for People Who Haven’t Read the Update</a>, and <a href="https://24ways.org/2019/future-accessibility-guidelines/">Future Accessibility Guidelines—for People Who Can’t Wait to Read Them</a>. More recently, he created <a href="https://alandalton.github.io/Authors-Apart/">Authors Apart</a> and <a href="https://alandalton.github.io/Authors-Simple-Steps/">Authors Simple Steps</a> to help web designers and developers find books from two much-loved publishers.</p></div>
+					</div>
+									</footer>
+									<aside class="widget-area pre-footer-widget-area pre-footer-single">
+						<section id="custom_html-4" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><div class="pre-footer-email-signup">
+	<strong>Get our latest articles in your inbox.</strong> <a href="https://alistapart.com/email-signup">Sign up for email alerts</a>.
+</div>
+</div></section>					</aside><!-- .pre-footer-widget-area -->
+					
+					<div class="comment-area-wrap two-column-layout">
+						
+<div id="comments" class="comments-area column-content">
+
+			<h2 class="comments-title">
+			2 Reader Comments		</h2><!-- .comments-title -->
+
+		
+		<ol class="comment-list">
+					<li id="comment-66937" class="comment even thread-even depth-1">
+			<article id="div-comment-66937" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/9984ebb22c3745c76db2169cfbd7fe01dd33d0d01cfc97f748430e69061efbef?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/9984ebb22c3745c76db2169cfbd7fe01dd33d0d01cfc97f748430e69061efbef?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' decoding='async'/>						<b class="fn"><a href="https://panashi.ae/" class="url" rel="ugc external nofollow">Panashi fzco</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/#comment-66937"><time datetime="2026-05-11T07:23:30-04:00">May 11, 2026 at 7:23 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Self-service kiosks are no longer just a trend they’re becoming an essential part of modern business operations. From reducing wait times and cutting operational costs to providing customers with faster, more personalized service, kiosks are reshaping industries like retail, banking, healthcare, and hospitality. With the right design and technology, they don’t just improve efficiency they also create a seamless and satisfying customer experience. Truly a smart step for businesses that want to stay competitive in today’s digital-first world</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/?replytocom=66937#respond" data-commentid="66937" data-postid="7175547" data-belowelement="div-comment-66937" data-respondelement="respond" data-replyto="Reply to Panashi fzco" aria-label="Reply to Panashi fzco">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-67127" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-67127" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/02e6a72d78a6b788c5b35263faf56b1398e38b219d2f3c56fceee8511c23667d?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/02e6a72d78a6b788c5b35263faf56b1398e38b219d2f3c56fceee8511c23667d?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' decoding='async'/>						<b class="fn">AnnaLee</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/#comment-67127"><time datetime="2026-05-14T03:30:39-04:00">May 14, 2026 at 3:30 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Great design alone doesn’t guarantee a good website experience when usability, accessibility, and system reliability are not aligned with user expectations and real-world workflows. Enterprise software ecosystems often face similar challenges at scale, where performance and support quality directly affect user satisfaction, and <a href="https://microsoft-365.pissedconsumer.com/review.html" rel="nofollow ugc">https://microsoft-365.pissedconsumer.com/review.html</a> is frequently referenced when discussing customer experiences, service reliability, and overall platform usability in professional productivity tools.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/?replytocom=67127#respond" data-commentid="67127" data-postid="7175547" data-belowelement="div-comment-67127" data-respondelement="respond" data-replyto="Reply to AnnaLee" aria-label="Reply to AnnaLee">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+			<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/article/good-designers-bad-websites-a-proposal/#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://alistapart.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200" autocomplete="url" /></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='7175547' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="4b23dd5898" /></p><p style="display: none !important;" class="akismet-fields-container" data-prefix="ak_"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="212"/><script type="text/javascript">
+/* <![CDATA[ */
+document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );
+/* ]]> */
+</script>
+</p></form>	</div><!-- #respond -->
+	
+</div><!-- #comments -->
+	<div class="column-sidebar ala-posts">
+		<h2 class="section-title">More from ALA</h2>
+				<article id="post-7175385" class="home-post-content post-7175385 post type-post status-publish format-standard hentry category-business category-career category-creativity category-design category-industry category-interaction-design category-process category-project-management category-state-of-the-web category-usability category-user-experience category-user-research category-web-strategy">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/blog/post/successful-or-unsuccessful-the-post-good-design-vocabulary/" rel="bookmark">“Successful” or “Unsuccessful”: the Post-“Good Design” Vocabulary</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/justindauer/" itemprop="url"> <span itemprop="name">Justin Dauer</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+									</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/business/" rel="category tag">Business</a></span><span class="posted-on"><time class="entry-date published" datetime="2026-01-28T08:52:11-05:00">January 28, 2026</time><time class="updated" datetime="2026-01-28T08:52:12-05:00">January 28, 2026</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175220" class="home-post-content post-7175220 article type-article status-publish hentry category-community category-industry category-state-of-the-web category-web-strategy">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/design-for-amiability-lessons-from-vienna/" rel="bookmark">Design for Amiability: Lessons from Vienna</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/markbernstein/" itemprop="url"> <span itemprop="name">Mark Bernstein</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Computing was born in a Viennese café. Between 1928 and 1934, while Hitler plotted and Europe crumbled, a motley crew of mathematicians, philosophers, architects, and economists gathered weekly to puzzle out the limits of reason—and invented Computer Science in the process. What made their collaboration possible wasn't just brilliance (though they had plenty). It was amiability: the careful design of a social space where difficult people could disagree without destroying each other. Longtime A List Apart contributing author Mark Bernstein mines this forgotten history for lessons that might just save today's embattled web from its worst impulses. Spoiler: it involves better coffee service and the looming threat of public humiliation.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/community/" rel="category tag">Community</a></span><span class="posted-on"><time class="entry-date published" datetime="2025-10-15T11:35:00-04:00">October 15, 2025</time><time class="updated" datetime="2025-10-15T12:42:51-04:00">October 15, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175161" class="home-post-content post-7175161 article type-article status-publish hentry category-design category-design-systems-design category-web-strategy category-workflow-tools tag-creativity tag-design tag-process tag-working">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/design-dialects-breaking-the-rules-not-the-system/" rel="bookmark">Design Dialects: Breaking the Rules, Not the System</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/michel-ferreira/" itemprop="url"> <span itemprop="name">Michel Ferreira</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Design systems aren't component libraries—they’re living languages. Rigid adherence to visual rules creates brittle systems that break under contextual pressure. Fluent systems bend without breaking.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/design/" rel="category tag">Design</a></span><span class="posted-on"><time class="entry-date published" datetime="2025-09-26T12:48:12-04:00">September 26, 2025</time><time class="updated" datetime="2025-10-16T08:51:39-04:00">October 16, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175031" class="home-post-content post-7175031 article type-article status-publish has-post-thumbnail hentry category-business category-career category-design category-industry category-project-management">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/an-holistic-framework-for-shared-design-leadership/" rel="bookmark">An Holistic Framework for Shared Design Leadership</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/michelferreira/" itemprop="url"> <span itemprop="name">Michel Ferreira</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Having both a Design Manager and a Lead Designer on the same team is beautiful, but can be messy. To make it work without creating confusion, overlap, or “too many cooks,” check Michel Ferreira’s Holistic Framework for Shared Design Leadership.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/business/" rel="category tag">Business</a></span><span class="posted-on"><time class="entry-date published" datetime="2025-07-23T10:10:22-04:00">July 23, 2025</time><time class="updated" datetime="2025-10-15T12:56:05-04:00">October 15, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7174880" class="home-post-content post-7174880 article type-article status-publish hentry category-business category-industry category-usability category-user-experience category-user-research category-web-strategy tag-design tag-development tag-ux tag-web-software tag-websites">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/from-beta-to-bedrock-build-products-that-stick/" rel="bookmark">From Beta to Bedrock: Build Products that Stick.</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/liam-nugent/" itemprop="url"> <span itemprop="name">Liam Nugent</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Building towards bedrock means sacrificing some short-term growth potential in favour of long-term stability. But the payoff is worth it: products built with a focus on bedrock will outlast and outperform their competitors, and deliver sustained value to users over time. Liam Nugent shows us how.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/business/" rel="category tag">Business</a></span><span class="posted-on"><time class="entry-date published updated" datetime="2025-04-23T14:04:31-04:00">April 23, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+			
+	
+</div><!-- .home-post-wrap clear -->
+
+					</div>
+					
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+</div><!-- #content -->
+
+	<div class="widget-area header-widget">
+		<section id="block-3" class="widget widget_block"><div class="banner">
+	<a href="https://sps.northwestern.edu/ala">
+	<img decoding="async" class="banner-logo" src="https://alistapart.com/wp-content/uploads/2026/03/IDS_700x200_Logo-300x86.jpg" alt="Northwestern Information Design and Strategy, School Of Professional Studies" />
+<p><br />Ready to advance in content strategy, UX/UI, data communication, or learning design? Explore Northwestern’s online MS in Information Design & Strategy.</p>
+	</a>
+</div></section>	</div><!-- .header-widget -->
+	
+<footer id="colophon" class="site-footer" itemscope itemtype="https://schema.org/WebPage">
+	<nav class="footer-navigation footer navigation-top"  itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<div class="menu-footer-pages-container"><ul id="footer-top-left-menu" class="footer-top-left-menu"><li id="menu-item-6000544" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000544"><a href="https://alistapart.com/about/" itemprop="url">About</a></li>
+<li id="menu-item-6000545" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000545"><a href="https://alistapart.com/authors/" itemprop="url">Authors</a></li>
+<li id="menu-item-6000546" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000546"><a href="https://alistapart.com/about/masthead/" itemprop="url">Masthead</a></li>
+<li id="menu-item-6000547" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000547"><a href="https://alistapart.com/about/style-guide/" itemprop="url">Style Guide</a></li>
+<li id="menu-item-6000548" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000548"><a href="https://alistapart.com/contact/" itemprop="url">Contact</a></li>
+<li id="menu-item-6000549" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000549"><a href="https://alistapart.com/about/sponsor/" itemprop="url">Sponsorships</a></li>
+</ul></div><div class="menu-footer-social-container"><ul id="footer-top-right-menu" class="footer-top-right-menu"><li id="menu-item-6000550" class="footer-menu-title menu-item menu-item-type-custom menu-item-object-custom menu-item-6000550"><a itemprop="url">Follow us:</a></li>
+<li id="menu-item-7171602" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7171602"><a href="https://alistapart.com/about/rss-feed/" itemprop="url">RSS</a></li>
+<li id="menu-item-7174935" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7174935"><a href="https://alistapart.com/email-signup/" itemprop="url">Email</a></li>
+<li id="menu-item-6000553" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6000553"><a href="https://www.facebook.com/alistapart" itemprop="url">Facebook</a></li>
+<li id="menu-item-6000554" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6000554"><a href="https://www.twitter.com/alistapart" itemprop="url">Twitter</a></li>
+</ul></div>	</nav>
+			<div class="widget-area footer-widget-area-wrap">
+			<div class="widget-area footer-widget-area">
+				<section id="custom_html-7" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><div class="footer-promo">
+	<a href="https://abookapart.com">
+							<img data-recalc-dims="1" src="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/04/promo_aba_2.jpg?w=960&#038;quality=89&#038;ssl=1" alt="A Book Apart. Brief books for people who design, write, and code.">
+		<div class="footer-promo-copy">
+				<p class="promo-title">A Book Apart</p>
+				<p>Brief books for people who design, write, and code.</p>
+				<p>Bundle books and save!</p>
+				<p class="arrow">Shop now</p>
+						</div>
+			</a>
+</div>
+
+</div></section>			</div>
+		</div>
+
+		
+	<div class="site-info-wrap">
+		<div class="site-info">
+			<p>
+				ISSN 1534-0295 &middot; Copyright &copy; <span itemprop="copyrightYear"> 1998–2026</span> <span itemprop="copyrightHolder"> A List Apart &amp; Our Authors</span>			</p>
+
+			<p>
+				<a href="https://wordpress.com/website-builder/?partner_domain=alistapart.com&#038;utm_source=Automattic&#038;utm_medium=colophon&#038;utm_campaign=Concierge%20Referral&#038;utm_term=alistapart.com" class="imprint" target="_blank" rel="nofollow">Designed with WordPress.</a> <a href="https://pressable.com/?utm_source=Automattic&#038;utm_medium=rpc&#038;utm_campaign=Concierge%20Referral&#038;utm_term=alistapart.com" class="imprint" target="_blank" rel="nofollow">Hosted by Pressable.</a>			</p>
+		</div><!-- .site-info -->
+	</div><!-- .site-info-wrap -->
+
+	<nav class="footer-navigation footer navigation-bottom">
+		<ul id="footer-bottom-left-menu" class="footer-bottom-left-menu"><li id="menu-item-6000555" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000555"><a href="https://alistapart.com/about/copyright/" itemprop="url">Permissions &#038; Copyright</a></li>
+<li id="menu-item-6000556" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-6000556"><a rel="privacy-policy" href="https://alistapart.com/about/privacy-policy/" itemprop="url">Privacy Policy</a></li>
+<li id="menu-item-6000558" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6000558"><a href="https://webtype.com/" itemprop="url">Fonts by Webtype</a></li>
+</ul><ul id="footer-bottom-right-menu" class="footer-bottom-right-menu"><li id="menu-item-6000559" class="aea menu-item menu-item-type-custom menu-item-object-custom menu-item-6000559"><a href="http://aneventapart.com/" itemprop="url"><span class="screen-reader-text">An Event Apart</span></a></li>
+<li id="menu-item-6000560" class="aba menu-item menu-item-type-custom menu-item-object-custom menu-item-6000560"><a href="http://abookapart.com/" itemprop="url"><span class="screen-reader-text">A Book Apart</span></a></li>
+</ul>	</nav>
+</footer><!-- #colophon -->
+</div><!-- #page -->
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/ala/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+				<meta
+					id="bilmur"
+					property="bilmur:data"
+					content=""
+					data-provider="wp.cloud"
+					data-service="pressable.com"
+					data-custom-props="{&quot;wpcomsp&quot;:&quot;1&quot;,&quot;woo_active&quot;:&quot;0&quot;}"
+					data-site-tz="America/New_York"
+				>
+					<div style="display:none">
+			<div class="grofile-hash-map-daa2a55621aee26acd3ed21fab0423df">
+		</div>
+		<div class="grofile-hash-map-51be591abb1a7ddcb9718e87f543824e">
+		</div>
+		</div>
+		<script type="text/javascript" src="https://s0.wp.com/wp-content/js/bilmur.min.js?m=202621&amp;ver=1" id="bilmur-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/navigation.js?ver=20151215" id="ala-navigation-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/prism/prism.js?ver=1.0" id="ala-prism-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/skip-link-focus-fix.js?ver=20151215" id="ala-skip-link-focus-fix-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-includes/js/comment-reply.min.js?ver=6.9.4" id="comment-reply-js" async="async" data-wp-strategy="async" fetchpriority="low"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/sidebar-related.js?ver=1" id="sidebar-related-js"></script>
+<script type="text/javascript" src="https://secure.gravatar.com/js/gprofiles.js?ver=202621" id="grofiles-cards-js"></script>
+<script type="text/javascript" id="wpgroho-js-extra">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+//# sourceURL=wpgroho-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/plugins/jetpack/modules/wpgroho.js?ver=15.9-a.1" id="wpgroho-js"></script>
+<script type="text/javascript" id="jetpack-stats-js-before">
+/* <![CDATA[ */
+_stq = window._stq || [];
+_stq.push([ "view", {"v":"ext","blog":"158094726","post":"7175547","tz":"-4","srv":"alistapart.com","hp":"atomic","ac":"3","amp":"0","j":"1:15.9-a.1"} ]);
+_stq.push([ "clickTrackerInit", "158094726", "7175547" ]);
+//# sourceURL=jetpack-stats-js-before
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://stats.wp.com/e-202621.js" id="jetpack-stats-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/plugins/jetpack/_inc/build/likes/queuehandler.min.js?ver=15.9-a.1" id="jetpack_likes_queuehandler-js"></script>
+<script defer type="text/javascript" src="https://alistapart.com/wp-content/plugins/akismet/_inc/akismet-frontend.js?ver=1774230728" id="akismet-frontend-js"></script>
+<script type="text/javascript" id="sharing-js-js-extra">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+//# sourceURL=sharing-js-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=15.9-a.1" id="sharing-js-js"></script>
+<script type="text/javascript" id="sharing-js-js-after">
+/* <![CDATA[ */
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-bluesky' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-bluesky' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcombluesky', 'menubar=1,resizable=1,width=600,height=400' );
+						return false;
+					}
+				} );
+			} )();
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-mastodon' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-mastodon' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcommastodon', 'menubar=1,resizable=1,width=460,height=400' );
+						return false;
+					}
+				} );
+			} )();
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-threads' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-threads' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcomthreads', 'menubar=1,resizable=1,width=600,height=400' );
+						return false;
+					}
+				} );
+			} )();
+//# sourceURL=sharing-js-js-after
+/* ]]> */
+</script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://alistapart.com/wp-includes/js/wp-emoji-release.min.js?ver=6.9.4"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://alistapart.com/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+	<iframe src='https://widgets.wp.com/likes/master.html?ver=20260518#ver=20260518' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+	<div id='likes-other-gravatars' role="dialog" aria-hidden="true" tabindex="-1"><div class="likes-text"><span>%d</span></div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+			<script type="text/javascript">
+			(function() {
+			var t   = document.createElement( 'script' );
+			t.type  = 'text/javascript';
+			t.async = true;
+			t.id    = 'gauges-tracker';
+			t.setAttribute( 'data-site-id', '606492000b21314ec4b22148' );
+			t.src = '//secure.gaug.es/track.js';
+			var s = document.getElementsByTagName( 'script' )[0];
+			s.parentNode.insertBefore( t, s );
+			})();
+		</script>
+		</body>
+</html>

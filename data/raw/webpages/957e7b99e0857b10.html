@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja"><head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Ready2Search:English</title>
+<META name="keywords" content="search, plugin, customize, image, Google Toolbar, OpenSearch, Internet Explorer, IE, Firefox, Chrome, xml">
+<META name="description" content="Ready2Search helps you make search plug-ins for Internet Explorer, Firefox, Chrome, and Google Toolbar. It supports image resizing and transparency, and can also generate icons.">
+<META http-equiv="Content-Style-Type" content="text/css">
+<META http-equiv="Content-Script-Type" content="text/javascript">
+<LINK rel="shortcut icon" href="favicon.ico">
+
+<script type="text/javascript">
+<!--
+function cochar() {
+  n = document.forma.img.value.length;
+  if(n > 20000) alert("The image text exceeds 20000 characters.");
+}
+
+function addp(csurl) {
+try {
+window.external.AddSearchProvider(csurl);
+} catch (e) {
+alert("Plug-in is available for Firefox/Chrome, or when you use Internet Explorer directly.");
+}}
+//-->
+</SCRIPT>
+
+<style type="text/css">
+<!--
+.outside{
+ text-align:center;
+}
+
+.inside{
+width:100%;
+margin-left:auto;
+margin-right:auto;
+text-align:left;
+}
+.urlout{
+height:4em;
+width:92%;
+overflow:auto;
+text-align:left;
+background-color:#00FFCC;
+word-break: break-all;
+padding:0.1em;
+border-style: solid; border-color: #666600; border-width:1px;
+}
+
+.LeftB {
+ padding:1%;
+ width:46%;
+ float:left;
+}
+
+.RightB {
+ border-style:ridge;
+ border-color:#99FF99;
+ border-width:4px;
+ background-color:#FFFFCC;
+ margin-top:2em;
+ padding:2%;
+ width:46.5%;
+ float:left;
+}
+
+.LeftB2 {
+ width:50%;
+ float:left;
+ }
+
+.RightB2 {
+ border-style:ridge;
+ border-color:#87CEFA;
+ background-color:#FFFFFF; 
+ border-width:2px;
+ padding:2%;
+ margin-bottom:1%;
+ width:42%;
+ text-align:center;
+ float:right;
+}
+
+.RightB3 {
+ background-color:#FFFFCC; 
+ width:42%;
+ float:right;
+}
+
+.cspl {
+ padding-top:1em;
+ clear:both;
+}
+
+TABLE{background-image:url(pic/backpic100.gif);}
+.btpart{margin-top:1%;}
+hr.bl6{ background-color: #0000FF; color: #0000FF; height: 6px; border: none;}
+.ta1{border:ridge 6px #CCFF99}
+.lefp5em{margin-left:0.5em;}
+.lef3em{margin-left:3em;}
+.lef2p{margin-left: 2%;}
+.lef4p{margin-left: 4%;}
+.fs200c7p{font-size:190%; background-image: url(pic/backpic24.gif);padding: 2pixel 10px  0 3px}
+.fs120bo{font-size:140%; font-weight:bold;}
+.fs60{font-size:60%; }
+.fs40{font-size:40%; }
+.fsxsm{font-size:x-small; font-weight:normal;}
+.fs80gray{font-size:80%; color:gray;}
+.fs80{font-size:80%;}
+.bo{font-weight:bold;}
+.bogra{font-weight:bold; color:gray;}
+.bored80{font-weight:bold; color:red;font-size:80%;}
+.bogre80{font-weight:bold; color:green;font-size:80%;}
+.bona80{font-weight:bold; color:navy;font-size:80%;}
+.bona{font-weight:bold;color:navy;}
+.iroa80{font-size:80%; color:#9900CC}
+.na{color:navy;}
+.gre{color:green;}
+.gray{color:gray;}
+input{ font-size:120%;}
+textarea {padding: 1px 5px; font-size:80%; width: 60%;}
+.blso1 { border: 2px #66CCCC solid ; width: 46%}
+.blso2 { font-size:100%; border: 2px #66CCCC solid ; width: 92%}
+.grdo { font-size: 100%; border: 2px #66CCCC dotted ; width: 92%}
+.imte { border: 2px #66CCCC dotted ; width: 100%}
+.sminp { font-size: 80%; color:blue; padding:0.5%}
+.upima { font-size: 80%; color:navy; width:7em; padding:0.5%}
+.favadd { font-size: 70%; color:green; padding:0.5%}
+.dlset { font-size: 70%; color:black; padding:0.5%}
+.broch { font-size: 80%; color:green; width:12em; padding:0.5%}
+.biinp { font-size: 100%; font-weight:bold; width:12em; padding:0.5%} 
+.fileup { font-size: 70%; width: 80%}
+--></style>
+</head>
+<body>
+<h1><A href="https://ready.to/search/en/"><IMG src="pic/readytitle.gif" border="0" align="left" title="Click to go back to the initial page." alt="Click to go back to the initial page." width="32" height="32"></a>
+Ready2Search<span class="fsxsm"><span class="lef3em">English</span><span class="lefp5em">
+<A href="https://ready.to/search/jp/">Japanese</a></span></span><span class="lefp5em">
+</span> <a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a></h1><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<form method="POST" action="./" name="forma" enctype="multipart/form-data">
+<div class="outside"><div class="inside"><div class="LeftB">
+<B>the search name</B>: ShortName
+<BR>
+<input type="text" name="sna" maxlength="300" value="" class="blso1" ><BR><span class="fs60"><BR></span>
+<B>the front of search term</B>: Url-template(prefix)
+<BR>
+<input type="text" name="prf" maxlength="2000" value="https://" class="blso2" ><BR><span class="fs60"><BR></span>
+<span class="fs80gray">
+<B>the back of search term</B>: Url-template(suffix)
+<BR>
+<input type="text" name="suf" maxlength="2000" value="" class="grdo" ><BR><span class="fs60"><BR></span>
+<B>description of the search</B>: Description
+<BR>
+<input type="text" name="des" maxlength="2000" value="" class="grdo" ><BR><span class="fs60"><BR></span>
+<B>optional XML element</B>
+<BR>
+<input type="text" name="opt" maxlength="2000" value="" class="grdo" ><BR><span class="fs60"><BR></span>
+<span class="na">
+<B>input encoding</B>: InputEncoding
+<input type="radio" name="in" id="inino" value="ino"  ><label for="inino">not specified</label>
+<input type="radio" name="in" id="inutf" value="utf" checked ><label for="inutf">UTF-8</label>
+<input type="radio" name="in" id="ineuj" value="euj"  ><label for="ineuj">EUC-JP</label>
+<input type="radio" name="in" id="injis" value="jis"  ><label for="injis">S-JIS</label>
+<BR></span>
+<span class="gre">
+<B>output encoding</B>: OutputEncoding
+<input type="radio" name="ou" id="ouino" value="ono" checked ><label for="ouino">not specified</label>
+<input type="radio" name="ou" id="ouutf" value="utf"  ><label for="ouutf">UTF-8</label>
+<input type="radio" name="ou" id="oueuj" value="euj"  ><label for="oueuj">EUC-JP</label>
+<input type="radio" name="ou" id="oujis" value="jis"  ><label for="oujis">S-JIS</label>
+<BR>
+</span></span>
+<span class="fs60"><BR></span>
+<input type="submit" name="mod"  value="Make search plug-in" class="biinp">
+<input type="submit" name="mod"  value="Check Web browser" class="broch">
+<span class="fs60"><BR></span></div><div class="RightB"><div class="inside"><div class="LeftB2"><span class="fs80gray"><B>image text</B>: Image</span><BR><span class="iroa80">  - 16&#215;16 pixel [gif, jpeg, png]<BR>　- up to 20000 characters</span><BR></div></div><textarea name="img" rows="4" cols="80" class="imte"  onChange="cochar()"></textarea><BR>
+<input type="submit" name="mod" value="Read the image text" class="sminp">
+<BR><span class="fs60"><BR></span>
+<span class="bogre80">image file</span><span class="iroa80"><BR>
+  - gif, jpeg, png (file size up to 50KB)<BR>
+  - each side up to 500 pixels
+</span><BR><input type="file" name="userfile" size="68" class="fileup"><BR>
+<input type="submit" value="original color" name="mod" class="upima">
+<input type="submit" value="white-trans" name="mod" class="upima">
+<input type="submit" value="black-trans" name="mod" class="upima"><BR>
+<input type="submit" value="red-trans" name="mod" class="upima">
+<input type="submit" value="blue-trans" name="mod" class="upima">
+<input type="submit" value="yellow-trans" name="mod" class="upima">
+
+</div></div></div>
+<div class="cspl"></div><div class="btpart"><HR class="bl6"><span class="fs80"><BR>Ready2Search makes search plug-in for Internet Explorer, Firefox, Chrome, and Google Toolbar.<BR><A href="https://ready.to/search/make/en_make_plugin.htm">Custom Search through Ready2Search</a> is a guide to make search plug-in.<BR><A href="https://ready.to/search/list/en_plugin_link.htm">Examples of Search Plug-in and Link Button for Google Toolbar</a> provides some examples.<BR>Ready2Search has been developed by &nbsp;<A href="https://keijisaito.info/">Keiji Saito</a> (<A href="https://keijisaito.info/sitemap/en_map.htm">sitemap</a>). If you have any questions or requests, please let me know.</span></div></form></body></html> 

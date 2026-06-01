@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+<TITLE>Custom Search  through Ready2Search</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META name="keywords" content="Ready2Search, search, custom, web, browser, plugin, OpenSearch, Google,">
+<META name="description" content="Ready2Search can make search plugin for Internet Explorer 7, Firefox, and Google Toolbar.">
+<META http-equiv="Content-Style-Type" content="text/css">
+<META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../../bs513/css/bootstrap.min.css" rel="stylesheet">
+
+<STYLE type="text/css"><!--
+.fboxout{
+	margin: 1em;  border-style: solid; border-width: 1px 2px 2px 1px; border-color: #666666;
+}
+.fboxin{
+	background-color: #DDDDDD; padding: 8px; border-style: solid; border-width: 1px 2px 2px 1px; border-color: #CCCCCC #CCCCCC #EEEEEE #EEEEEE;
+}
+.fboxtext{
+	background-color: #FFFFEE; padding: 0.2em 1em 1em 1em; border:solid #666666; border-width: 2px 1px 1px 2px;
+}
+
+.ibo{
+	margin:1em; padding:0.5em; border-color:#6699CC; background-color :#FFFFFA; border-width:2px; border-style:solid; 
+} .ybo{
+	margin:1em; padding:0.5em; border-color:#6633CC; background-color :#FFFFEE; border-width:3px; border-style:solid; 
+}
+
+.lurl{
+	height:1.7em; font-size:smaller ; margin-left: 4em; margin-bottom: 1em; width:90%; padding:0.2em; overflow:auto; text-align:left; background-color:#CCFFFF; border-style: solid; border-color: #6699CC; border-width:1px;
+} .lurllo{
+	height:4em; font-size:smaller ; margin-left: 4em; margin-bottom: 1em;width:90%; padding:0.2em; overflow:auto; text-align:left; background-color:#CCFFFF; border-style: solid; border-color: #6699CC; border-width:1px;
+}
+
+.grebox{
+	font-size: 95%; margin:0.5em 2em 0em 0.5em;
+} .greboxti{
+	background-color: #CCFFCC; font-size: 100%; font-weight: bold; width: 15em; position: relative; margin-left:0.4em; z-index: 3; padding: 0.3em 0.5em; border-style: solid; border-color: #006600; border-width: 1px 2px 2px 1px;
+}.greboxout{
+	position: relative; z-index: 2; top: -1.1em; margin-left:1.4em; border-style: solid; border-color:#00CC33; border-width: 2px 2px 2px 15px;
+} .grecol{
+	position: relative; z-index: 1; padding: 1.5em 1em 1em 1em;  background-color: #FFFFFA; line-height:1.4; 
+} .greinboxout{
+	position: relative; z-index: 2; top: -1.1em; margin-left:1.4em; border-style: solid; border-color:#00CC33; border-width: 1px 1px 1px 15px;
+} .grecol2{
+	position: relative; z-index: 1; padding: 1.5em 1em 1em 1em;  background-color: #FFFFEE; line-height:1.4; 
+}
+.nabox{
+	font-size: 75%; margin:3em 3em 1em 1em;
+} .naboxti{
+	background-color:#00EEFF; font-size: 100%; font-weight: bold; width: 14em; position: relative; margin-left:0.4em; z-index: 2; padding: 0.3em 0.5em; border-style: solid; border-color: #000099; border-width: 1px 2px 2px 1px;
+}.naboxout{
+	position: relative; z-index: 1; top: -1.1em; margin-left:1.4em; border-style: solid; border-color:#0000CC; border-width: 2px 2px 2px 20px;
+} .nacol{
+	padding: 1.5em 1em 1em 1em;  background-color: #FFFFEE; line-height:1.4; 
+}
+ .browse{
+	margin-left: 2em; font-weight:bold; color:green;
+} .code{
+	font-size:smaller;
+} .rela{
+	font-size:smaller; margin-left: 1em; line-height:1.2;
+} .categ{
+	margin-top: 1em; margin-bottom: 0.5em; font-weight:bold;
+} .ieff{
+	margin-left: 2em; font-weight:bold;
+}  .lef2em{
+	margin-left: 2em;
+} .att{
+	font-size:x-small; color:red;
+} .blaye{
+	font-size:x-small; background-color:yellow; font-weight:normal;
+} .discr{
+	font-size:80%; font-weight:normal; margin-left: 2em; background-color:#CCFFCC;
+} .kan{
+	font-size:x-small; margin-top: 2em;
+}
+p{
+	line-height:1.3;
+} li{
+	font-size:smaller; color:#666666; margin-left:1.5em; margin-right:3em; padding:0.4em 0.5em; line-height:1.2;
+} li.i2{
+	font-size:100%; color:#000000; margin-left:0.2em; margin-bottom:1em; padding-left: 0.5em; list-style-image : url(list_blue.gif);
+} hr.li4{
+	background-color: #00FF00; color: #00FF00; height: 4px; border: none;
+} .dicen{
+	margin-top:3em;
+}
+.marsm{
+	margin:0.5em 0em 1em 2em; font-size: 90%;
+}
+.smapout{
+	font-size: 100%;  margin-top: 1em; margin-bottom: 1em; margin-left:1.8em; width:75%;  border: solid #336633; border-width: 1px 2px 2px 1px; background-image: url(bg_tree.jpg);  padding-top: 2px; 
+} .smapin{
+	border: solid #339933; border-width: 2px 1px 2px 2px; padding: 0.3em ; margin: 4px 6px 4px 6px; background-color: #FCFEF0; line-height:1.4;
+} .smapsc{
+	font-size: 80%; margin-left: 1em;
+}
+.paindout{
+	text-align: center; font-weight: bold; font-size: 100%; margin-top:1em; margin-left:1.8em; width:75%; border: solid #666600; border-width: 1px 2px 2px 1px; background-color: #00FFCC; padding-top: 4px; 
+} .paindin{
+	text-align: left; border: solid #666600; border-width: 1px 2px 2px 1px; padding: 1em 2em; margin: 8px; background-color: #FFFFEE; line-height:1.8;
+}
+.paindsub{
+	font-weight: normal; margin:0.1em 0em 0.7em 2em; font-size: 90%;
+} .paindex{
+	font-weight: normal; margin:0.5em 2em; padding:1em; font-size: 80%; border: solid #3333CC; border-width: 1px 2px 2px 1px; background-color: #CCFFFF;
+}
+--></STYLE>
+</HEAD><BODY background="bggb.png">
+<div class="container-xl">
+<div class="col-12 col-xl-10 offset-xl-1">
+
+
+
+<H1><A name="head">[Custom Search through Ready2Search]</A></H1>
+<P>Ready2Search makes search plug-in for Internet Explorer 7, Firefox, and Google Toolbar.<BR>
+This page presents how to make search plug-in through <A href="https://ready.to/search/en/" target="_blank"><B>Ready2Search</B></A>.<BR>
+Search plug-ins in <A href="https://ready.to/search/list/en_plugin_link.htm"><B>Examples of Search Plug-in and Link Button for Google Toolbar</B></A> are installable by just clicking.</P>
+<div class="paindout"><B>INDEX : INTERNAL LINKS</B>
+<div class="paindin"><A href="#what_r2s">What is Ready2Search?</A>
+<div class="paindsub">
+<A href="#plug_make">Search Plug-in Maker</A>&nbsp;&nbsp;<A href="#image_ope">Image Operator</A></div>
+<A href="#make_plugin">How to make search plug-in</A>
+<div class="paindsub">
+<A href="#ident">(1) Identification of Search Query</A>&nbsp;&nbsp;<A href="#r2s_input">(2) Input into Ready2Search</A></div>
+<A href="#xml_ele">Optional XML element</A>
+<div class="paindsub">
+<A href="#base_gt">Base Page for Google Toolbar</A>&nbsp;&nbsp;<A href="#rss_gt">RSS for Google Toolbar</A>&nbsp;&nbsp;<A href="#gs_ff">Google Suggest for Firefox</A></div>
+<A href="#save_use">Save and use of search plug-in</A>
+</div></div>
+<div class="nabox">
+<div class="naboxti">Related Pages in Japanese</div>
+<div class="naboxout"><div class="nacol">
+<A href="https://keijisaito.info/arc/search/cs_set.htm"><B>How to Customize Search Bar Web Browser</B></A> [<A href="https://keijisaito.info/arc/search/cs_set_ie7.htm"><B>Internet Explorer</B></A>, <A href="https://keijisaito.info/arc/search/cs_set_firefox.htm"><B>Firefox</B></A>, <A href="https://keijisaito.info/arc/search/cs_set_sleipnir_grani.htm"><B>Sleipnir and Grani</B></A>, <A href="https://keijisaito.info/arc/search/cs_set_lunascape.htm"><B>Lunascape</B></A>, <A href="https://keijisaito.info/arc/search/cs_set_opera.htm"><B>Opera</B></A>]<BR>
+<A href="https://keijisaito.info/arc/search/google_bar.htm"><B>How to Customize Google Toolbar</B></A><BR>
+<A href="https://ready.to/search/make/"><B>Making Search Plug-in in Ready2Search</B></A><BR>
+<A href="https://ready.to/search/make/r2s_web_set.htm"><B>How to Use Search plug-in on Website</B></A><BR>
+<A href="https://ready.to/search/make/r2s_icon.htm"><B>Image Operation and Making Transparent Icons in Ready2Search</B></A><BR>
+<A href="https://lead.to/amazon/jp/search/use.htm"><B>Search in Amazon through Lead2Amazon</B></A><BR>
+<A href="https://ready.to/search/list/"><B>Index of Direct Search</B></A>
+<div class="grebox">
+<div class="greboxti">Search Plug-ins by Category</div>
+<div class="greinboxout"><div class="grecol"><A href="https://ready.to/search/list/cs_web.htm">Web</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_news.htm">News</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_image.htm">Image</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_movie.htm">Movie</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_term.htm">Dictionary and Term</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_trans.htm">Translation</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_wisdom.htm">Wisdom and Answer</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_bookmark.htm">Bookmark</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_bbs.htm">BBS</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_blog.htm">Blog</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_sns.htm">SNS</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_tv.htm">TV</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_recipe.htm">Recipe</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_map.htm">Map</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_route.htm">Route</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_area.htm">Local Information</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_tel.htm">Phone Number</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_zip.htm">Zip Code</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_gourmet.htm">Gourmet and Restaurant</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_goods.htm">Goods</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_auction.htm">Auction</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_book.htm">Book</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_music.htm">Music</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_cinema.htm">Cinema</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_game.htm">Game</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_software.htm">Software</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_ticket.htm">Ticket</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_travel.htm">Hotel and Travel</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_car.htm">Car and Bike</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_estate.htm">Estate and Rental</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_firm.htm">Stock and Business Information</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_job.htm">Job</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_hospital.htm">Hospital</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_medicine.htm">Medicine</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_media.htm">Web Media</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_thesis.htm">Thesis and Paper</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_code.htm">Source Code</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_gov.htm">Document of Government</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_ndl.htm">Diet Library</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_opac_univ.htm">OPAC of University Library</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_opac_tokyo.htm">Cross OPAC in Tokyo</A>&nbsp;&nbsp;<A href="https://lead.to/amazon/jp/search/cs_l2a_bar.htm">Lead2Amazon:direct search</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_track.htm">Delivery Track</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_local_file.htm">Local File</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_other.htm">Other</A></div></div></div></div></div></div>
+
+<div class="smapout">
+<div class="smapin">
+<span class="smapsc"><A href="https://keijisaito.info/english.htm">the English index</A></span>
+<span class="smapsc"><A href="https://keijisaito.info/sitemap/en_map.htm">sitemap by category</A></span>
+<span class="smapsc"><A href="https://keijisaito.info/sitemap/en_update.htm">update info</A></span>
+<span class="smapsc"><A href="https://ready.to/sitemap/en_ready.htm">sitemap of ready.to</A></span>
+</div>
+</div>
+
+<HR class="li4">
+<H2><A name="what_r2s">What is Ready2Search?</A></H2>
+<H3><A name="plug_make">Search Plug-in Maker</A></H3>
+<P><A href="http://www.microsoft.com/windows/ie/default.mspx" target="_blank">Internet Explorer 7</A> and <A href="http://www.mozilla.com/en-US/" target="_blank">Firefox</A> have search bar in the browser. <A href="http://toolbar.google.com/" target="_blank">Google Toolbar</A> which is available in IE6 has buttons to search in chosen search engine.
+The search engine loaded in the bar is customizable. Ready2Search is a
+Web tool to simplify procedures for making and loading search plug-in.
+In addition, Ready2Search is useful to save and transmit the search settings.
+Search plug-ins in <A href="https://ready.to/search/list/en_plugin_link.htm"><B>Examples of Search Plug-in and Link Button for Google Toolbar</B></A> are installable by just clicking.</P>
+<UL>
+  <LI>Ready-made OpenSearch plug-ins are listed in <A href="http://www.microsoft.com/windows/ie/searchguide/en-en/default.mspx" target="_blank">Microsoft's Internet Explorer: Search Guide</A>, <A href="http://mycroft.mozdev.org/" target="_blank">Mycroft Project</A>, <A href="http://www.searchplugins.net/pluginlist.aspx" target="_blank">Searchplugins.net</A>, <A href="http://tredosoft.com/internet_explorer_7_search_providers" target="_blank">Tredosoft</A>. Ready-made Search plug-ins of Google Toolbar are listed in <A href="http://toolbar.google.com/buttons/gallery" target="_blank">Google Toolbar Button Gallery</A>.
+</UL>
+<P><img class="img-fluid" src="search3.gif" width="513" height="358" border="2" alt="Custom Search in IE7, Firefox, and Google Toolbar"></P>
+<H3><A name="image_ope">Image Operator</A></H3>
+<P><A href="https://ready.to/search/en/" target="_blank"><B>Ready2Search</B></A> accepts image files to make search icon in Firefox and Google Toolbar.
+The function is useful for making transparent image. When you upload image
+file, Ready2Search displays the transition from original image to 16&#215;16
+icon. The transparent image of the transition is downloadable.</P>
+<P><img class="img-fluid" src="en_star_in.gif" width="402" height="127" border="2" alt="uploading image file for search icon"></P>
+<P><img class="img-fluid" src="en_star_out.gif" width="864" height="233" border="2" alt="image transition to icon size"></P>
+<P><A href="http://tools.dynamicdrive.com/favicon/" target="_blank"><B>FavIcon Generator</B></A> converts the image to transparent icon with extension of ico. 16&times;16
+icon is available for favicon in Website. 32&times;32 icon is available
+for Desktop icon in Windows.</P>
+<P><img class="img-fluid" src="fav_down.gif" width="422" height="268" border="2" alt="download transparent icon in FavIcon Generator"></P>
+<UL>
+  <LI>An icon with extension of ico stores multiple sizes.
+  <LI>If you want to bring icon back to image, <A href="http://converticon.com/">ConvertIcon</A> is useful.
+</UL>
+<HR>
+<H2><A name="make_plugin">How to make search plug-in</A></H2>
+<P>I give same examples in <A href="https://ready.to/search/list/en_plugin_link.htm"><B>Examples of Search Plug-in and Link Button for Google Toolbar (in English)</B></A>. Even if you don't know Japanese <A href="https://ready.to/search/list/"><B>Index of direct search (in Japanese)</B></A> might be useful to get search query and image text.</P><div class="grebox">
+<div class="greboxti">Search Plug-ins by Category</div>
+<div class="greboxout"><div class="grecol2"><A href="https://ready.to/search/list/cs_web.htm">Web</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_news.htm">News</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_image.htm">Image</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_movie.htm">Movie</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_term.htm">Dictionary and Term</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_trans.htm">Translation</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_wisdom.htm">Wisdom and Answer</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_bookmark.htm">Bookmark</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_bbs.htm">BBS</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_blog.htm">Blog</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_sns.htm">SNS</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_tv.htm">TV</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_recipe.htm">Recipe</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_map.htm">Map</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_route.htm">Route</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_area.htm">Local Information</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_tel.htm">Phone Number</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_zip.htm">Zip Code</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_gourmet.htm">Gourmet and Restaurant</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_goods.htm">Goods</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_auction.htm">Auction</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_book.htm">Book</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_music.htm">Music</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_cinema.htm">Cinema</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_game.htm">Game</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_software.htm">Software</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_ticket.htm">Ticket</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_travel.htm">Hotel and Travel</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_car.htm">Car and Bike</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_estate.htm">Estate and Rental</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_firm.htm">Stock and Business Information</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_job.htm">Job</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_hospital.htm">Hospital</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_medicine.htm">Medicine</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_media.htm">Web Media</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_thesis.htm">Thesis and Paper</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_code.htm">Source Code</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_gov.htm">Document of Government</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_ndl.htm">Diet Library</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_opac_univ.htm">OPAC of University Library</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_opac_tokyo.htm">Cross OPAC in Tokyo</A>&nbsp;&nbsp;<A href="https://lead.to/amazon/jp/search/cs_l2a_bar.htm">Lead2Amazon:direct search</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_track.htm">Delivery Track</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_local_file.htm">Local File</A>&nbsp;&nbsp;<A href="https://ready.to/search/list/cs_other.htm">Other</A></div></div></div>
+<P>If you find intended search engine in the list, the plug-in is installable
+by just clicking. Even if you don't find it, you can make an original search
+plug-in as the following movie shows.</P>
+
+<div>
+			<video id="video1" poster="movie/r2s_make_en.jpg" controls>
+				<source src="movie/r2s_make_en.mp4">
+			</video>
+</div>
+
+<P>The procedure is as follows. </P>
+<div class="ybo">
+<H3><A name="ident">(1) Identification of Search Query</A></H3>
+Go to the website of search engine. If the search engine has option (order,
+category), specify them to suit the needs or preferences. Even if the search
+engine doesn't have option, type <B>abcd</B> in the search entry and click the search button.<BR>
+<P>
+<img class="img-fluid" src="en_google_image.gif" border="2" width="596" height="373" alt="specify the search setting"></P>
+If you find <B>abcd</B> in the address bar, open <A href="https://ready.to/search/en/" target="_blank"><B>Ready2Search</B></A> in new tab of the browser.<BR>
+<UL>
+  <LI>If the search engine accepts the query with POST method, URL in the address
+  bar doesn't have <B>abcd</B>. In this case, it is difficult to find the search query.
+</UL>
+<P>
+<img class="img-fluid" src="en_google_image_url.gif" width="634" height="55" border="2" alt="URL of the search result"></P>
+<HR>
+<H3><A name="r2s_input">2: Input into Ready2Search</A></H3>
+The solid boxes in Ready2Search are required items. The dotted boxes are
+optional items.<BR>
+<UL>
+  <LI class="i2"><B>the search name:</B> type the name displayed on your browser or toolbar.
+  <LI class="i2"><B>the front of search term:</B> paste the left side of <B>abcd</B> in the URL.
+  <LI class="i2"><B>the back of search term:</B> paste the right side of <B>abcd</B> in the URL. If the right side is blank, don't enter any words.
+  <LI class="i2"><B>description of the search:</B> Blank is OK. If you have notes for publication or your own, type here.
+  <LI class="i2"><B>optional XML element:</B> Blank is OK. Google Suggest to Firefox and the base page to Google Toolbar is installable from here.(<A href="#xml_ele"><B>Optional XML element</B></A>) 
+  <LI class="i2"><B><SPAN class="na">input encoding:</SPAN></B> If you use only English, you don't have to care. Even if you use languages
+  other than English, UTF-8 is worth trying.
+  <LI class="i2"><B><SPAN class="na">output encoding</SPAN>:</B> In most cases, you don't have to care. &quot;not specified&quot; is OK.
+  <LI class="i2"><B>image text:</B> If you have image text for the search icon, paste here. If you upload
+  image file, it converts to image text. Blank is OK. If the image text is
+  blank in making search setting, Ready2Search inserts this hand lens icon.<img class="img-fluid" src="mushimegane.gif" width="16" height="16" border="0" alt="hand lens">
+</UL>
+<UL>
+  <LI>This copy and paste method usually leaves redundant strings. If the search
+  engine manages accounts, the search query might include ID. When you tell
+  or publish the search plug-in, check the string in advance.
+  <LI>Internet Explorer 7 ignores the image text.
+</UL>
+After Entering the settings, click <img class="img-fluid" src="en_make_plugin.jpg" border="0" width="190" height="29" alt="Make search plug-in">. Ready2Search displays <B>&quot;<FONT color="#0000ff">OpenSearch plug-in</FONT> <FONT 
+color="#999999">the search name</FONT>&quot;</B> and <B>&quot;<FONT color="#0000ff">Google Toolbar plug-in</FONT> <FONT color="#999999">the search name</FONT>&quot;</B> as follows.
+<P>
+<img class="img-fluid" src="en_google_li.gif" border="2" width="685" height="410" alt="making search plug-in in Ready2Search"></P>
+Click <B>&quot;<FONT color="#0000ff">OpenSearch plug-in</FONT> <FONT color="#999999">the search name</FONT>&quot;</B> to add to Internet Explorer 7 or Firefox. Click <B>&quot;<FONT color="#0000ff">Google Toolbar plug-in</FONT> <FONT color="#999999">the search name</FONT>&quot;</B> to add to Google Toolbar. The browser asks if you want to add the search
+plug-in. Reply &quot;add the plug-in&quot;, and the search plugin will
+be installed.<BR>
+<P>
+<img class="img-fluid" src="en_fox_add.gif" width="455" height="155" border="0" alt="Firefox asks if you want to add the search plug-in."></P>
+When <B>&quot;<FONT color="#0000ff">plug-in</FONT> <FONT 
+color="#999999">the search name</FONT>&quot;</B> is displayed, you can't change the search settings. If you want to edit
+the settings, click <img class="img-fluid" src="en_change_plugin.jpg" border="0" width="190" height="28" alt="change the plug-in">.</div>
+<HR>
+<H2><A name="xml_ele">Optional XML element</A></H2>
+<P>The optional XML element in Ready2Search accepts any type of XML element.
+  For example &lt;Tags&gt;tag&lt;/Tags&gt; &lt;Contact&gt;mail address&lt;/Contact&gt;
+  in &lt;send&gt;URL {selection}&lt;/send&gt;. (<A href="http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_3">OpenSearch Specifications</A>, <A href="http://toolbar.google.com/buttons/apis/howto_guide.html">Google Toolbar Specifications</A>) I introduce practical XML elements.</P>
+<H3><A name="base_gt">Base Page for Google Toolbar</A></H3>
+<P>Google Toolbar uses &lt;site&gt;<B>given base URL</B>&lt;/site&gt; in the optional XML element as the base page. If you click
+the button in Google Toolbar without entering serach-term, you go to <B>given base URL</B>. If you omit &quot;the front of search term&quot;, you make link button
+without search function as <A href="https://ready.to/search/list/en_plugin_link.htm#en_lib"><B>Examples of Link Button</B></A>.</P>
+<UL>
+  <LI>OpenSearch setting for Internet Explorer 7 and Firefox ignore &lt;site&gt;given
+  URL&lt;/site&gt;.
+  <LI>If the image text is blank in making link button, Ready2Search inserts
+  this star icon.<img class="img-fluid" src="star.gif" width="16" height="16" border="0" alt="star">
+</UL>
+<P><img class="img-fluid" src="en_gtb.jpg" border="2" width="298" height="36" alt="link button in Google Toolbar"></P>
+<H3><A name="rss_gt">RSS for Google Toolbar</A></H3>
+<P>Google Toolbar receives RSS feeds in the optional XML element. RSS automatically
+receives updated news and summary from chosen website.</P>
+<P><img class="img-fluid" src="en_digg_rss.gif" width="682" height="156" border="2" alt="Google Toolbar as RSS reader"></P>
+<P>If you add RSS function to Google Toolbar, input the optional XML element
+as follows.</P>
+<P>&lt;feed refresh-interval=&quot;1800&quot; refresh-onclick=&quot;true&quot;&gt;<B>given RSS URL</B>&lt;/feed&gt;</P>
+<UL>
+  <LI>1800 means 1800 seconds or 30 minutes. It specifies intervals to receive
+  RSS feeds.
+  <LI>You can input both &lt;site&gt;<B>given base URL</B>&lt;/site&gt; and &lt;feed&gt;<B>given RSS URL</B>&lt;/feed&gt; in optional XML element of Ready2Search.
+</UL>
+<P>For example, the plug-in of Digg search with Digg RSS is </P>
+<P><SPAN class="ieff"><img class="img-fluid" src="gtb.gif" hspace="2" alt="GoogleチEEルバE" title="GoogleチEEルバE" width="16" height="16"><A href="https://ready.to/search/en/?sna=Digg&prf=http%3A%2F%2Fdigg.com%2Fsearch%3Fsection%3Dnews%26amp%3Btype%3Dboth%26amp%3Barea%3Dall%26amp%3Bage%3D7%26amp%3Bsort%3Dnews%26amp%3Bsearch-buried%3D0%26amp%3Bs%3D&opt=%26lt%3Bsite%26gt%3Bhttp%3A%2F%2Fdigg.com%2F%26lt%3B%2Fsite%26gt%3B%26lt%3Bfeed+refresh-interval%3D%26quot%3B1800%26quot%3B+refresh-onclick%3D%26quot%3Btrue%26quot%3B%26gt%3Bhttp%3A%2F%2Fdigg.com%2Frss%2Findex.xml%26lt%3B%2Ffeed%26gt%3B&img=R0lGODlhEAAQAOMAAMzMzK2trZycnP///97e3vf39+/v7+fn59bW1s7OzgAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAARnEMhJq72Yhr0FFeAUDOQgEJJAFh4wFsZxAuoAE8I2xHhnGwSEoDA6BAVCFRCRGIKeSNAgmGgWCFiEVkiD6mJGXIsmGhzCOFSqjBaqn5IRNqCd1UyuKYHeRA0NBh5yCAFVdlBdUCAEEQA7&in=utf&ou=ono&mod=pn" rel="nofollow">Ready2Search Digg + RSS(Google Toolbar)</A></SPAN></P>
+
+<H3><A name="gs_ff">Google Suggest for Firefox</A></H3>
+<P>If you use Firefox 2.0 or later, Google Suggest is installable to the search
+bar. Google Suggest automatically lists popular search words while typing.
+If you'd like to add this function to the search bar in Firefox, paste
+the following string to optional XML element in Ready2Search.<P>
+<FONT size="-1" color="#0000cc">&lt;Url type=&quot;application/x-suggestions+json&quot; method=&quot;GET&quot;
+template=&quot;http://suggestqueries.google.com/complete/search?output=firefox&amp;client=firefox&amp;hl=en&amp;qu={searchTerms}&quot;/&gt;</FONT></P>
+The auto-complete function is installable to any search engines.
+<P><SPAN class="ieff"><img class="img-fluid" src="fox.gif" hspace="2" alt="Firefox" title="Firefox (2.0 or later)" width="16" height="16"><A href="https://ready.to/search/en/?sna=Google+Suggest&prf=http%3A%2F%2Fwww.google.com%2Fsearch%3Fhl%3Den%26amp%3Bnum%3D30%26amp%3Bq%3D&opt=%26lt%3BUrl+type%3D%26quot%3Bapplication%2Fx-suggestions%2Bjson%26quot%3B+method%3D%26quot%3BGET%26quot%3B+template%3D%26quot%3Bhttp%3A%2F%2Fsuggestqueries.google.com%2Fcomplete%2Fsearch%3Foutput%3Dfirefox%26amp%3Bclient%3Dfirefox%26amp%3Bhl%3Den%26amp%3Bqu%3D%7BsearchTerms%7D%26quot%3B%2F%26gt%3B&img=R0lGODlhEAAQALMAABAXhxc/iq5CJkq5SBQ1vhdf3GSA08HZ9Orw+u//+//38/v7////3v//6///9////ywAAAAAEAAQAAAEkbCMSast7SmWFkIJsiyOIhRjaBhEWxhH0pxOcrDgYweBeDILQyDByCweh0PpFAwcFg1iY6SboVgkxyKRUJCmp0SB0NAeNQ8HuCAmKBS17LHBCBsAiseRm0xaGywGHSQHLQQGDicPCAQAT2gLB451BQ4MCAAABgg1NpNhIwh3AYaHCA9MDA+rrKtHCyYWshUCEQAAOw==&in=utf&ou=ono&mod=pn" rel="nofollow">Ready2Search: Google with Suggest for Firefox</A></SPAN></P>
+
+<P><SPAN class="ieff"><img class="img-fluid" src="fox.gif" hspace="2" alt="Firefox" title="Firefox (2.0 or later)" width="16" height="16"><A href="https://ready.to/search/en/?sna=Lead2Amazon&prf=http%3A%2F%2Flead.to%2Famazon%2Fen%2F%3Fkey%3D&opt=%26lt%3BUrl+type%3D%26quot%3Bapplication%2Fx-suggestions%2Bjson%26quot%3B+method%3D%26quot%3BGET%26quot%3B+template%3D%26quot%3Bhttp%3A%2F%2Fsuggestqueries.google.com%2Fcomplete%2Fsearch%3Foutput%3Dfirefox%26amp%3Bclient%3Dfirefox%26amp%3Bhl%3Den%26amp%3Bqu%3D%7BsearchTerms%7D%26quot%3B%2F%26gt%3B&img=R0lGODlhEAAQAIQAAMzMzOnW+ee9996W8d6x9+fe++vM/efG98Jo2OfG/9bB9caq4GtardbO+Yp0zK1H0eLW815WqN7W78qP4Ozk7Obq+FpemKOczO/W75icpDlKa0xVg2NrlM/O3pUvyef35yH5BAEAAAAALAAAAAAQABAAAAWpICCKgSAMAzGuQGEcJjwgA1scR5IIimAICMTIlcstGDgYTWR4NRsOx9NAeAACTYgBoogsIGDJATFRbMGQRaQhgUiwE4QiAKGAo+BAO1BdBAoFFQ0WC3YFe1UTARSBFxEQFRVqEgVxAwIUGBkaGxyeGxcVAQ8LABMYHRkXqxcLEpEEHiITAxQfkZG3FQYeEyM0ARW6twcPQisIDxMGFBQECL0svx7UHscjIQA7&in=utf&ou=ono&mod=pn" rel="nofollow">Ready2Search: Lead2Amazon with Suggest for Firefox</A></SPAN></P>
+<UL>
+  <LI><A href="https://lead.to/amazon/en/"><B>Lead2Amazon</B></A> is a Web tool that makes search in Amazon easy. <A href="https://lead.to/amazon/en/search/use.htm"><B>Search in Amazon of Each Country through Lead2Amazon</B></A> is the guide. Lead2Amazon is easy to install the search bar, see <A href="https://lead.to/amazon/en/search/cs_l2a_bar.htm"><B>Installation of Lead2Amazon to the Search Bar</B></A>.
+</UL>
+
+<P><img class="img-fluid" src="en_suggest_xml.gif" width="718" height="241" border="2" alt="Google Suggest for Firefox"></P>
+
+<HR>
+<H2><A name="save_use">Save and use of search plug-in</A></H2>
+<P>When Ready2Search provides search plug-in, the setting URL and buttons
+are also displayed. Ready2Search can restore the search plug-in with the
+setting URL. You can send custom search plug-ins to your acquaintances
+by telling the setting URL.</P>
+<UL>
+  <LI>Web surfers can restore the search plug-in by just clicking on HTML.
+  <LI>When you make a link from a blog or a website to the setting URL, the notice
+  to Keiji Saito is unnecessary.
+</UL>
+<P><img class="img-fluid" src="en_set_down.gif" width="652" height="159" border="2" alt="the setting URL of search-plugin"></P>
+<P>Ready2Search displays buttons to download of XML. If you open OpenSearch-XML
+in Internet Explorer, you see the format of the following image. The XML
+contains the setting URL for Ready2Search in the comment part.</P>
+<P><img class="img-fluid" src="en_content_xml.gif" width="646" height="294" border="2" alt="the content of the XML"></P>
+<P>Using this downloaded XML, you can add search plug-in to Firefox and Google Toolbar without Web connection.</P>
+<UL>
+  <LI>The search setting of Internet Explorer 7 is located at [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\SearchScopes] in registry. Though you can edit by regedit, XML is not installable directly.
+</UL>
+<P>The following table shows the typical location of search plug-ins in each
+OS. You can make and edit XML by editor. If you put the downloaded XMLs
+in the folder, Firefox and Google Toolbar accept them as the search plug-ins.
+Even if you add search plug-ins to more than one PC, you don't have to
+access Ready2Search with each PC. Putting XMLs to the typical location
+in the following table, you can copy the search plug-ins collectively.</P>
+<UL>
+  <LI><B>Application Data</B> and <B>Local Settings</B> are the hidden folders. make sure &quot;Show hidden files and folders&quot;
+  is checked in Tools&gt;Folder Options&gt;View tab. Otherwise, Windows may
+  not display <B>Application Data</B> and <B>Local Settings</B>.
+  <LI>The folder of <B>searchplugins</B> doesn't exist until you add custom search plug-in to Firefox. If the folder
+  doesn't exist, you need to create new folder which is named <B>searchplugins</B>.
+  <LI>If you put XMLs in the typical location, the search plug-ins belong to
+  each user. 
+  <LI>You can put the XMLs in [C:\Program Files\Mozilla Firefox\searchplugins]
+  to add plug-ins to Firefox. If you put XMLs in here, the search settings
+  are shared within Windows users. Even if you deleted the search settings
+  through [Manage Search Engines] of Firefox, you can restore by clicking
+  [Restore Defaults].
+</UL>
+<div align="center" style="margin-bottom:1em">
+<table class="table table-bordered border-primary" border="1" bgcolor="white">
+  <TBODY>
+    <TR>
+      <TH bgcolor="#ffffcc">Firefox in</TH>
+      <TH bgcolor="#ffffcc">typical location (or under)</TH>
+    </TR>
+    <TR>
+      <TD bgcolor="#00ffff">Windows 2000/XP</TD>
+      <TD><FONT size="-1">C:\Documents and Settings\<FONT color="#ff0000"><I>user name</I></FONT>\Application Data\Mozilla\Firefox\Profiles\<FONT color="#ff0000"><I>string</I></FONT>\searchplugins</FONT></TD>
+    </TR>
+    <TR>
+      <TD bgcolor="#00ffff">Windows Vista</TD>
+      <TD><FONT size="-1">C:\Users\<FONT color="#ff0000"><I>user name</I></FONT>\AppData\Roaming\Mozilla\Firefox\Profiles\<FONT color="#ff0000"><I>string</I></FONT>\searchplugins</FONT></TD>
+    </TR>
+    <TR>
+      <TD bgcolor="#00ffff">Windows 98/ME</TD>
+      <TD><FONT size="-1">C:\Windows\Application Data\Mozilla\Firefox\Profiles\</FONT></TD>
+    </TR>
+    <TR>
+      <TD height="17" bgcolor="#00ffff">Macintosh (OS X)</TD>
+      <TD height="17"><FONT size="-1">~/Library/Application Support/Firefox/Profiles/</FONT></TD>
+    </TR>
+    <TR>
+      <TD height="15" bgcolor="#00ffff">Linux/Unix</TD>
+      <TD height="15"><FONT size="-1">~/.mozilla/firefox/</FONT></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+</div>
+<div align="center" style="margin-bottom:1em">
+<table class="table table-bordered border-primary" border="1" bgcolor="white">
+  <TBODY>
+    <TR>
+      <TH bgcolor="#ffffcc">Google Toolbar in</TH>
+      <TH bgcolor="#ffffcc">typical location (or under)</TH>
+    </TR>
+    <TR>
+      <TD bgcolor="#00ffff">Windows 2000/XP</TD>
+      <TD><FONT size="-1">C:\Documents and Settings\<FONT color="#ff0000"><I>user name</I></FONT>\Local Settings\Application Data\Google\Custom Buttons</FONT></TD>
+    </TR>
+    <TR>
+      <TD bgcolor="#00ffff">Windows Vista</TD>
+      <TD><FONT size="-1">C:\Users\<FONT color="#ff0000"><I>user name</I></FONT>\AppData\Local\Application Data\Google\Custom Buttons</FONT></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+</div>
+
+<HR class="li4">
+<div class="smapout">
+<div class="smapin">
+<span class="smapsc"><A href="#head">back to the head</A></span>
+<span class="smapsc"><A href="https://keijisaito.info/english.htm">the English index</A></span>
+<span class="smapsc"><A href="https://keijisaito.info/sitemap/en_map.htm">sitemap by category</A></span>
+<span class="smapsc"><A href="https://keijisaito.info/sitemap/en_update.htm">update info</A></span>
+<span class="smapsc"><A href="https://ready.to/sitemap/en_ready.htm">sitemap of ready.to</A></span>
+</div>
+</div>
+
+</div></div></BODY>
+
+
+</HTML>

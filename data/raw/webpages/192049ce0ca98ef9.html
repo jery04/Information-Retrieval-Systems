@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firefox DevTools User Docs &mdash; Firefox Source Docs  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom_theme.css?v=dcb66cfd" />
+      <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+
+  
+    <link rel="shortcut icon" href="../_static/firefox.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=30646c52"></script>
+        <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Governance" href="../mots/index.html" />
+    <link rel="prev" title="Shared Bug Queues" href="../bug-mgmt/processes/shared-bug-queues.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Firefox Source Docs
+              <img src="../_static/firefox-wordmark.svg" class="logo" alt="Logo"/>
+          </a><! -- This code is governed by the BSD license -->
+
+<div>
+  <h3>Quick search</h3>
+  <script>
+    (function () {
+      var cx = "dd12886298f75dbef";
+      var gcse = document.createElement("script");
+      gcse.async = true;
+      gcse.src = "https://cse.google.com/cse.js?cx=" + cx;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(gcse, s);
+    })();
+  </script>
+  <gcse:search></gcse:search>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../glossary/index.html">A Glossary of Common Terms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">A Quick Guide to Mozilla Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/index.html">Getting Set Up To Work On The Firefox Codebase</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Working On Firefox</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Working on Firefox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bug-mgmt/index.html">Bug Handling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Firefox User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Firefox DevTools User Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-core-tools">The Core Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#page-inspector">Page Inspector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#web-console">Web Console</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#javascript-debugger">JavaScript Debugger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#network-monitor">Network Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#performance-panel">Performance Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#responsive-design-mode">Responsive Design Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessibility-inspector">Accessibility inspector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#application-panel">Application panel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#more-tools">More Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connecting-the-developer-tools">Connecting the Developer Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-the-browser">Debugging the browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extending-devtools">Extending DevTools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#migrating-from-firebug">Migrating from Firebug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contribute">Contribute</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source Code Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mots/index.html">Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../browser/index.html">Firefox Front-end</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dom/index.html">DOM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../editor/index.html">Editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../layout/index.html">Style system (CSS) &amp; Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gfx/index.html">Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">Processes, Threads and IPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devtools/index.html">Firefox DevTools Contributor Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../toolkit/index.html">Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../js/index.html">SpiderMonkey</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jsloader/index.html">JS Loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/android/geckoview/index.html">GeckoView</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/android/fenix/index.html">Fenix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/android/focus-android/index.html">Focus for Android</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dom/bindings/webidl/index.html">WebIDL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/libpref/index.html">libpref</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking/index.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../remote/index.html">Remote Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../permissions/index.html">Permissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uriloader/index.html">File Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../widget/cocoa/index.html">Firefox on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../widget/windows/index.html">Firefox on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../toolkit/components/ml/index.html">Firefox AI Runtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessible/index.html">Accessibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../media/index.html">Media Playback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-quality/index.html">Code quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing-rust-code/index.html">Writing Rust Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust-components/index.html">Rust Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler/index.html">Gecko Profiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Database bindings (SQLite, KV, …)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xpcom/index.html">XPCOM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nspr/index.html">NSPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/nss/index.html">Network Security Services (NSS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../content-security/index.html">Web Security Checks in Gecko</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The Firefox Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mach/index.html">Mach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/try/index.html">Pushing to Try</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build/buildsystem/index.html">Build System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../taskcluster/index.html">Firefox CI and Taskgraph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/moztreedocs/index.html">Managing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mozbuild/vendor/index.html">Vendoring Third Party Components</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Testing &amp; Test Infrastructure</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../testing/automated-testing/index.html">Automated Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/treeherder-try/index.html">Understanding Treeherder Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/sheriffed-intermittents/index.html">Sheriffed intermittent failures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/tests-for-new-config/index.html">Turning on Firefox tests for a new configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/intermittent/index.html">Avoiding intermittent tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/debugging-intermittents/index.html">Debugging Intermittent Test Failures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/testing-policy/index.html">Testing Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/ci-configs/index.html">Configuration Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/browser-chrome/index.html">Browser chrome mochitests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/chrome-tests/index.html">Chrome Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/marionette/index.html">Marionette</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/geckodriver/index.html">geckodriver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/test-verification/index.html">Test Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/webrender/index.html">WebRender Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/mochitest-plain/index.html">Mochitest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/xpcshell/index.html">XPCShell tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/tps/index.html">TPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../web-platform/index.html">web-platform-tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gtest/index.html">GTest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/fuzzing/index.html">Fuzzing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sanitizer/index.html">Sanitizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/perfdocs/index.html">Performance Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/code-coverage/index.html">Code coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing-rust-code/index.html">Testing &amp; Debugging Rust Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">AI Agent Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai-agent-tools/index.html">AI Agent Tools for Firefox Development</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Releases &amp; Updates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../update-infrastructure/index.html">Mozilla Update Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../update-infrastructure/index.html#watershed-updates">Watershed Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../update-infrastructure/index.html#desupport-updates">Desupport Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/update-verify/index.html">Update Verify</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Localization &amp; Internationalization</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intl/index.html">Internationalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../l10n/index.html">Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Firefox and Python</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mozbase/index.html">mozbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Using third-party Python packages</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Metrics Collected in Firefox</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../metrics/index.html">Metrics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Firefox Source Docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/.  --><div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Firefox DevTools User Docs</li>
+<li class="wy-breadcrumbs-aside">
+  <a
+    href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Developer+Infrastructure&component=Firefox+Source+Docs%3A+Content&short_desc=Documentation+issue+on+devtools-user/index&comment=URL+=+https://firefox-source-docs.mozilla.org/devtools-user/index.html&bug_file_loc=https://firefox-source-docs.mozilla.org/devtools-user/index.html"
+    rel="nofollow"
+    >Report an issue</a
+  >
+  /
+  <a
+    href="https://github.com/mozilla-firefox/firefox/blob/main/devtools/docs/user/index.rst"
+    rel="nofollow"
+    >View page source</a
+  >
+</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="toctree-wrapper compound" id="devtools-user-doc">
+</div>
+<section id="firefox-devtools-user-docs">
+<h1>Firefox DevTools User Docs<a class="headerlink" href="#firefox-devtools-user-docs" title="Link to this heading"></a></h1>
+<p>Firefox Developer Tools is a set of web developer tools built into Firefox. You can use them to examine, edit, and debug HTML, CSS, and JavaScript.</p>
+<p>This section contains detailed guides to all of the tools as well as information on how to debug Firefox for Android, how to extend DevTools, and how to debug the browser as a whole.</p>
+<p>If you have any feedback on DevTools or want to contribute to the project, you can <a class="reference external" href="https://firefox-dev.tools/">join the DevTools community</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are just getting started with web development and using developer tools, our <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Learn">learning</a> docs will help you — see <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web">Getting started with the Web</a> and <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_are_browser_developer_tools">What are browser developer tools?</a> for good starting points.</p>
+</div>
+<section id="the-core-tools">
+<h2>The Core Tools<a class="headerlink" href="#the-core-tools" title="Link to this heading"></a></h2>
+<p>You can open the Firefox Developer Tools from the menu by selecting <strong>Tools &gt; Web Developer &gt; Web Developer Tools</strong> or use the keyboard shortcut <kbd class="kbd docutils literal notranslate">Ctrl</kbd> + <kbd class="kbd docutils literal notranslate">Shift</kbd> + <kbd class="kbd docutils literal notranslate">I</kbd> or <kbd class="kbd docutils literal notranslate">F12</kbd> on Windows and Linux, or <kbd class="kbd docutils literal notranslate">Cmd</kbd> + <kbd class="kbd docutils literal notranslate">Opt</kbd> + <kbd class="kbd docutils literal notranslate">I</kbd> on macOS.</p>
+<p>The ellipsis menu on the right-hand side of Developer Tools contains several commands that let you perform actions or change tool settings.</p>
+<figure class="align-center">
+<img alt="../_images/devtools_layoutmenu.png" src="../_images/devtools_layoutmenu.png" />
+</figure>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><img alt="image1" class="center" src="../_images/iframe_button.png" /></p></td>
+<td><p>This button only appears when there are multiple iframes on a
+page. Click it to display a list of the iframes on the current
+page and select the one with which you want to work.</p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="image2" class="center" src="../_images/camera_button.png" /></p></td>
+<td><p>Click this button to take a screenshot of the current page.
+(<em>Note:</em> This feature is not turned on by
+default and must be enabled in settings before the icon will
+appear.)</p></td>
+</tr>
+<tr class="row-odd"><td><p><img alt="image3" class="center" src="../_images/responsive_button.png" /></p></td>
+<td><p>Toggles Responsive Design Mode</p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="image4" class="center" src="../_images/menu_button.png" /></p></td>
+<td><p>Opens the menu that includes docking options, the ability to show
+or hide the split console, and Developer Tools settings.
+The menu also includes links to the documentation for Firefox
+Web Tools and the Mozilla Community.</p></td>
+</tr>
+<tr class="row-odd"><td><p><img alt="image5" class="center" src="../_images/close_button.png" /></p></td>
+<td><p>Closes the Developer Tools</p></td>
+</tr>
+</tbody>
+</table>
+<section id="page-inspector">
+<h3><a class="reference external" href="page_inspector">Page Inspector</a><a class="headerlink" href="#page-inspector" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="page_inspector"><img alt="The all-new Inspector panel in Firefox 57." class="border" src="../_images/landingpage_pageinspector.png" /></a>
+<p>View and edit page content and layout. Visualize many aspects of the page including the box model, animations, and grid layouts</p>
+</section>
+<section id="web-console">
+<h3><a class="reference external" href="web_console">Web Console</a><a class="headerlink" href="#web-console" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="web_console"><img alt="The all-new Console panel in Firefox 57." class="border" src="../_images/landingpage_console.png" /></a>
+<p>See messages logged by a web page and interact with the page using JavaScript.</p>
+</section>
+<section id="javascript-debugger">
+<h3><a class="reference external" href="debugger">JavaScript Debugger</a><a class="headerlink" href="#javascript-debugger" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="debugger"><img alt="The all-new Debugger panel in Firefox 57." class="border" src="../_images/landingpage_debugger.png" /></a>
+<p>Stop, step through, and examine the JavaScript running on a page.</p>
+</section>
+<section id="network-monitor">
+<h3><a class="reference external" href="network_monitor">Network Monitor</a><a class="headerlink" href="#network-monitor" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="network_monitor"><img alt="The Network panel in Firefox 57 DevTools." class="border" src="../_images/landingpage_network.png" /></a>
+<p>See the network requests made when a page is loaded.</p>
+</section>
+<section id="performance-panel">
+<h3><a class="reference external" href="https://profiler.firefox.com/docs/">Performance Panel</a><a class="headerlink" href="#performance-panel" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="https://profiler.firefox.com/docs/"><img alt="Performance Panel in Firefox 103 Developer Tools." class="border" src="../_images/landingpage_performance_2022.png" /></a>
+<p>Analyze your site’s general responsiveness, JavaScript, and layout performance.</p>
+</section>
+<section id="responsive-design-mode">
+<h3><a class="reference external" href="responsive_design_mode">Responsive Design Mode</a><a class="headerlink" href="#responsive-design-mode" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="responsive_design_mode"><img alt="Responsive Design mode in Firefox 57 Developer Tools." class="border" src="../_images/landingpage_responsivedesign.png" /></a>
+<p>See how your website or app will look and behave on different devices and network types.</p>
+</section>
+<section id="accessibility-inspector">
+<h3><a class="reference external" href="accessibility_inspector">Accessibility inspector</a><a class="headerlink" href="#accessibility-inspector" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="accessibility_inspector"><img alt="Performance Tools in Firefox 57 Developer Tools." class="border" src="../_images/landingpage_accessibility.png" /></a>
+<p>Provides a means to access the page’s accessibility tree, allowing you to check what’s missing or otherwise needs attention.</p>
+</section>
+<section id="application-panel">
+<h3><a class="reference external" href="application">Application panel</a><a class="headerlink" href="#application-panel" title="Link to this heading"></a></h3>
+<a class="reference external image-reference" href="application"><img alt="Performance Tools in Firefox 57 Developer Tools." class="border" src="../_images/just-application-panel.png" /></a>
+<p>Provides tools for inspecting and debugging modern web apps (also known as <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps">Progressive Web Apps</a>). This includes inspection of <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API">service workers</a> and <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/Manifest">web app manifests</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The collective term for the UI inside which the DevTools all live is the <a class="reference internal" href="tools_toolbox/index.html"><span class="doc">Toolbox</span></a></p>
+</div>
+</section>
+</section>
+<section id="more-tools">
+<h2>More Tools<a class="headerlink" href="#more-tools" title="Link to this heading"></a></h2>
+<p>These developer tools are also built into Firefox. Unlike the “Core Tools” above, you might not use them every day.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="memory/index.html"><span class="doc">Memory</span></a></p></td>
+<td><p>Figure out which objects are keeping memory in use.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="storage_inspector/index.html"><span class="doc">Storage Inspector</span></a></p></td>
+<td><p>Inspect cookies, local storage, indexedDB, and session storage present in a page.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="dom_property_viewer/index.html"><span class="doc">DOM Property Viewer</span></a></p></td>
+<td><p>Inspect the page’s DOM properties, functions, etc.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="eyedropper/index.html"><span class="doc">Eyedropper</span></a></p></td>
+<td><p>Select a color from the page.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="style_editor/index.html"><span class="doc">Style Editor</span></a></p></td>
+<td><p>View and edit CSS styles for the current page.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="taking_screenshots/index.html"><span class="doc">Taking screenshot</span></a></p></td>
+<td><p>Take a screenshot of the entire page or of a single element.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="measure_a_portion_of_the_page/index.html"><span class="doc">Measure a portion of the page</span></a></p></td>
+<td><p>Measure a specific area of a web page.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rulers/index.html"><span class="doc">Rulers</span></a></p></td>
+<td><p>Overlay horizontal and vertical rulers on a web page</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="custom_formatters/index.html"><span class="doc">Custom formatters</span></a></p></td>
+<td><p>Customize the way objects are displayed within the DevTools.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="javascript_tracer/index.html"><span class="doc">JavaScript tracer</span></a></p></td>
+<td><p>Live display all JavaScript function calls.</p></td>
+</tr>
+</tbody>
+</table>
+<img alt="../_images/logo-developer-quantum.png" class="center" src="../_images/logo-developer-quantum.png" />
+<p class="center">For the latest developer tools and features, try Firefox Developer Edition.</p>
+<p class="center"><a class="reference external" href="https://www.mozilla.org/en-US/firefox/developer/">Download Firefox Developer Edition</a></p>
+</section>
+<section id="connecting-the-developer-tools">
+<h2>Connecting the Developer Tools<a class="headerlink" href="#connecting-the-developer-tools" title="Link to this heading"></a></h2>
+<p>If you open the developer tools using <a class="reference internal" href="keyboard_shortcuts/index.html#keyboard-shortcuts-opening-and-closing-tools"><span class="std std-ref">keyboard shortcuts</span></a> or the equivalent menu items, they’ll target the document hosted by the currently active tab. But you can attach the tools to a variety of other targets, too, both within the current browser and in different browsers or even different devices.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="about_colon_debugging/index.html"><span class="doc">about:debugging</span></a></p></td>
+<td><p>Debug add-ons, content tabs, and workers running in the browser.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="about_colon_debugging/index.html#about-colon-debugging-connecting-to-a-remote-device"><span class="std std-ref">Connecting to Firefox for Android</span></a></p></td>
+<td><p>Connect the developer tools to an instance of Firefox running on an Android device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="working_with_iframes/index.html"><span class="doc">Connecting to iframes</span></a></p></td>
+<td><p>Connect the developer tools to a specific iframe in the current page.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="debugging-the-browser">
+<h2>Debugging the browser<a class="headerlink" href="#debugging-the-browser" title="Link to this heading"></a></h2>
+<p>By default, the developer tools are attached to a web page or web app. But you can also connect them to the browser as a whole. This is useful for browser and add-on development.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="browser_console/index.html"><span class="doc">Browser Console</span></a></p></td>
+<td><p>See messages logged by the browser itself and by add-ons, and run JavaScript code in the browser’s scope.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="browser_toolbox/index.html"><span class="doc">Browser Toolbox</span></a></p></td>
+<td><p>Attach the Developer Tools to the browser itself.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="extending-devtools">
+<h2>Extending DevTools<a class="headerlink" href="#extending-devtools" title="Link to this heading"></a></h2>
+<p>For information on extending the Firefox DevTools, see <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Extending_the_developer_tools">Extending the developer tools</a> over in the <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions">Browser Extensions</a> section of MDN.</p>
+</section>
+<section id="migrating-from-firebug">
+<h2>Migrating from Firebug<a class="headerlink" href="#migrating-from-firebug" title="Link to this heading"></a></h2>
+<p>Firebug has come to the end of its lifespan (see <a class="reference external" href="https://hacks.mozilla.org/2016/12/firebug-lives-on-in-firefox-devtools/">Firebug lives on in Firefox DevTools</a> for details of why), and we appreciate that some people will find migrating to another less familiar set of DevTools to be challenging. To ease a transition from Firebug to the Firefox developer tools, we have written a handy guide — <a class="reference internal" href="migrating_from_firebug/index.html"><span class="doc">Migrating from Firebug</span></a></p>
+</section>
+<section id="contribute">
+<h2>Contribute<a class="headerlink" href="#contribute" title="Link to this heading"></a></h2>
+<p>If you want to help improve the developer tools, these resources will get you started.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference external" href="https://firefox-dev.tools/">Get Involved</a></p></td>
+<td><p>Our community website explains how to get involved.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://codetribute.mozilla.org/projects/devtools/">codetribute.mozilla.org</a></p></td>
+<td><p>A tool helping to find bugs to work on.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../devtools/index.html#devtools-contributor-doc"><span class="std std-ref">Read source docs</span></a></p></td>
+<td><p>Firefox DevTools source code documentation.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../bug-mgmt/processes/shared-bug-queues.html" class="btn btn-neutral float-left" title="Shared Bug Queues" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../mots/index.html" class="btn btn-neutral float-right" title="Governance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

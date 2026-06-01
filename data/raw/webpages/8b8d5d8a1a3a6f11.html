@@ -1,0 +1,935 @@
+<html>
+
+<head>
+<title>Searchy &raquo; Internet Explorer / Firefox Quick Search Add-On</title>
+<meta name="description" content="Searchy - Quick Search Add-On for your Internet Explorer to search directly over the address bar in search engines, encyclopedias etc.">
+<meta name="robots" content="index, follow">
+<style type="text/css"><!-- 
+ body,td,li{font-family:Verdana,Arial,sans-serif;font-size:11px;color:black;line-height:14px}
+ h1 {font-family:Arial,sans-serif; font-size:14pt; color:#090B57; letter-spacing:1mm}
+ a {font-family:Arial,sans-serif; font-weight:bold; color:#000040; font-size:10pt; text-decoration:none}
+ a:active {text-decoration:none}
+ a:hover {color:#003264; text-decoration:underline}
+ input{font-family: Verdana,Arial,sans-serif; font-size: 11px;color:#333333;text-align:center;}
+ .md { font-size:7pt; font-family:Verdana,Arial,Helvetica,sans-serif; font-weight: normal;line-height:normal}
+ .ln { font-size:10px; font-family:Verdana,Arial,Helvetica,sans-serif; font-weight: normal;line-height:normal}
+ .bg {font-family:Verdana,Arial,sans-serif;font-size:12px;color:black;font-weight: bold}
+ .sl{font-family:Verdana,Arial,sans-serif;font-size:10px;color:#333333;line-height:14px;text-indent: 8px}
+--></style>
+ <script language="JavaScript">
+var NS4 = (!document.all);
+var IE4 = (document.all);
+var zaehler = 0;
+
+function suchen(suchtext) {
+var txt, i, found;
+if (suchtext == "")
+return false;
+if (NS4) {
+if (!this.find(suchtext))
+while(this.find(suchtext, false, true))
+zaehler++;
+else
+zaehler++;
+if (zaehler == 0) alert(suchtext + " was not found on this page.");
+}
+if (IE4) {
+txt = this.document.body.createTextRange();
+for (i = 0; i <= zaehler && (found = txt.findText(suchtext)) != false; i++) {
+txt.moveStart("character", 1);
+txt.moveEnd("textedit");
+}
+if (found) {
+txt.moveStart("character", -1);
+txt.findText(suchtext);
+txt.select();
+txt.scrollIntoView();
+zaehler++;
+}
+else {
+if (zaehler > 0) {
+zaehler = 0;
+suchen(suchtext);
+}
+else { alert("Sorry no results for \"" + suchtext + "\"!\nPlease add it with the generator!"); }
+}
+}
+return false;
+}
+</script>
+</head>
+
+<body bgcolor="#F0F0F0">
+<div align="center">
+    <table style="border-color:#FFE65E;border-style:solid;border-width:1" border="0" cellspacing="0" cellpadding="2" bgcolor="#ffffe0">
+<tr>
+<td>
+<table border="0" cellspacing="0" cellpadding="1">
+<tr>
+<td valign="top"><img src="ffox.png" alt="Firefox Search Plug In" height="25" width="29" border="0"></td>
+<td valign="center"><b><a href="http://searchy.protecus.de/en/firefox"><font color="#AA0000">Searchy for Mozilla Firefox? - click here!</font></a></b><br>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<br><table style="border-color:#B0C4DE;BORDER-COLLAPSE: collapse" border="1" cellspacing="0" cellpadding="5" bgcolor="#fdfdf7" bordercolor="#B0C4DE">
+<tr>
+<td align="center" width="577">
+<table border="0" cellspacing="0" cellpadding="0" background="bg.jpg">
+<tr>
+<td>
+<table border="0" cellspacing="0" cellpadding="3" align="right">
+<tr>
+<td>
+<img src="address_bar_search.gif" alt="Use quick search add-ons to search directly from the address bar of your Microsoft Internet Explorer." height="172" width="245" border="0"></td>
+</tr>
+</table>
+<br>
+<a href="http://searchy.protecus.de"><h1>Searchy Search Add-Ons</h1></a>
+<div class="bg">Internet Explorer &quot;Quick Search Add-Ons&quot;</div>
+<br>with these &quot;Quick Search Add-Ons&quot; you can upgrade your Internet Explorer to search directly over the address bar in:<ul>
+<li type="disc">search-engines<li type="disc">online stores
+<li type="disc">and encyclopedias etc.
+</ul>
+<div align="center">
+<table style="border-color:#FFE65E;border-style:solid;border-width:1"  border="0" cellspacing="0" cellpadding="2" bgcolor="#ffffe0">
+<tr>
+<td><b><font color="#AA0000">Install:</font></b><br><i>Just double-click (open) the downloaded "add-on file" to install it!</i><br>
+from now on simply search with the shortcut through Internet Explorer's<br>address bar. Set up as many &quot;Quick Search Add-ons&quot; as you want! :)<br>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+<br><br>
+<table border="0" cellspacing="0" cellpadding="3">
+<tr>
+<td>
+<div class="ln" align="center">
+&raquo; Sort by: <a title="sort list by alphabet" href="adressbar-add-ons.php?sort=name" class="ln">name</a> | <a title="most favoured add-ons" href="adressbar-add-ons.php?sort=popularity" class="ln"><font color="#AA0000">popularity</font> <img src="arrow.gif" height="7" width="9" border="0"></a> | <a title="catch up the latest add-ons" href="adressbar-add-ons.php?sort=newest" class="ln">newly-listed</a> &laquo;</div>
+</td>
+</tr>
+</table>
+<table style="border-color:#D2DCF2;border-style:solid;border-width:1" border="0" cellspacing="0" cellpadding="2">
+<tr>
+<td>
+<table border="0" cellspacing="1" cellpadding="2">
+<tr>
+<td class="bg" bgcolor="#D2DCF2" colspan="2">Choose Search Add-Ons</td>
+<td class="bg" align="center" bgcolor="#D2DCF2" width="80">Shortcut</td>
+<td class="bg" align="center" bgcolor="#D2DCF2" width="95">Download</td>
+</tr>
+<tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.google.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Google with safe=off results" href="http://www.google.com" target="_blank">Google  Search</a><br><div class="sl">Google with safe=off results..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="g" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="2"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.amazon.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Shop for Books, Electronics, Video, Music, Toys, Home and Garden..." href="http://www.amazon.com" target="_blank">Amazon.com</a><br><div class="sl">Shop for Books, Electronics, Video, Music,..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="a" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="1"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.dictionary.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Look up English words and phrases, including computer terms, place names, biblical names, & US ZIP codes." href="http://www.dictionary.com" target="_blank">Dictionary</a><br><div class="sl">Look up English words and phrases, includi..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="dic" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="29"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.youtube.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="YouTube Video and Movie Search" href="http://www.youtube.com" target="_blank">Youtube.com (Videos)</a><br><div class="sl">YouTube Video and Movie Search..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="yt" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="363"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=images.google.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="uncensored Google Image Search - find pictures!" href="http://images.google.com" target="_blank">Google Images</a><br><div class="sl">uncensored Google Image Search - find pict..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="img" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="8"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.wikipedia.org" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="the free encyclopedia with over 250000 articles" href="http://www.wikipedia.org" target="_blank">Wikipedia</a><br><div class="sl">the free encyclopedia with over 250000 art..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="w" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="43"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.google.com/coop/cse?cx=partner-pub-0239062392993289:msq3j4-8gnr&hl=en" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Inofficial Google Torrent Search - basically a torrent pages meta searchengine with Google Technology" href="http://www.google.com/coop/cse?cx=partner-pub-0239062392993289:msq3j4-8gnr&hl=en" target="_blank">Inofficial Google Torrent Search</a><br><div class="sl">Inofficial Google Torrent Search - basical..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="gt" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="2633"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.imdb.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="IMDb - Internet Movie Database - Search for movies, trailers..." href="http://www.imdb.com" target="_blank">Int. Movie Database</a><br><div class="sl">IMDb - Internet Movie Database - Search fo..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="imdb" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="6"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.britannica.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search the 32-volume Encyclopaedia Britannica!" href="http://www.britannica.com" target="_blank">Britannica Encyclop�dia</a><br><div class="sl">Search the 32-volume Encyclopaedia Britann..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="b" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="38"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=searchy.protecus.de/whois/" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Whois of every Domain" href="http://searchy.protecus.de/whois/" target="_blank">Whois Service</a><br><div class="sl">Whois of every Domain..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ws" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="17"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=astalavista.box.sk" alt="" height="16" width="16" border="0" /></td>
+<td><a title="search security related stuff, cracks, patches, keygens..." href="http://astalavista.box.sk" target="_blank">Astalavista.box.sk</a><br><div class="sl">search security related stuff, cracks, pat..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="as" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="4"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.yahoo.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Yahoo - with Inktomi Search Database - great!" href="http://www.yahoo.com" target="_blank">Yahoo.com</a><br><div class="sl">Yahoo - with Inktomi Search Database - gre..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="y" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="12"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.allmusic.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search the All Music Guide database by artist" href="http://www.allmusic.com" target="_blank">All Music Guide Artist Search</a><br><div class="sl">Search the All Music Guide database by art..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="aa" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="142"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=dictionary.cambridge.org" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Cambridge Advanced Learner's Dictionary - great!" href="http://dictionary.cambridge.org" target="_blank">Cambridge Dictionary</a><br><div class="sl">Cambridge Advanced Learner's Dictionary - ..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="di" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="113"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.ebay.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="The world's online marketplace" href="http://www.ebay.com" target="_blank">eBay.com</a><br><div class="sl">The world's online marketplace..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="e" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="9"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.download.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Freeware, Shareware, Software - Download Search" href="http://www.download.com" target="_blank">Download.com (Cnet)</a><br><div class="sl">Freeware, Shareware, Software - Download S..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="dl" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="44"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.m-w.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Online dictionary (with audio pronunciations), thesaurus, Word of the Day..." href="http://www.m-w.com" target="_blank">Webster Dictionary</a><br><div class="sl">Online dictionary (with audio pronunciatio..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="w" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="10"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.thesaurus.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Find synonyms & antonyms" href="http://www.thesaurus.com" target="_blank">Thesaurus</a><br><div class="sl">Find synonyms & antonyms..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ts" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="30"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.filedonkey.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Edonkey and Emule Search Engine" href="http://www.filedonkey.com" target="_blank">Filedonkey</a><br><div class="sl">Edonkey and Emule Search Engine..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="fd" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="18"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=search.msn.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="MSN Web Search with Inktomi Index" href="http://search.msn.com" target="_blank">MSN Search</a><br><div class="sl">MSN Web Search with Inktomi Index..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="msn" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="48"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.jmarshall.com/tools/cgiproxy/" alt="" height="16" width="16" border="0" /></td>
+<td><a title="visit Sites anonym - keep your privacy" href="http://www.jmarshall.com/tools/cgiproxy/" target="_blank">Anonymizer (Proxy)</a><br><div class="sl">visit Sites anonym - keep your privacy..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ano" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="46"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.weather.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="USA Weather Forecast Info for your location" href="http://www.weather.com" target="_blank">Weather.com</a><br><div class="sl">USA Weather Forecast Info for your locatio..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="w" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="19"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=search.support.microsoft.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Microsoft Knowledge Base" href="http://search.support.microsoft.com" target="_blank">MS Knowledge Base</a><br><div class="sl">Microsoft Knowledge Base..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="kb" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="39"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.allmusic.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search the All Music Guide database by Song Names" href="http://www.allmusic.com" target="_blank">AllMusic.com</a><br><div class="sl">Search the All Music Guide database by Son..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="al" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="288"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=dict.leo.org/" alt="" height="16" width="16" border="0" /></td>
+<td><a title="awesome online dictionary/translator" href="http://dict.leo.org/" target="_blank">LEO German-English Dictionary</a><br><div class="sl">awesome online dictionary/translator..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="l" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="128"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.php.net" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="offical PHP function-list search" href="http://www.php.net" target="_blank">PHP.net</a><br><div class="sl">offical PHP function-list search..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="php" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="16"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.alltheweb.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="big search-engine with great results" href="http://www.alltheweb.com" target="_blank">Alltheweb  Search</a><br><div class="sl">big search-engine with great results..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="atw" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="3"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.ups.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="UPS Package Track by Tracking Number" href="http://www.ups.com" target="_blank">UPS Tracking</a><br><div class="sl">UPS Package Track by Tracking Number..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ups" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="26"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=asta-killer.com/" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Like Astalavista without porn banners." href="http://asta-killer.com/" target="_blank">Asta-killer</a><br><div class="sl">Like Astalavista without porn banners...</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ak" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="121"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.gracenote.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Find CD, Artist and Music Infos" href="http://www.gracenote.com" target="_blank">Gracenote CDDB</a><br><div class="sl">Find CD, Artist and Music Infos..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="cddb" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="33"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.dogpile.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="really nice Metasearch Engine" href="http://www.dogpile.com" target="_blank">Dogpile</a><br><div class="sl">really nice Metasearch Engine..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="dp" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="106"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=groups.google.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Post and read comments in Usenet discussion forums" href="http://groups.google.com" target="_blank">Google Groups</a><br><div class="sl">Post and read comments in Usenet discussio..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ggg" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="11"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=news.google.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search and browse 4,500 news sources updated continuously." href="http://news.google.com" target="_blank">Google News</a><br><div class="sl">Search and browse 4,500 news sources updat..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="gn" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="20"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.alltheinternet.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Searches all of the Internet" href="http://www.alltheinternet.com" target="_blank">All the Internet</a><br><div class="sl">Searches all of the Internet..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="al" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="126"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=froogle.google.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Find products for sale from across the web." href="http://froogle.google.com" target="_blank">Froogle</a><br><div class="sl">Find products for sale from across the web..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="f" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="13"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=web.archive.org" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Browse through 30 billion archived web pages" href="http://web.archive.org" target="_blank">Wayback Machine</a><br><div class="sl">Browse through 30 billion archived web pag..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="wb" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="23"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.google.co.uk" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Google UK" href="http://www.google.co.uk" target="_blank">Google.co.uk Search</a><br><div class="sl">Google UK..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="g" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="118"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.babylon.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Babylon.com English-to-Spanish Translation" href="http://www.babylon.com" target="_blank">Babylon Translation</a><br><div class="sl">Babylon.com English-to-Spanish Translation..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="bab" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="141"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=sourceforge.net" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Open Source software development website" href="http://sourceforge.net" target="_blank">SourceForge.net</a><br><div class="sl">Open Source software development website..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="sf" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="92"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.alltheweb.com/?c=img" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Find Pictures and Photos" href="http://www.alltheweb.com/?c=img" target="_blank">Alltheweb Pictures</a><br><div class="sl">Find Pictures and Photos..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="pic" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="35"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.tucows.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Download freeware and shareware - Software" href="http://www.tucows.com" target="_blank">Tucows Downloads</a><br><div class="sl">Download freeware and shareware - Software..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="tc" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="37"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=name-space.com/search/" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Domain/IP Lookup" href="http://name-space.com/search/" target="_blank">Nslookup</a><br><div class="sl">Domain/IP Lookup..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="nl" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="47"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.guitartabs.cc" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search over 60,000 songs. Find guitar and bass tablature." href="http://www.guitartabs.cc" target="_blank">Guitartabs</a><br><div class="sl">Search over 60,000 songs. Find guitar and ..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="gt" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="32"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.allrecipes.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Your favourite recipes - created, tested and rated by millions of home cooks." href="http://www.allrecipes.com" target="_blank">Allrecipes.com</a><br><div class="sl">Your favourite recipes - created, tested a..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="r" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="25"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.altavista.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Big Search Engine" href="http://www.altavista.com" target="_blank">Altavista Text</a><br><div class="sl">Big Search Engine..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="av" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="21"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.biblegateway.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Bible Word Search" href="http://www.biblegateway.com" target="_blank">Biblegateway</a><br><div class="sl">Bible Word Search..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="bi" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="111"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=maps.yahoo.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Resized large - just enter city & state" href="http://maps.yahoo.com" target="_blank">Yahoo! Maps</a><br><div class="sl">Resized large - just enter city & state..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="m" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="123"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.allmusic.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search the All Music Guide database by album" href="http://www.allmusic.com" target="_blank">All Music Guide Album Search</a><br><div class="sl">Search the All Music Guide database by alb..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="al" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="143"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.ebay.co.uk" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Marketplace - purchase everything by auction" href="http://www.ebay.co.uk" target="_blank">eBay.co.uk</a><br><div class="sl">Marketplace - purchase everything by aucti..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="eb" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="15"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.askjeeves.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="another Search Engine" href="http://www.askjeeves.com" target="_blank">Askjeeves.com</a><br><div class="sl">another Search Engine..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="aj" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="41"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.google.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="takes you directly to the first webpage Google returned for your query" href="http://www.google.com" target="_blank">Google Feeling Lucky</a><br><div class="sl">takes you directly to the first webpage Go..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="gl" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="50"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.metacrawler.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="a smart Meta Search-Engine with Cluster Technology" href="http://www.metacrawler.com" target="_blank">Metacrawler</a><br><div class="sl">a smart Meta Search-Engine with Cluster Te..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="mc" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="42"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.pricegrabber.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Compare products and prices, read reviews and sell your own things." href="http://www.pricegrabber.com" target="_blank">Pricegrabber</a><br><div class="sl">Compare products and prices, read reviews ..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="pg" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="28"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.altavista.com/image/" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Large images, family filter: off" href="http://www.altavista.com/image/" target="_blank">AltaVista Images</a><br><div class="sl">Large images, family filter: off..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="avil" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="131"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.nationalgeographic.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Resource for scientific discovery, photography, travel" href="http://www.nationalgeographic.com" target="_blank">Nationalgeographic</a><br><div class="sl">Resource for scientific discovery, photogr..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ng" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="14"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.amazon.co.uk" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Online store for Books, Electronics, Video, Music, Toys, CD, DVD etc." href="http://www.amazon.co.uk" target="_blank">Amazon.co.uk</a><br><div class="sl">Online store for Books, Electronics, Video..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="a" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="40"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=search.microsoft.com/search/search.asp" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Microsoft.com Search" href="http://search.microsoft.com/search/search.asp" target="_blank">Microsoft.com</a><br><div class="sl">Microsoft.com Search..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ms" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="166"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.findarticles.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="search 3.5 million articles from over 700 publications" href="http://www.findarticles.com" target="_blank">FindArticles.com</a><br><div class="sl">search 3.5 million articles from over 700 ..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="fa" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="94"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.mamma.com/psearch.html" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Meta Search Engine - searches in Google, Teoma, MSN, ODP" href="http://www.mamma.com/psearch.html" target="_blank">Mamma.com</a><br><div class="sl">Meta Search Engine - searches in Google, T..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="m" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="52"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.filewatcher.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="large ftp search engine" href="http://www.filewatcher.com" target="_blank">Filewatcher</a><br><div class="sl">large ftp search engine..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="fw" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="155"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.cnn.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Famous News Site" href="http://www.cnn.com" target="_blank">CNN.com</a><br><div class="sl">Famous News Site..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="cnn" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="24"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.ebay.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search eBay for the lowest priced Buy It Now item" href="http://www.ebay.com" target="_blank">eBay.com (by lowest price)</a><br><div class="sl">Search eBay for the lowest priced Buy It N..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ebl" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="60"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=encarta.msn.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Microsoft Encarta Enzyklop�die, Dictionary, Atlas 4free" href="http://encarta.msn.com" target="_blank">MS Encarta</a><br><div class="sl">Microsoft Encarta Enzyklop�die, Dictionary..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="en" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="270"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.teoma.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Teoma, next generation Web Search - Google Competitor" href="http://www.teoma.com" target="_blank">Teoma.com</a><br><div class="sl">Teoma, next generation Web Search - Google..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="t" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="7"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.vivisimo.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Smart Meta and Cluster Search Engine" href="http://www.vivisimo.com" target="_blank">Vivisimo</a><br><div class="sl">Smart Meta and Cluster Search Engine..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="vi" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="22"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.answers.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Who is? What is? - super-encyclopedia gives you quick facts" href="http://www.answers.com" target="_blank">answers.com</a><br><div class="sl">Who is? What is? - super-encyclopedia give..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="aw" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="210"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.findsounds.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="find sounds for each theme like wind or animal..." href="http://www.findsounds.com" target="_blank">Findsounds.com</a><br><div class="sl">find sounds for each theme like wind or an..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="fs" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="119"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=web.icq.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search Infos about your chat partner by his UIN" href="http://web.icq.com" target="_blank">ICQ UIN Search</a><br><div class="sl">Search Infos about your chat partner by hi..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="icq" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="27"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=finance.yahoo.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search stock quotation / share prices" href="http://finance.yahoo.com" target="_blank">Yahoo Finance (Quote)</a><br><div class="sl">Search stock quotation / share prices..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="yf" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="49"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.fontsearchengine.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search and find all types of fonts." href="http://www.fontsearchengine.com" target="_blank">Fontsearchengine</a><br><div class="sl">Search and find all types of fonts...</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="font" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="31"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.epinions.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Comparison shopping information - Compare prices and read reviews from other consumers" href="http://www.epinions.com" target="_blank">Epinions.com</a><br><div class="sl">Comparison shopping information - Compare ..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ep" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="5"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.freedb.org" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Free alternative to CDDB" href="http://www.freedb.org" target="_blank">FreeDB</a><br><div class="sl">Free alternative to CDDB..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="fd" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="130"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.onelook.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Searches dictionary websites for that word." href="http://www.onelook.com" target="_blank">OneLook.com</a><br><div class="sl">Searches dictionary websites for that word..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="o" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="61"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=alt.binaries.nl" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Newsgroup Search" href="http://alt.binaries.nl" target="_blank">Binaries</a><br><div class="sl">Newsgroup Search..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="alt" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="117"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.freeweather.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search US weather reports by zipcode" href="http://www.freeweather.com" target="_blank">Free Weather</a><br><div class="sl">Search US weather reports by zipcode..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="fw" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="127"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=rhyme.lycos.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Find rhyming words" href="http://rhyme.lycos.com" target="_blank">Lycos Rhymes</a><br><div class="sl">Find rhyming words..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="lr" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="95"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.fedstats.gov" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search statistics from over 100 U.S. Federal agencies" href="http://www.fedstats.gov" target="_blank">FedStats</a><br><div class="sl">Search statistics from over 100 U.S. Feder..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="fs" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="82"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=dailynews.yahoo.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="great meta news search in multiple newspaper" href="http://dailynews.yahoo.com" target="_blank">Yahoo News</a><br><div class="sl">great meta news search in multiple newspap..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="yn" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="91"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.amazon.ca" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Books, Electronics, Video, Music Shop" href="http://www.amazon.ca" target="_blank">Amazon.ca</a><br><div class="sl">Books, Electronics, Video, Music Shop..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="a" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="66"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=freshmeat.net" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Download and Development Site - Project Search" href="http://freshmeat.net" target="_blank">Freshmeat</a><br><div class="sl">Download and Development Site - Project Se..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="fm" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="93"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=rhyme.lycos.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Find synonyms of a word" href="http://rhyme.lycos.com" target="_blank">Lycos Synonyms</a><br><div class="sl">Find synonyms of a word..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ls" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="96"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.searchalot.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="another Searchengine which looks all right!" href="http://www.searchalot.com" target="_blank">Searchalot</a><br><div class="sl">another Searchengine which looks all right..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="sa" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="58"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=moneycentral.msn.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Get Ticker Quote from MSN Money Central" href="http://moneycentral.msn.com" target="_blank">MSN Moneycentral</a><br><div class="sl">Get Ticker Quote from MSN Money Central..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="mc" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="57"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.guitartabs.cc" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Revised (search address changed)" href="http://www.guitartabs.cc" target="_blank">Guitartabs.cc</a><br><div class="sl">Revised (search address changed)..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="g" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="175"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.coveruniverse.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="CoverUniverse - Metasearch for DVD Cover" href="http://www.coveruniverse.com" target="_blank">CoverUniverse</a><br><div class="sl">CoverUniverse - Metasearch for DVD Cover..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="dvd" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="136"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.digiseek.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search engine with 4 million urls indexed." href="http://www.digiseek.com" target="_blank">Digiseek</a><br><div class="sl">Search engine with 4 million urls indexed...</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="di" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="125"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.searchalot.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search Portal with drop-down selection of search engines; directory from the Open Directory." href="http://www.searchalot.com" target="_blank">Searchalot</a><br><div class="sl">Search Portal with drop-down selection of ..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="s" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="124"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=ebay.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="eBay Buy It Now Lowest" href="http://ebay.com" target="_blank">eBay Sort Lowest</a><br><div class="sl">eBay Buy It Now Lowest..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ebn" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="170"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=rhyme.lycos.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Find definitions of a word" href="http://rhyme.lycos.com" target="_blank">Lycos Definitions</a><br><div class="sl">Find definitions of a word..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ld" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="97"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.dmoz.org" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Open Directory Project -  comprehensive human-reviewed directory" href="http://www.dmoz.org" target="_blank">ODP (Dmoz)</a><br><div class="sl">Open Directory Project -  comprehensive hu..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="odp" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="53"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.securityfocus.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="database of security knowledge and resources" href="http://www.securityfocus.com" target="_blank">Securityfocus</a><br><div class="sl">database of security knowledge and resourc..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="sf" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="51"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.alltheweb.com/?c=news" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Meta News Search" href="http://www.alltheweb.com/?c=news" target="_blank">Alltheweb News</a><br><div class="sl">Meta News Search..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="an" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="34"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.looksmart.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="widespread standard searchengine" href="http://www.looksmart.com" target="_blank">Looksmart.com</a><br><div class="sl">widespread standard searchengine..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ls" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="88"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=rhyme.lycos.com/r/gwic.cgi?Path=holy" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Search in Holy Books, Bible etc." href="http://rhyme.lycos.com/r/gwic.cgi?Path=holy" target="_blank">Lycos Holy Books</a><br><div class="sl">Search in Holy Books, Bible etc...</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="lhb" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="98"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=openrbl.org" alt="" height="16" width="16" border="0" /></td>
+<td><a title="DNSBL Lookup - Realtime Blackhole List" href="http://openrbl.org" target="_blank">Open RBL</a><br><div class="sl">DNSBL Lookup - Realtime Blackhole List..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="rbl" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="65"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=newstrove.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="News search engine" href="http://newstrove.com" target="_blank">Newstrove</a><br><div class="sl">News search engine..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="ns" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="72"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.daypop.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search News Sites, Weblogs and RSS feeds" href="http://www.daypop.com" target="_blank">Daypop</a><br><div class="sl">Search News Sites, Weblogs and RSS feeds..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="dp" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="45"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.feedster.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Weblog and RSS Search Engine" href="http://www.feedster.com" target="_blank">Feedster.com</a><br><div class="sl">Weblog and RSS Search Engine..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="fs" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="105"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.webmasterbrain.com/prog/" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Google Search with detailed Pagerank information" href="http://www.webmasterbrain.com/prog/" target="_blank">Prog Pagerank Search</a><br><div class="sl">Google Search with detailed Pagerank infor..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="p" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="156"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.queryster.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Queryster expedites web search by aggregating search results in an intuitive interface." href="http://www.queryster.com" target="_blank">Queryster.com</a><br><div class="sl">Queryster expedites web search by aggregat..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="q" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="120"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.clush.com" alt="" height="16" width="16" border="0" /></td>
+<td><a title="another cluster search engine with site preview" href="http://www.clush.com" target="_blank">Clush.com</a><br><div class="sl">another cluster search engine with site pr..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="cs" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="185"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=web.curryguide.com/" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Curry Guide meta search" href="http://web.curryguide.com/" target="_blank">Curry Guide</a><br><div class="sl">Curry Guide meta search..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="cry" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="129"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=techpreview.search.msn." alt="" height="16" width="16" border="0" /></td>
+<td><a title="MSN develops new search technology" href="http://techpreview.search.msn." target="_blank">MSN Search Techpreview</a><br><div class="sl">MSN develops new search technology..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="msn" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="184"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.june29.com/IDP/IDPsearch.html" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="French to English, one word only" href="http://www.june29.com/IDP/IDPsearch.html" target="_blank">IDP Translation</a><br><div class="sl">French to English, one word only..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="fe" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="133"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=www.june29.com/IDP/IDPsearch.html" alt="" height="16" width="16" border="0" /></td>
+<td><a title="English to French, One word only" href="http://www.june29.com/IDP/IDPsearch.html" target="_blank">IDP Translation</a><br><div class="sl">English to French, One word only..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="ef" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="132"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td bgcolor="#f5f5f5"><img src="http://s2.googleusercontent.com/s2/favicons?domain=search.positiontech.com" alt="" height="16" width="16" border="0" /></td>
+<td bgcolor="#f5f5f5"><a title="Pure Web Search (with Inktomi Index) - noad" href="http://search.positiontech.com" target="_blank">Positiontech.com</a><br><div class="sl">Pure Web Search (with Inktomi Index) - noa..</div></td>
+<td align="center" width="82" bgcolor="#f5f5f5"><input type="text" name="shortcut" value="pt" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100" bgcolor="#f5f5f5"><input type="hidden" name="id" value="90"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<form action="mkfile.php" method="get">
+<td><img src="http://s2.googleusercontent.com/s2/favicons?domain=swan.sls.lib.il.us/search/" alt="" height="16" width="16" border="0" /></td>
+<td><a title="Search 77 libraries of Chicago" href="http://swan.sls.lib.il.us/search/" target="_blank">SWAN Title Search</a><br><div class="sl">Search 77 libraries of Chicago..</div></td>
+<td align="center" width="82"><input type="text" name="shortcut" value="st" size="4" maxlength="5" border="0"></td>
+<td align="center" width="100"><input type="hidden" name="id" value="68"><input style="width:64;color:#000000" type="submit" name="submit" value="Download" border="0"></td>
+</form>
+</tr><tr>
+<td class="bg" colspan="3" bgcolor="#D2DCF2" width="482" height="1"></td>
+</tr>
+<tr>
+<td colspan="2"><a title="Remove MSN Autosearch and replace it with Google Search" href="./replace_msn-search_with_google.reg">Remove MSN Autosearch</a><br>
+<div class="sl">
+...and replace it with Google Search</div>
+</td>
+<td align="center" width="82">-</td>
+<td align="center" width="100"><input style="width:64;color:#000000" type="submit" name="Submit" value="Download" onclick="javascript:window.location.href='http://searchy.protecus.de/en/replace_msn-search_with_google.reg'" border="0"></td>
+</tr>
+<tr>
+<td bgcolor="#f5f5f5" colspan="2"><a title="reg-file to remove all add-ons from your internet explorer!" href="./uninstall-add-ons.reg"><font color="#CC0000">*</font> Uninstall All Add-Ons</a><br>
+<div class="sl">
+to remove all add-ons - double-click this file!</div>
+</td>
+<td bgcolor="#f5f5f5" align="center" width="82">-</td>
+<td bgcolor="#f5f5f5" align="center" width="100"><input style="width:64;color:#000000" type="submit" name="Submit" value="Download" onclick="javascript: if (confirm('Are you sure to remove ALL\nInternet Explorer search add ons?')){location.href='./uninstall-add-ons.reg'}" border="0"></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<br>
+</td>
+<td align="center" valign="top" width="154">
+<div align="right">Language: <a title="Switch to the german version" href="http://searchy.protecus.de/de/"><img src="ende.gif" alt="English / Deutsch" height="13" width="25" border="0"></a> &nbsp;</div>
+<br>
+<table style="border-color:#C4DBF2;border-style:solid;border-width:1" border="0" cellspacing="1" cellpadding="4" bgcolor="#f0f8ff">
+<tr>
+<td align="center">
+<form name="search" onsubmit="return suchen(this.suchtexting.value);">
+<br>
+<b>Search Add-On:<br>
+</b><br>
+&nbsp;<input name="suchtexting" type="text" size="15" onchange="n = 0;">&nbsp;<br><br>
+<input style="color:#000000" type="submit" name="submitButtonName" value="Go!"  border="0">
+</form>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+<form action="add.php" method="post">
+<input value="� Add On Generator" type="submit">
+make your own<br />search add on!<br>
+</form>
+
+<br><br>
+<a class="md" href="http://searchy.protecus.de/contact-searchy.png" title="Send feedback-logo" onmouseover="this.href='mai' + 'lto:' + '&#115;%65%61&#114;%63h%74%6F&#111;l' + '&#64;' + '%70r&#111;&#116;e&#99;&#117;&#115;%2E%64&#101;'" onfocus="this.href='mai' + 'lto:' + '&#115;%65%61&#114;%63h%74%6F&#111;l' + '&#64;' + '%70r&#111;&#116;e&#99;&#117;&#115;%2E%64&#101;'">
+<img src="ml.gif" border="0"><br>Feedback?<br>
+Drop me a note!</a>
+<br><a rel="nofollow" href="http://technorati.com/faves/?add=http%3A%2F%2Fsearchy.protecus.de%2F" target="_blank"><img title="Bookmark Searchy in Technorati" src="technorati.gif" alt="Bookmark Searchy in Technorati" border="0"><a rel="nofollow" href="http://del.icio.us/post?url=http%3A%2F%2Fsearchy.protecus.de%2F&amp;title=Searchy+-+Browser+Quick+Search+AddOn" target="_blank"><img title="Add Searchy to del.icio.us" src="delicious.gif" alt="Add Searchy to del.icio.us  hinzuf&uuml;gen" border="0"></a><a rel="nofollow" href="http://www.mister-wong.de/index.php?action=addurl&amp;bm_url=http%3A%2F%2Fsearchy.protecus.de%2F&amp;bm_description=Searchy+-+Browser+Quick+Search+AddOn" target="_blank"><img title="Searchy bei Mister Wong speichern." src="mister-wong.gif" alt="Searchy bei Mister Wong speichern." border="0"></a><br>
+<br />
+</td>
+</tr>
+</table>
+<a class="md" title="About" href="http://searchy.protecus.de/impressum.php">About / Contact</a>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<html>
+
+<head>
+<title>Internet Explorer Search Add-On Generator</title>
+<style type="text/css"><!-- 
+ body,td{font-family:Verdana,Arial,sans-serif;font-size:11px;color:black;line-height:14px;}
+ h1 {font-family:Arial,sans-serif; font-size:14pt; color:#090B57; letter-spacing:1mm}
+ a {font-family:Arial,sans-serif; font-weight:bold; color:#000040; font-size:10pt; text-decoration:none}
+ a:active {text-decoration:none}
+ a:hover {color:#003264; text-decoration:underline}
+ input{font-family: Verdana,Arial,sans-serif; font-size: 11px;color:#333333}
+ .bg {font-family:Verdana,Arial,sans-serif;font-size:12px;color:black;font-weight: bold;}
+ .red { font-size:11px; font-family:Verdana,Arial,sans-serif; color:#A52A2A;}
+--></style>
+ <script language="JavaScript">
+function exampleFillForm() {
+      document.getElementById('name').value = "Google.com Search";
+      document.getElementById('nameurl').value = "http://www.google.com";
+      document.getElementById('descript').value = "great search engine with big index and pageranking";
+      document.getElementById('queryurl').value = "http://www.google.com/search?q=fun";
+      document.getElementById('sword').value = "fun";
+      document.getElementById('kuerzel').value = "g";
+  }
+</script>
+</head>
+
+ <body bgcolor="#FDFDF7">
+<div align="center">
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<div align="center">
+<h1><b>Add new Search Add-Ons:</b></h1>
+<table style="border-color:#FFE65E;border-style:solid;border-width:1" border="0" cellspacing="0" cellpadding="2" bgcolor="#ffffe0">
+<tr>
+<td><b><font color="#CC0000">Instruction:</font><br>
+</b>Search something with the search engine you want to add;<br>after the search just copy the URL from the address bar in this form;<br>as well as the search word you searched for - e.g.<br>
+<font color="#2e8b57">Url Searchstring</font><i><font color="#2e8b57">: http://www.google.com/search?q=<b>FUN</b></font> &amp; <font color="#2e8b57">Searchword:<b> Fun</b></font></i></td>
+</tr>
+</table>
+<p></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div align="center">
+<table style="BORDER-COLLAPSE: collapse" border="1" cellspacing="0" cellpadding="0" bordercolor="#B0C4DE">
+<tr>
+<td>
+<form action="add2.php?action=new" method="post">
+<div align="center">
+<table border="0" cellspacing="2" cellpadding="2">
+<tr>
+<td colspan="3"class="bg" bgcolor="#D2DCF2"><b>Infos: Search Engine Basics</b></td>
+</tr>
+<tr height="24">
+<td height="24">
+<div align="right">Search Engine Name:</div>
+</td>
+<td height="24"><input type="text" name="name" id="name"size="24" maxlength="30" border="0"></td>
+<td width="250" height="24">
+<div align="right">Address: <input type="text" name="nameurl" id="nameurl" value="http://" size="24" maxlength="45" border="0"></div>
+</td>
+</tr>
+<tr>
+<td>
+<div align="right">Search Engine Description:</div>
+</td>
+<td colspan="2"><input type="text" name="descript" id="descript" size="75" maxlength="200" border="0"></td>
+</tr>
+<tr>
+<td colspan="3"></td>
+</tr>
+<tr>
+<td colspan="3" class="bg" bgcolor="#D2DCF2"><b>Data: Plugin Search-String-Infos</b></td>
+</tr>
+<tr>
+<td>
+<div align="right">URL Searchstring:</div>
+</td>
+<td colspan="2"><input type="text" name="queryurl" id="queryurl" value="http://" size="75" maxlength="255" border="0"></td>
+</tr>
+<tr>
+<td>
+<div align="right">used Searchword:</div>
+</td>
+<td><input type="text" name="sword" id="sword" size="24" border="0"></td>
+<td width="250">
+<div align="right">desired Shortcut: <input type="text" name="kuerzel" id="kuerzel" size="5" maxlength="5" border="0"></div>
+</td>
+</tr>
+</table>
+<p><input style="color:#000000" type="submit" name="submit" value="Send" border="0">&nbsp;&nbsp;<input onclick="javascript: exampleFillForm();" value="Example" style="color:#000000" type="button"></p>
+</div>
+</form>
+</td>
+</tr>
+</table>
+<p><a href="searchbox-add-ons.php">&raquo; back to &quot;Searchy Plug-In Downloads&quot;</a></p>
+</div>
+</body>
+
+</html>

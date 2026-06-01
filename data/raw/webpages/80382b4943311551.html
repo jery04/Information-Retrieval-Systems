@@ -1,0 +1,1596 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+	<title>Using XML &#8211; A List Apart</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//stats.wp.com' />
+<link rel='dns-prefetch' href='//widgets.wp.com' />
+<link rel='dns-prefetch' href='//0.gravatar.com' />
+<link rel='dns-prefetch' href='//1.gravatar.com' />
+<link rel='dns-prefetch' href='//2.gravatar.com' />
+<link rel='preconnect' href='//i0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="A List Apart &raquo; Feed" href="https://alistapart.com/main/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://alistapart.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Falistapart.com%2Farticle%2Fusingxml%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://alistapart.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Falistapart.com%2Farticle%2Fusingxml%2F&#038;format=xml" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='ala-style-css' href='https://alistapart.com/wp-content/themes/ala/style.css?ver=1757090064' type='text/css' media='all' />
+<link rel='stylesheet' id='ala-prism-style-css' href='https://alistapart.com/wp-content/themes/ala/js/prism/prism.css?ver=1.0' type='text/css' media='all' />
+<style id='jetpack_likes-inline-css' type='text/css'>
+#jp-post-flair{padding-top:.5em}#content div.sharedaddy,#main div.sharedaddy,div.sharedaddy{clear:both}div.sharedaddy h3.sd-title{display:inline-block;font-size:9pt;font-weight:700;line-height:1.2;margin:0 0 1em}div.sharedaddy h3.sd-title:before{border-top:1px solid #dcdcde;content:"";display:block;margin-bottom:1em;min-width:30px;width:100%}div.jetpack-likes-widget-wrapper{min-height:50px;position:relative;width:100%}div.jetpack-likes-widget-wrapper .sd-link-color{font-size:12px}div.jetpack-comment-likes-widget-wrapper{min-height:31px;position:relative;width:100%}div.jetpack-comment-likes-widget-wrapper iframe{margin-bottom:0}#likes-other-gravatars{background-color:#fff;border:1px solid #dcdcde;border-radius:4px;box-shadow:none;display:none;height:auto;max-height:240px;min-width:220px;overflow:auto;padding:9px 12px 10px;position:absolute;z-index:1000}#likes-other-gravatars *{line-height:normal}#likes-other-gravatars .likes-text{color:#101517;font-size:12px;font-weight:500;padding-bottom:8px}#likes-other-gravatars :is(li,ul){list-style-type:none;margin:0;padding:0;text-indent:0}#likes-other-gravatars li:before{content:""}#likes-other-gravatars ul.wpl-avatars{display:block;max-height:190px;overflow:auto}#likes-other-gravatars ul.wpl-avatars li{float:none;height:28px;margin:0 0 4px;width:196px}#likes-other-gravatars ul.wpl-avatars li a{align-items:center;border-bottom:none!important;display:flex;gap:8px;margin:0 2px 0 0;text-decoration:none}#likes-other-gravatars ul.wpl-avatars li a span{color:#2c3338;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#likes-other-gravatars ul.wpl-avatars li a img{background:none;border:none;border-radius:50%;box-sizing:border-box;margin:0!important;padding:1px!important;position:static}div.sd-box{border-top:1px solid #00000021}.jetpack-likes-widget-loaded iframe,.jetpack-likes-widget-loading .likes-widget-placeholder,.jetpack-likes-widget-unloaded .likes-widget-placeholder{display:block}.jetpack-likes-widget-loaded .likes-widget-placeholder,.jetpack-likes-widget-loading iframe,.jetpack-likes-widget-unloaded iframe{display:none}.comment-likes-widget,.entry-content .post-likes-widget,.post-likes-widget{border-width:0;margin:0}.comment-likes-widget-placeholder,.post-likes-widget-placeholder{border-width:0;margin:0;position:relative}.comment-likes-widget-placeholder{display:flex;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;height:18px;position:absolute}.comment-likes-widget-placeholder:before{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath fill='%232ea2cc' d='m12 2 2.582 6.953L22 9.257l-5.822 4.602L18.18 21 12 16.89 5.82 21l2.002-7.14L2 9.256l7.418-.304'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:16px 16px;color:#2ea2cc;content:"";display:inline-block;height:16px;padding-right:5px;position:relative;top:3px;width:16px}.post-likes-widget-placeholder .button{display:none}:is(.comment-likes-widget-placeholder,.post-likes-widget-placeholder) .loading{color:#999;font-size:12px}.comment-likes-widget-placeholder .loading{align-self:center;color:#4e4e4e;margin-top:4px;padding-left:5px}div.sharedaddy.sd-like-enabled .sd-like h3{display:none}div.sharedaddy.sd-like-enabled .sd-like .post-likes-widget{float:none;position:absolute;top:0;width:100%}.comment-likes-widget{width:100%}.cs-rating,.pd-rating{display:block!important}.sd-gplus .sd-title{display:none}@media print{.jetpack-likes-widget-wrapper{display:none}}
+/*# sourceURL=https://alistapart.com/wp-content/plugins/jetpack/_inc/build/likes/style.min.css */
+</style>
+<link rel='stylesheet' id='sharedaddy-css' href='https://alistapart.com/wp-content/plugins/jetpack/modules/sharedaddy/sharing.css?ver=15.9-a.3' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css' href='https://alistapart.com/wp-content/plugins/jetpack/_inc/build/social-logos/social-logos.css?ver=15.9-a.3' type='text/css' media='all' />
+<script type="text/javascript" src="https://alistapart.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<link rel="https://api.w.org/" href="https://alistapart.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://alistapart.com/wp-json/wp/v2/article/14736" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://alistapart.com/xmlrpc.php?rsd" />
+
+<link rel="canonical" href="https://alistapart.com/article/usingxml/" />
+	<style>img#wpstats{display:none}</style>
+		<link rel="pingback" href="https://alistapart.com/xmlrpc.php"><meta name="description" content="More than a rulebook for generating your own markup, XML is part of a family of technologies that work together in powerful ways. Eisenberg demonstrates some of that power by creating an XML-based markup language from scratch and transforming it for a variety of formats, using nothing but his noggin and some off-the-shelf tools." />
+		<style type="text/css">
+						.site-title,
+			.site-description {
+				position: absolute;
+				clip: rect(1px, 1px, 1px, 1px);
+			}
+
+						</style>
+		
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Using XML" />
+<meta property="og:url" content="https://alistapart.com/article/usingxml/" />
+<meta property="og:description" content="More than a rulebook for generating your own markup, XML is part of a family of technologies that work together in powerful ways. Eisenberg demonstrates some of that power by creating an XML-based …" />
+<meta property="article:published_time" content="2002-07-19T08:00:12+00:00" />
+<meta property="article:modified_time" content="2002-07-19T08:00:12+00:00" />
+<meta property="og:site_name" content="A List Apart" />
+<meta property="og:image" content="https://alistapart.com/wp-content/uploads/2012/07/barchart_thumb.png" />
+<meta property="og:image:width" content="281" />
+<meta property="og:image:height" content="147" />
+<meta property="og:image:alt" content="bar chart showing categories for a given food" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@alistapart" />
+<meta name="twitter:text:title" content="Using XML" />
+<meta name="twitter:image" content="https://alistapart.com/wp-content/uploads/2012/07/barchart_thumb.png?w=144" />
+<meta name="twitter:image:alt" content="bar chart showing categories for a given food" />
+<meta name="twitter:card" content="summary" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="icon" href="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=32%2C32&#038;quality=89&#038;ssl=1" sizes="32x32" />
+<link rel="icon" href="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=192%2C192&#038;quality=89&#038;ssl=1" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=180%2C180&#038;quality=89&#038;ssl=1" />
+<meta name="msapplication-TileImage" content="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/cropped-icon_navigation-laurel-512.jpg?fit=270%2C270&#038;quality=89&#038;ssl=1" />
+		<style type="text/css" id="wp-custom-css">
+			/*2025-05-20 Tonci https://wp.me/p9MPsk-1eo#comment-44317*/
+
+.ala-share div.sharedaddy .sd-social-icon .sd-content ul li[class*="share-"] a.sd-button
+{
+	max-width:unset!important;
+}
+
+.mailpoet_page-template-default .ala-author, .mailpoet_page-template-default .entry-meta
+{
+	display:none;
+}
+
+/*before 2025-05-13*/
+.ala-editors-note a {
+	text-decoration: underline;
+}
+i, em, cite {
+	font-weight: inherit;
+}
+
+code, kbd, tt, var {
+    font-size: .9375em;
+    text-transform: none;
+}
+.ala-opening-quote figure.quote blockquote p {
+	display: inline;
+}
+.ala-opening-quote figure.quote blockquote::before, .ala-opening-quote figure.quote blockquote::after {
+	content: "";
+}
+.ala-opening-quote figure.quote blockquote > p:first-child::before {
+	content: "“";
+}
+.ala-opening-quote figure.quote blockquote > p:first-child::after {
+	content: "”";
+}
+
+@media only screen and (max-width: 47.9375em) {
+	/* ----------------------	RESPONSIVE TABLES	---------------------- */
+	figure:not(.not-rwd) table {
+	    display: block;
+	    width: 100%;
+	    border-bottom: 1px solid #bfbfbf;
+	}
+
+	figure:not(.not-rwd) table caption {
+		display: block;
+	}
+
+	figure:not(.not-rwd) table thead {
+		display: none;
+		visibility: hidden;
+	}
+
+	figure:not(.not-rwd) table tbody, figure:not(.not-rwd) table tr, figure:not(.not-rwd) table th, figure:not(.not-rwd) table td {
+		border: 0;
+		display: block;
+		padding: 0;
+		text-align: left;
+		white-space: normal;
+	}
+
+	figure:not(.not-rwd) table tr {
+		margin: 1em 0;
+	}
+	
+	figure:not(.not-rwd) .gist table {
+		display: table;
+	}
+
+	figure:not(.not-rwd) .gist table tr {
+		display: table-row;
+		margin-bottom: 0;
+	}
+
+	figure:not(.not-rwd) .gist table td {
+		display: table-cell;
+	}
+
+	table th[data-title]:before,
+	table td[data-title]:before {
+		content: attr(data-title) ": ";
+		font-weight: bold;
+		font-family: "Franklin ITC", sans-serif;
+	}
+
+	table th:not([data-title]) {
+		font-weight: bold;
+		font-family: "Franklin ITC", sans-serif;
+	}
+
+	table td:empty {
+		display: none;
+	}
+	.main-content > figure:not(.not-rwd) table tbody tr:nth-child(odd) td {
+     	background: none; 
+	}
+
+.col-1 tr :nth-child(1):not(code), .col-2 tr :nth-child(2):not(code), .col-3 tr :nth-child(3):not(code):not(span), .col-4 tr :nth-child(4):not(code) {
+		border: none;
+	}
+
+	caption {
+		border: none;
+		border-bottom: 1px solid #bfbfbf;
+	}
+
+	.main-content > figure table th, .main-content > figure table td {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+	
+	figure.not-rwd {
+		overflow: auto;
+	}
+	
+	.entry-content>figure table tbody tr:nth-child(2n+1) td, .entry-content>table tbody tr:nth-child(2n+1) td {
+    background: transparent;
+}
+}
+
+
+/* Author archives - add margin below list of authors / kathrynwp */
+body.author .ala-sidebar-author {
+    margin-bottom: 35px;
+}
+		</style>
+		</head>
+
+<body class="wp-singular article-template-default single single-article postid-14736 wp-custom-logo wp-theme-ala article-usingxml" itemscope itemtype="http://schema.org/Article">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<header id="masthead" class="site-header">
+		<div class="site-branding">
+			<a href="https://alistapart.com/" class="custom-logo-link" rel="home"><img width="960" height="98" src="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?fit=960%2C98&amp;quality=80&amp;ssl=1" class="custom-logo" alt="A List Apart" decoding="async" fetchpriority="high" srcset="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?w=960&amp;quality=80&amp;ssl=1 960w, https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?resize=300%2C31&amp;quality=80&amp;ssl=1 300w, https://i0.wp.com/alistapart.com/wp-content/uploads/2019/03/ala-logo-big.png?resize=768%2C78&amp;quality=80&amp;ssl=1 768w" sizes="(max-width: 960px) 100vw, 960px" /></a>				<p class="site-title"><a href="https://alistapart.com/" rel="home"  itemscope itemtype="http://schema.org/ImageObject">A List Apart</a></p>
+								<p class="site-description">For people who make websites</p>
+					</div><!-- .site-branding -->
+
+		<nav id="site-navigation" class="main-navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><span class="screen-reader-text">Primary Menu</span></button>
+			<div class="menu-site-header-container"><ul id="primary-menu" class="menu"><li id="menu-item-6000493" class="ala-home-url menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-6000493"><a href="https://alistapart.com" itemprop="url"><span itemprop="name">Home</span></a></li>
+<li id="menu-item-6000494" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-6000494"><a href="https://alistapart.com/articles/" itemprop="url"><span itemprop="name">Articles</span></a></li>
+<li id="menu-item-6000495" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000495"><a href="https://alistapart.com/events/" itemprop="url"><span itemprop="name">Events</span></a></li>
+<li id="menu-item-6000496" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000496"><a href="https://alistapart.com/topics/" itemprop="url"><span itemprop="name">Topics</span></a></li>
+<li id="menu-item-6000497" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000497"><a href="https://alistapart.com/about/contribute/" itemprop="url"><span itemprop="name">Write for Us</span></a></li>
+</ul></div>
+			<form role="search" method="get" class="search-form" action="https://alistapart.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form>		</nav><!-- #site-navigation -->
+
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main">
+
+			
+<article id="post-14736" class="post-14736 article type-article status-publish hentry category-html issue-issue147">
+
+	<figure class="hero-wide" itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject">
+		
+	</figure>
+
+	<header class="entry-header">
+		
+		<h1 class="entry-title" itemprop="headline">Using XML</h1>		<div class="entry-meta">
+			<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/j-davideisenberg/" itemprop="url"> <span itemprop="name">J. David Eisenberg</span></a></span></span><span class="posted-on"><time class="entry-date published updated" datetime="2002-07-19T04:00:12-04:00">July 19, 2002</time></span>			<div class="entry-topic">
+				<span class="cat-links">Published in <a href="https://alistapart.com/blog/topic/html/" rel="category tag">HTML</a></span>			</div>
+		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	
+	
+	
+	<div class="entry-content">
+		<p>During my second lecture to an XML class at a local<br />
+community college, I explained how XML lets you define your own markup language with custom tags and attributes. I had finished defining a simple markup language for use<br />
+with a list of amateur sports clubs, and had displayed a sample document<br />
+written with that markup. At that point, one student asked:</p>		<div class="aside-breaker"><span>Article Continues Below</span></div>
+		<div class="ala-single-sidebar-wrapper">
+			<span class="screen-reader-text">Article Continues Below</span>
+			<aside class="ala-single-sidebar-minutiae">
+				<a href="https://alistapart.com/article/usingxml/#comments" class="ala-comment-bubble" >69 Comments</a>					<div class="ala-share">
+					<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 id="section1" class="sd-title">Share this:<a class="subhead-anchor" href="#section1">#section1</a></h3><div class="sd-content"><ul><li class="share-bluesky"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-bluesky-14736"
+				class="share-bluesky sd-button share-icon no-text"
+				href="https://alistapart.com/article/usingxml/?share=bluesky"
+				target="_blank"
+				aria-labelledby="sharing-bluesky-14736"
+				>
+				<span id="sharing-bluesky-14736" hidden>Share on Bluesky (Opens in new window)</span>
+				<span>Bluesky</span>
+			</a></li><li class="share-mastodon"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-mastodon-14736"
+				class="share-mastodon sd-button share-icon no-text"
+				href="https://alistapart.com/article/usingxml/?share=mastodon"
+				target="_blank"
+				aria-labelledby="sharing-mastodon-14736"
+				>
+				<span id="sharing-mastodon-14736" hidden>Share on Mastodon (Opens in new window)</span>
+				<span>Mastodon</span>
+			</a></li><li class="share-threads"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-threads-14736"
+				class="share-threads sd-button share-icon no-text"
+				href="https://alistapart.com/article/usingxml/?share=threads"
+				target="_blank"
+				aria-labelledby="sharing-threads-14736"
+				>
+				<span id="sharing-threads-14736" hidden>Share on Threads (Opens in new window)</span>
+				<span>Threads</span>
+			</a></li><li class="share-end"></li></ul></div></div></div>					</div>
+										<section id="custom_html-6" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/alistapart" class="patreon-bubble">Become a patron</a></div></section>					
+							</aside>
+
+			<aside class="ala-single-sidebar-1">
+				<section id="block-2" class="widget widget_block"><div class="banner">
+	<a href="https://sps.northwestern.edu/ala">
+	<img decoding="async" class="banner-logo" src="https://alistapart.com/wp-content/uploads/2026/03/IDS_700x200_Logo-300x86.jpg" alt="Northwestern Information Design and Strategy, School Of Professional Studies" />
+<p><br />Ready to advance in content strategy, UX/UI, data communication, or learning design? Explore Northwestern’s online MS in Information Design & Strategy.</p>
+	</a>
+</div>
+
+
+<div class="banner ala-banner">
+	<a href="https://abookapart.com/">				<img decoding="async" src="https://alistapart.com/wp-content/uploads/2019/03/logo_a-book-apart-color.png" alt="A Book Apart Logo" class="banner-logo" />
+		<p>A Book Apart:<br> Brief books for people who make websites.</p>		
+		</a>
+</div></section>			</aside>
+
+		</div>
+		
+<p>“Isn’t it inefficient to have to type all those tags for<br />
+every club? What good is this? It looks nice, but what can I<br />
+do with this document? How can I put this in a web page or use it with<br />
+other programs? Wouldn’t it be easier to just use HTML or a<br />
+database/word processor/<em>fill-in-the-blank</em>?”</p>
+<p>The reason that we use XML instead of a specific application is that<br />
+XML is not just a pretty face, living in isolation from the rest<br />
+of the computing world.  XML is more than a rulebook for generating<br />
+custom markup languages. It is part of a family of technologies, which,<br />
+working together, make your XML-based documents very useful indeed.  To<br />
+demonstrate what I mean, I decided to create a new XML-based markup<br />
+language from scratch, and show what you can do with a document written<br />
+in that language, using off-the-shelf tools.</p>
+<h2 id="section2">Creating a New Markup Language<a class="subhead-anchor" href="#section2">#section2</a></h2>
+<p>The language that I created stores the nutritional<br />
+information that you find on food labels in the United States. The<br />
+document starts with a <code>&lt;nutrition></code> tag, followed by<br />
+a <code>&lt;daily-values></code> element that gives the maximum<br />
+amounts of fat, sodium, etc. for a 2000-calorie-a-day diet, and the<br />
+units in which the amount is measured.</p>
+<p>The daily values are followed by a series of<br />
+<code>&lt;food></code> elements, each of which gives information<br />
+about a specific food and its nutritional categories. Because the<br />
+<code>&lt;daily-values></code> element has already defined the units<br />
+in which each category is measured, we don’t need to repeat them<br />
+for every food; we just enter the numbers for that particular<br />
+food’s total fat, sodium, etc.  After the last food, we close the<br />
+document with a closing <code>&lt;/nutrition></code> tag.</p>
+<pre id="snippet1"><code>&lt;nutrition>&lt;!-- Establish the daily values --&gt;
+&lt;daily-values>
+&lt;total-fat units="g"> 65 &lt;/total-fat>
+&lt;saturated-fat units="g"> 20 &lt;/saturated-fat>
+&lt;cholesterol units="mg"> 300 &lt;/cholesterol>
+&lt;sodium units="mg"> 2400 &lt;/sodium>
+&lt;carb units="g"> 300 &lt;/carb>
+&lt;fiber units="g"> 25 &lt;/fiber>
+&lt;protein units="g"> 50 &lt;/protein>
+&lt;/daily-values>&lt;p>&lt;!-- Now list the individual foods --&gt;&lt;/p>&lt;food>
+&lt;name>Avocado Dip&lt;/name>
+&lt;mfr>Sunnydale&lt;/mfr>&lt;serving units="g"> 29 &lt;/serving>
+&lt;calories total="110" fat="100"/>&lt;total-fat> 11 &lt;/total-fat>
+&lt;saturated-fat> 3 &lt;/saturated-fat>
+&lt;cholesterol> 5 &lt;/cholesterol>
+&lt;sodium> 210 &lt;/sodium>
+&lt;carb> 2 &lt;/carb>
+&lt;fiber> 0 &lt;/fiber>
+&lt;protein> 1 &lt;/protein>&lt;vitamins>
+&lt;p>    &lt;a> 0 &lt;/a>&lt;br />
+    &lt;/p>&lt;c> 0 &lt;/c>
+&lt;/vitamins>&lt;minerals>
+&lt;p>    &lt;/p>&lt;ca> 0 &lt;/ca>
+&lt;p>    &lt;/p>&lt;fe> 0 &lt;/fe>
+&lt;/minerals>
+&lt;/food>&lt;p>&lt;!-- etc. --&gt;&lt;/p>
+&lt;/nutrition></code></pre>
+<p>You may <a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_a.html">see the entire document</a><br />
+that is used for the examples in this article. All the numbers<br />
+are real; only the manufacturers’ names have been changed<br />
+to protect the innocent and avoid lawsuits.</p>
+<p>A quick note: vitamins and minerals are measured in percentages, not<br />
+grams or milligrams. That’s why we don’t need to establish<br />
+any units or maximums for them in the <code>&lt;daily-values></code><br />
+element.</p>
+<p>I entered the data by hand using the <code>nedit</code> program on<br />
+Linux.  I could have used <em>any</em> editor that lets me save files<br />
+as plain ASCII text; notepad on Windows or vi on Linux would have done<br />
+equally well. To make data entry easier, I created an empty<br />
+“template” for a food, which you see at the bottom of the<br />
+file. I copied and pasted it for each new food, so that I didn’t<br />
+have to type the tags over and over again. </p>
+<h2 id="section3">Immediate Benefits<a class="subhead-anchor" href="#section3">#section3</a></h2>
+<p>What have we bought by creating this XML file in a text<br />
+editor rather than creating an HTML document or a spreadsheet or data<br />
+base? First, the data is structured; it’s not just a mass of<br />
+numbers in an HTML table or  a text file of tab–separated values.<br />
+Because of the custom tags, it’s something that humans can read<br />
+and understand. It’s also open; we don’t need some<br />
+expensive, proprietary software to extract the information from a<br />
+binary file. So, as a transport medium, XML already serves us<br />
+nicely.</p>
+<h2 id="section4">Validating the Document<a class="subhead-anchor" href="#section4">#section4</a></h2>
+<p>Even if you’re the only person who ever enters<br />
+data into the document, you’d like to be able to check that you<br />
+haven’t left out any information or added extra tags.<br />
+Additionally, you’d like to be sure that your percentages are all<br />
+between 0 and 100.</p>
+<p>This becomes even more important if many people enter data. Even if<br />
+you give other folks instructions on the proper format, they may ignore<br />
+it or make errors. In short, you would like to have the computer help<br />
+you determine that the data in your documents is valid.</p>
+<p>You do this by creating a machine-readable <dfn>grammar</dfn> which<br />
+specifies which tags and attributes are valid, and in what<br />
+combinations, and what values your tags and attributes may contain.<br />
+You then hand your document and the grammar to a program called a<br />
+<dfn>validator</dfn>, and it checks that the document matches your<br />
+specifications.</p>
+<p>One machine-readable form of specifying such a grammar is a notation<br />
+called <dfn>Relax NG</dfn>.  Relax NG is, itself, an XML-based markup<br />
+language. Its purpose is to specify what is valid in <em>other</em><br />
+markup languages. This isn’t as crazy or impossible as it<br />
+sounds.  After all, books that tell you how to use English grammar<br />
+correctly are also written in English.</p>
+<p>For example, one of the specifications of our nutritional markup<br />
+language is that the <code>&lt;calories></code> element is an empty<br />
+element, and it has two attributes, the <code>total</code> attribute<br />
+and the <code>fat</code> attribute. These must both have decimal<br />
+numbers in them.  We say this in Relax NG as follows:</p>
+<pre id="snippet2"><code>&lt;element name="calories">
+&lt;empty/>
+&lt;attribute name="total">&lt;data type="decimal"/>
+ &lt;/attribute>
+&lt;attribute name="fat">&lt;data type="decimal"/>
+ &lt;/attribute>
+&lt;/element></code></pre>
+<p>When we pass nutrition documents through the validator with this<br />
+document, the validator will tell us that the first tag below<br />
+is correct, but the second one isn’t.</p>
+<pre id="snippet3"><code>&lt;calories total="100" fat="10"/>
+&lt;calories total="217" fat="don't ask!"/></code></pre>
+<p>You may <a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_b.html">see the entire grammar<br />
+specification for the nutrition markup here</a>. You may<br />
+also <a href="http://www.oasis-open.org/committees/relax-ng/">find<br />
+out more about Relax NG</a>. By the way,<br />
+Relax NG is not the only game in town if you want to specify<br />
+grammar. You may use something called a <dfn>DTD</dfn> (Document<br />
+Type Definition), which is not as powerful<br />
+as Relax NG; or you may use <dfn>XML Schema</dfn>, which is<br />
+about as powerful as Relax NG, but far more complex to learn.</p>
+<h2 id="section5">Try it!<a class="subhead-anchor" href="#section5">#section5</a></h2>
+<p>If you are feeling adventurous, you may want to try these<br />
+files yourself.  You will need some XML tools in order to<br />
+do this.  Here is how to  <a href="https://alistapart.github.io/code-samples/usingxml/windows_setup.html">set up the tools<br />
+for Windows</a>, and here’s the <a href="https://alistapart.github.io/code-samples/usingxml/linux_setup.html">setup for Linux</a>.</p>
+<p>To validate a file, go to the command prompt if you are using<br />
+Windows, or go to a console window and get a shell prompt if you<br />
+are using Linux. Then use the batch/shell file described<br />
+in the setup instructions to invoke<br />
+the Multi-Schema Validator:</p>
+<pre id="snippet4">msvalidate nutrition.rng nutrition.xml</pre>
+<h2 id="section6">Now What?<a class="subhead-anchor" href="#section6">#section6</a></h2>
+<p>Although we can enter readable data and check to see if it’s<br />
+OK, we still can’t <em>do</em> anything with it. If we display it<br />
+in a browser, we just see the text all squeezed together. That’s<br />
+because the browser doesn’t know how to display a<br />
+<code>&lt;food></code> or <code>&lt;vitamins></code> tag.</p>
+<h2 id="section7">Displaying the XML<a class="subhead-anchor" href="#section7">#section7</a></h2>
+<p>If you are using the very latest browsers, you can<br />
+attach a <dfn>stylesheet</dfn> to the XML file. We have done that in<br />
+this example by putting this line at the top of file<br />
+<code>nutrition.xml</code></p>
+<pre id="snippet5"><code>&lt;?xml version="1.0"?&gt;
+<b>&lt;?xml-stylesheet type="text/css" 
+ href="nutrition.css"?&gt;</b>
+&lt;nutrition>&lt;/nutrition></code></pre>
+<p>The style sheet that we write for file <code>nutrition.css</code><br />
+looks very much like the style sheets that you use with your HTML<br />
+files. The difference is that we assign styles to our new nutrition<br />
+tags, not to the standard HTML tags. For example, to say that a<br />
+food’s manufacturer should appear in 16 point italic type without<br />
+starting a new line, you would write:</p>
+<pre id="snippet6"><code>mfr {
+    display: inline;
+    font-size: 16pt;
+    font-style: italic;
+ }</code></pre>
+<p>Once you have created<br />
+<a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_c.html">the entire stylesheet</a> in the same<br />
+directory as the XML file, you can open the XML file in a<br />
+modern browser such as Mozilla, and it will display the information.</p>
+<h2 id="section8">Transformation—A Better Way<a class="subhead-anchor" href="#section8">#section8</a></h2>
+<p>The problems with the stylesheet are that:</p>
+<ul>
+<li>It only works with the very latest browsers that handle<br />
+Cascading Style Sheets Level 2.</li>
+<li>It can’t extract all the information (for example, the units<br />
+don’t show up in the output document because they are<br />
+“hidden” in the attribute values.</li>
+<li>It can’t calculate percentages.</li>
+</ul>
+<p>Additionally, the markup we’ve invented here is data-oriented;<br />
+it is designed to describe data to be stored or to be transmitted to<br />
+other programs. In these documents, the order of elements and the type<br />
+of data in each element is fairly rigid. Stylesheets work better with<br />
+narrative-oriented markup documents. These are documents which  are<br />
+generally meant for human reading, and are more “free-form”<br />
+than data-oriented documents. Examples of narrative-oriented markup are<br />
+XHTML, DocBook (a markup for writing books and articles), and NewsML<br />
+(for writing news reports).</p>
+<p>In order to get around these problems, we can use  <dfn>XSLT</dfn>,<br />
+Extensible Stylesheet Language Transformations, to convert the<br />
+nutrition file into other forms. XSLT is, again, another XML-based<br />
+markup language. Its purpose is to describe how to take input from one<br />
+XML file &#40;the “source document”&#41; and output it to a result<br />
+document.  XSLT has the flexibility to extract data from attributes as<br />
+well as element content, and it can do calculation and sorting upon the<br />
+data in the source document.</p>
+<p>This power makes XSLT  a key technology in the XML family of<br />
+technologies. For a good introduction, read<br />
+<a href="http://www.nwalsh.com/docs/tutorials/xsl/xsl/frames.html">Norman Walsh’s excellent presentation on the subject</a> or<br />
+<a href="http://www.ibm.com/developerworks/xml/library/x-hands-on-xsl/">this<br />
+hands-on tutorial</a>.</p>
+<h2 id="section9">Transformation to HTML<a class="subhead-anchor" href="#section9">#section9</a></h2>
+<p>The <a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_d.html">first<br />
+XSLT file, which you may see here</a>, converts the nutrition document<br />
+into a very plain HTML file suitable for display on any browser on a<br />
+desktop or PDA. To do the transformation, you’d type this<br />
+command:</p>
+<pre id="snippet7">transform nutrition.xml 
+nutrition_plain.xslt nutrition_plain.html</pre>
+<p>The result of the transformation is an HTML file named <a
+href="https://alistapart.github.io/code-samples/usingxml/nutrition_plain.html"><b>nutrition_plain.html</b></a>,<br />
+which you may open in any browser you like. Even this simple<br />
+transformation has done two things that we could not do with CSS:<br />
+it uses the information in attributes to display the units for each<br />
+nutritional category, and it calculates percentages of the daily<br />
+values.</p>
+<h2 id="section10">Fancy Transformation<a class="subhead-anchor" href="#section10">#section10</a></h2>
+<p>OK, so maybe you want something a bit fancier.  <a
+href="https://alistapart.github.io/code-samples/usingxml/xml_uses_e.html">Here’s a more complex<br />
+transformation</a> which sorts the data by the ratio of fat calories to<br />
+total calories per serving; sort of a “healthiness<br />
+index.”</p>
+<p>If you have saved the XSLT in a file called<br />
+<code>nutrition_fancy.xslt</code> you can type this command:</p>
+<pre id="snippet8"><code>transform nutrition.xml 
+nutrition_fancy.xslt nutrition_fancy.html</code></pre>
+<p>That produces a file named<br />
+<b><a href="https://alistapart.github.io/code-samples/usingxml/nutrition_fancy.html">nutrition_fancy.html</a></b>,<br />
+which looks remarkably different from the plain version. It uses<br />
+Cascading Style Sheets to produce the little bar graphs; you’ll<br />
+need a modern browser like Internet Explorer 5+ or Mozilla/Netscape 6<br />
+to see the effect. Notice that XSLT lets you pick and choose the data<br />
+you want to display; the information about carbohydrates, fiber,<br />
+vitamins, and minerals are omitted in the fancy version. (They<br />
+could, of course, be added by changing the XSLT file.)</p>
+<p>We have used XSLT to take the source XML file and transform<br />
+it to two different HTML files; a plain version that is suitable for<br />
+display on old browsers and PDAs, and a fancier version that is<br />
+suitable for use with desktop computers and modern browsers.</p>
+<h2 id="section11">Non-HTML Transformation<a class="subhead-anchor" href="#section11">#section11</a></h2>
+<p>But wait, maybe you don’t <em>want</em> HTML;<br />
+there’s more than just browsers in the world, you know. You might<br />
+want to take the data and convert it to a text file of tab–separated<br />
+values for import into a spreadsheet or database program.</p>
+<p>Here is <a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_f.html">a<br />
+transformation file that does this</a>, using this command:</p>
+<pre id="snippet9">transform nutrition.xml nutrition_csv.xslt nutrition.csv</pre>
+<p>And <a href="https://alistapart.com/wp-content/uploads/2012/07/nutrition_csv.txt">here’s the resulting text<br />
+file</a>.</p>
+<h2 id="section12">Conversion to Print<a class="subhead-anchor" href="#section12">#section12</a></h2>
+<p>Let’s say you want to create a PDF file from your<br />
+XML. That’s possible by using a transformation to change the XML to<br />
+another markup language: <dfn>XSL-FO</dfn> (Extensible Stylesheet<br />
+Language &#8211; Formatting Objects). This is a page layout language.  A tool<br />
+called <dfn>FOP</dfn> (Formatting Objects to PDF) takes that markup and<br />
+creates PDF files for you.</p>
+<p><a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_g.html">Here is a transformation file</a> which<br />
+takes the nutrition data and converts it to formatting objects.   If<br />
+you save it in <code>nutrition_fo.xslt</code>, you can use FOP to do<br />
+the conversion to PDF:</p>
+<pre id="snippet10">fop -xml nutrition.xml -xsl nutrition_fo.xslt -pdf nutrition.pdf</pre>
+<p>The result is <a href="https://alistapart.com/wp-content/uploads/2012/07/nutrition.pdf">a PDF file</a>; it<br />
+produces pages that are approximately 8 centimeters wide and 9<br />
+centimeters high, which fits comfortably into a shirt pocket.</p>
+<h2 id="section13">Generating Graphics<a class="subhead-anchor" href="#section13">#section13</a></h2>
+<p>Finally, you may wish to create an interactive, graphic<br />
+version of the data. Another XML-based markup,<br />
+<dfn>SVG</dfn>—Scalable Vector Graphics— gives you this<br />
+capability. SVG has elements like the following, which draw a black<br />
+diagonal line and a yellow circle with a green outline:</p>
+<pre id="snippet11"><code>&lt;line x1="0" y1="0" x2="50" y2="50" />
+&lt;circle cx="100" cy="100" r="30" /></code></pre>
+<p>By using <a href="https://alistapart.github.io/code-samples/usingxml/xml_uses_h.html">a transformation file that<br />
+produces SVG</a>, we can construct a graphic that shows a bar graph for<br />
+the food whose name you click. Here’s what you type:</p>
+<pre id="snippet12">transform nutrition.xml nutrition_svg.xslt nutrition.svg</pre>
+<p>You may display the result with the SVG browser that is part of the<br />
+Batik toolkit. If you have installed Batik as per the instructions<br />
+given <a href="https://alistapart.github.io/code-samples/usingxml/linux_setup.html">for Linux</a> or <a
+href="https://alistapart.github.io/code-samples/usingxml/windows_setup.html">for Windows</a>, you type<br />
+<code>batikï¿½nutrition.svg</code>. I have not tested the file with<br />
+the latest version of the <a href="http://www.adobe.com/svg/">Adobe SVG<br />
+Viewer</a>, but it should work nicely. Here is a screenshot;<br />
+click it to see it full size.</p>
+<figure id="figure1"><a href="https://i0.wp.com/alistapart.com/wp-content/uploads/2012/07/barchart.png?quality=80&#038;ssl=1"><img data-recalc-dims="1" decoding="async" class="bordered" src="https://i0.wp.com/alistapart.com/wp-content/uploads/2012/07/barchart_thumb.png?resize=281%2C147&#038;quality=80&#038;ssl=1" width="281" height="147" alt="bar chart showing categories for a given food" /></a></figure>
+<h2 id="section14">Other Ways to Use the XML Tools<a class="subhead-anchor" href="#section14">#section14</a></h2>
+<p>In this article, we’ve used the Multi-Schema<br />
+Validator, Xalan Transformer, FOP converter, and Batik viewer from the<br />
+command prompt. That’s the fastest and easiest way to get things<br />
+working so that you can have an experience of what XML can do.</p>
+<p>The batch or shell file approach would work in a production<br />
+environment where you generate  a whole website’s worth of HTML<br />
+files from one or more XML files at regular time  intervals. You just<br />
+set up a batch job to run at scheduled times (a <code>cron</code> job<br />
+in Unix terms) to generate the files you need.</p>
+<p>What if you need to generate HTML pages or PDF files dynamically<br />
+in response to user requests? Obviously, you don’t want the overhead<br />
+of starting a Java process every time a request comes in, and a<br />
+static batch file certainly won’t do the trick. Both the<br />
+Multi-Schema Validator and Xalan have an API (Application Program<br />
+Interface) and can thus become part of a Java servlet running on<br />
+your server and handling dynamic user requests. Once a servlet is<br />
+loaded, it stays in memory, so there is no extra overhead for<br />
+subsequent uses of a transformation.</p>
+<p>If you are interested in running servlets, one option is to use the<br />
+<a href="http://jakarta.apache.org/" title="The Apache Software Foundation Jakarta page">Jakarta Tomcat</a> servlet container. It can run as a stand-alone server for testing or as a<br />
+module for either Apache or Microsoft IIS.</p>
+<h2 id="section15">Timing<a class="subhead-anchor" href="#section15">#section15</a></h2>
+<p>There are two aspects to timing: how long it takes to<br />
+write the grammars and transformations, and how fast they run.</p>
+<p> Designing the markup<br />
+language took me about 25 minutes, and entering the data took me<br />
+another 25 minutes, some of it running out to the kitchen to grab items<br />
+from the shelf or refrigerator. Writing and testing the Relax NG<br />
+grammar required 30 minutes.</p>
+<p>The Cascading Style Sheet for displaying the XML directly in Mozilla<br />
+took all of 15 minutes to write. The “plain HTML”<br />
+transformation took about 50 minutes, including time for looking up<br />
+some XSLT constructs and doing some experimentation. The<br />
+“fancy” transformation took 45 minutes. I needed 20 minutes<br />
+to figure out how to do the bar graphs with stylesheets in the first<br />
+place, and I used another 5 minutes for minor aesthetic adjustments.<br />
+The file for conversion to tab–separated values was a fifteen-minute<br />
+job.</p>
+<p>The transformation for PDF took an hour. The first time through, I<br />
+designed it for paper the size of a compact disc insert. I thought<br />
+better of it, and decided to reduce it to shirt-pocket size. That took<br />
+another 30 to 45 minutes of tweaking and getting the font sizes just<br />
+the way I wanted them. I also had to make some changes to avoid using<br />
+parts of XSL Formatting Objects that FOP does not implement yet.</p>
+<p>Finally, the SVG transformation took an hour and a half to write.<br />
+About half that time was experimenting to get  everything positioned<br />
+nicely and making the ECMA Script interaction work properly.</p>
+<p>You don’t have to be an expert at Relax NG, XSLT, XSL<br />
+Formatting Objects, or SVG to do this. I don’t use any of these<br />
+techonlogies on a daily basis. I just know enough about each of them<br />
+to get things to work. In this case, my philosophy was “the first<br />
+way you think of that works is the right way.” That is why XSLT<br />
+experts will be shocked when they see an inefficient construct like<br />
+this in the plain HTML transform file.</p>
+<pre id="snippet13"><code>select="/nutrition/daily-values/*[name(.)=name($node)]/@units"</code></pre>
+<p>This is not to say that there is no learning involved here; you will<br />
+need to spend some time on that. You don’t need to spend a<br />
+lifetime on it, though. It is definitely possible to learn enough about<br />
+these technologies to put them to effective use in a short time.</p>
+<h2 id="section16">Performance<a class="subhead-anchor" href="#section16">#section16</a></h2>
+<p>I tested all of these files on a 400MHz AMD K-6 with<br />
+128Mb of memory running <a href="http://www.suse.com/">SuSE</a> Linux<br />
+7.2. For the transformations, I modified the <a
+href="https://alistapart.github.io/code-samples/usingxml/xml_uses_i.html">SimpleTransform.java</a><br />
+sample program that comes with Xalan. This program records the total<br />
+time to generate the output and the time involved in transformation<br />
+after the XSLT file has been parsed. If you are running transformations<br />
+on a server, you can cache the parsed XSLT file, so the overhead for<br />
+parsing occurs only once.</p>
+<figure id="figure2" class="not-rwd">
+<table border="0" cellpadding="3" id="fancy">
+<tr>
+<th rowspan="2">Transformation</th>
+<th colspan="2">Time in seconds</th>
+</tr>
+<tr>
+<th>Total</th>
+<th>Transform</th>
+</tr>
+<tr>
+<td align="center">Plain HTML</td>
+<td align="right">3.691</td>
+<td align="right">1.018</td>
+</tr>
+<tr>
+<td align="center">Fancy HTML</td>
+<td align="right">4.057</td>
+<td align="right">1.409</td>
+</tr>
+<tr>
+<td align="center">Tab–separated Values</td>
+<td align="right">3.057</td>
+<td align="right">0.548</td>
+</tr>
+<tr>
+<td align="center">SVG</td>
+<td align="right">3.386</td>
+<td align="right">0.689</td>
+</tr>
+</table>
+</figure>
+<p class="vs10">I measured the time for the PDF transformation with the<br />
+Linux <code>time</code> command. Generating the file took<br />
+15.115 seconds real time, with 10.920 seconds of user CPU time.</p>
+<p>Of course, these are not the only tools available. There are other<br />
+XSLT processors and other programs for converting XSL Formatting<br />
+Objects to PDF. I chose MSV, Xalan, Fop, and Batik because they are<br />
+free, easy to use, and I was already familiar with them.</p>
+<h2 id="section17">Summary<a class="subhead-anchor" href="#section17">#section17</a></h2>
+<ul>
+<li>
+<p>Using XML-based markup gives your document structure,<br />
+and makes it readable and open.</p>
+</li>
+<li>
+<p>XML is part of a family of technologies.</p>
+</li>
+<li>
+<p>You can use grammar markup languages like Relax NG<br />
+or XML Schema to validate<br />
+your documents.</p>
+</li>
+<li>
+<p>You can use XSLT transformations to repurpose a document.<br />
+A single document can serve as the source for XHTML, plain text,<br />
+PDF, or other XML markup languages like SVG.</p>
+</li>
+<li>
+<p>Programs which do validation and transformation are freely<br />
+available and easy to use.</p>
+</li>
+</ul>
+<p>These capabilities exist right now, and they are easy to learn and<br />
+utilize. That is why XML is good, and why people are so excited about<br />
+it once they start to use it.</p>
+<p>You may <a href="https://alistapart.com/wp-content/uploads/2012/07/nutrition.zip">download the<br />
+XML files and the resulting HTML, text, and PDF files</a>.</p>
+<div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-158094726-14736-6a0df12717335' data-src='https://widgets.wp.com/likes/?ver=15.9-a.3#blog_id=158094726&amp;post_id=14736&amp;origin=alistapart.com&amp;obj_id=158094726-14736-6a0df12717335' data-name='like-post-frame-158094726-14736-6a0df12717335' data-title='Like or Reblog'><h3 id="section18" class="sd-title">Like this:<a class="subhead-anchor" href="#section18">#section18</a></h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading"><svg class="jetpack-spinner" width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="46" fill="none" stroke="#ddd" stroke-width="8"/><path d="M 50 4 A 46 46 0 0 1 96 50" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" dur="1.4s" from="0 50 50" to="360 50 50" repeatCount="indefinite"/></path></svg><span class="screen-reader-text">Loading…</span></span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>		<div class="ala-single-sidebar-wrapper sidebar-related">
+			<aside id="related" class="ala-single-sidebar-related">
+				<div class="ala-sidebar-content" >
+									<section class="ala-sb-rel__category">
+						<h3 class="ala-sb-rel__cat__title">
+							Further reading about							<a href="https://alistapart.com/blog/topic/html/">HTML</a>
+						</h3>
+													<article>
+								<h3 class="ala-sb-rel__cat__entry-title">
+									<a href="https://alistapart.com/article/the-future-of-web-software-is-html-over-websockets/">The Future of Web Software Is HTML-over-WebSockets									</a></h3>
+								<div class="ala-sb-rel__cat__entry-content">The future of web app development is taking shape, and it's changing the way we think about server-side app architecture. In this article, Matt E. Patterson shows why a new WebSockets-driven approach is catching developers' attention, and how it can mean faster, easier development that results in an experience just as rich as client-side SPAs.</div>
+							</article>
+														<article>
+								<h3 class="ala-sb-rel__cat__entry-title">
+									<a href="https://alistapart.com/article/conversations-with-robots/">Conversations with Robots: Voice, Smart Agents &#038; the Case for Structured Content									</a></h3>
+								<div class="ala-sb-rel__cat__entry-content">Voice user interfaces, smart software agents, and AI-powered search are changing the way users—and computers—interact with content. Whether or not you’re building services for these emerging technologies, structured content is now necessary to ensure the accuracy and integrity of your content across the evolving digital landscape.</div>
+							</article>
+												</section>
+									</div>
+			</aside>
+		</div>
+			</div><!-- .entry-content -->
+	</article><!-- #post-14736 -->
+
+				<footer class="ala-author">
+					<div class="ala-author__content clear">
+						<a name="panelist0"></a>
+													<h4 class="ala-author__about">About the Author</h4>
+													<div class="ala-author__avatar">
+							<img alt='' src='https://secure.gravatar.com/avatar/b8aedfe87d3d6aafbb521eeac434ce192291256ded7a1820bf71278119082150?s=150&#038;d=identicon&#038;r=pg' class='avatar avatar-150 photo' height='150' width='150' />						</div>
+
+						<h3 class="ala-author__name">J. David Eisenberg</h3>
+						<div class="ala-author__description"><a href="mailto:catcode@catcode.com">J. David Eisenberg</a> is a programmer and teacher living in San Jose, CA with his cats, Marco Polo and Big Tony. He has written a book about <a href="http://www.oreilly.com/catalog/svgess/">Scalable Vector Graphics</a>. He is also interested in the <a href="http://books.evc-cit.info/blog">OpenDocument Format</a> and <a href="http://langintro.com/">foreign language learning</a>.</div>
+					</div>
+									</footer>
+									<aside class="widget-area pre-footer-widget-area pre-footer-single">
+						<section id="custom_html-4" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><div class="pre-footer-email-signup">
+	<strong>Get our latest articles in your inbox.</strong> <a href="https://alistapart.com/email-signup">Sign up for email alerts</a>.
+</div>
+</div></section>					</aside><!-- .pre-footer-widget-area -->
+					
+					<div class="comment-area-wrap two-column-layout">
+						
+<div id="comments" class="comments-area column-content">
+
+			<h2 class="comments-title">
+			69 Reader Comments		</h2><!-- .comments-title -->
+
+		
+	<nav class="navigation comment-navigation" aria-label="Comments">
+		<h2 class="screen-reader-text">Comments navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://alistapart.com/article/usingxml/comment-page-1/#comments" >Older comments</a></div></div>
+	</nav>
+		<ol class="comment-list">
+					<li id="comment-799" class="comment even thread-even depth-1">
+			<article id="div-comment-799" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/822d392da8e236fd9d217f46506b90845c78cdb95a573552df3f03cb73651fd1?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/822d392da8e236fd9d217f46506b90845c78cdb95a573552df3f03cb73651fd1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' decoding='async'/>						<b class="fn"><a href="http://twysted.net" class="url" rel="ugc external nofollow">Twyst</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-799"><time datetime="2002-07-31T09:08:00-04:00">July 31, 2002 at 9:08 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Quote:<br />
+Why not compromise? Have you read up on the PHP functions relating to XML files? If not, take a look at <a href="http://www.php.net/manual/en/ref.xml.php" rel="nofollow ugc">http://www.php.net/manual/en/ref.xml.php</a>. I&#8217;ve begun experimenting, just out of interest, with a CMS using XML for data storage and PHP for parsing and displaying the data. It&#8217;s quite nifty.<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
+<p>hmm. See, it&#8217;s not the implementation I&#8217;m having problems with, it&#8217;s the whole concept. I don&#8217;t need to use the XML functions &#8211; I already use the MySQL functions. I can&#8217;t see any kind of real-world usage for this. If I need XML, I generate it from the DB. If I need to customize the display for a particular browser, I do so with PHP. </p>
+<p>I really can&#8217;t see a reason to change what I already know quite well, that works very well for every instance that I can come up with, in order to use XML. </p>
+<p>And if you say &#8220;You don&#8217;t always have access to PHP and a DB&#8221;.. Well, if you don&#8217;t have DB access on your webhost&#8230; what are the chances of getting them to add the PHP extensions? It&#8217;s not installed by default for PHP.. </p>
+<p>(shrug)</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-800" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-800" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/e3a69e316cc9893a50a677ddf39f6a723d20212eb19a049d577ad17904ad843d?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/e3a69e316cc9893a50a677ddf39f6a723d20212eb19a049d577ad17904ad843d?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://rtnl.org.uk" class="url" rel="ugc external nofollow">colin_zr</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-800"><time datetime="2002-08-04T17:19:00-04:00">August 4, 2002 at 5:19 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>The decision to use XML or a relational DB should ideally be based on the nature of the data. Some data fits better into a relational DB, some fits better into XML, some can be represented using either pretty much equally.</p>
+<p>Data that can be represented using just a single table can generally be represented using either technology with no compelling wins either way. (More speed with a DB, more portability with XML, but nothing much beyond that.)</p>
+<p>Data that would be represented in a relational DB using two or more tables that get joined together is probably best kept in a DB. The DB will handle all the join operations, referential integrity, etc., more easily than will be possible using XML. (You could do it with XML, but you&#8217;d probably end up writing a lot of code yourself.)</p>
+<p>Data that consists largely of text with markup is best represented using XML or some other form of markup language. If you&#8217;ve got a document that could have an arbitrary number of sections, or styles appearing at arbitrary points in the text, you really need to use a markup language of some sort. There isn&#8217;t any way to represent that information using rows and columns. That goes double for recursive data structures such as subsections.</p>
+<p>Relational DBs and markup languages represent two different philosophies about the structure of data. Neither of them is suitable for all data.</p>
+<p>Apart from that, I personally like text files that I can hack by hand. I get worried when I have important data that requires a particular program to access.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-801" class="comment even thread-even depth-1">
+			<article id="div-comment-801" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/7276e9f11abbe7ff2fdeb6db0602a4c24e4f54f8496e143eb50b44f9a865b97a?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/7276e9f11abbe7ff2fdeb6db0602a4c24e4f54f8496e143eb50b44f9a865b97a?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://dunck.us" class="url" rel="ugc external nofollow">Jeremy Dunck</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-801"><time datetime="2002-08-07T17:13:00-04:00">August 7, 2002 at 5:13 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>As a follow-up to my previous post [Post], I&#8217;d like to point out that XHTML 2 is incompatible with XHTML 1.0 [XHTML2], and is certainly incompatible with HTML. Further, CSS 2.1 is not backwards compatible with even CSS 2.0 [CSS2.1].</p>
+<p>Further, here&#8217;s evidence that even people that arguably &#8220;Get it&#8221; don&#8217;t understand MIME types. [DiveInto XHTML2] &#8220;My fresh IE 5.5 install asks to download the page&#8230;&#8221;. The Save As dialog in IE is popped up for any unknown MIME Type (after IE&#8217;s sniffing algorithm fails). [IEMIME]</p>
+<p>(As a side note, it appears the URL Mark references returns text/html now. I am pretty positive that he was getting the dialog because at the time he tested, it was (properly) returning application/xhtml+xml, and it has since been changed to return text/html.)</p>
+<p>It is not my intention to harm anyone in these statements. I am simply trying to call attention to the need for content negotiation, and to the fact that &#8220;forward compatibility&#8221; can&#8217;t be strictly counted on.</p>
+<p>A mechanism for negotiating representations based on client capabilities is -necessary-. In fact, Mark&#8217;s closing (sarcastic) note &#8221; Looks great in Opera and Mozilla, though. That does it. I&#8217;m converting all my pages to XHTML 2.0. Accessibility be damned. Backward compatibility be damned. IE 5 be damned.&#8221; points to this fact, though he may not realize it.</p>
+<p>Please&#8230; think about it.</p>
+<p> -Jeremy</p>
+<p>[Post]<br />
+<a href="http://www.alistapart.com/stories/usingxml/discuss/2/#ala-731" rel="nofollow ugc">http://www.alistapart.com/stories/usingxml/discuss/2/#ala-731</a></p>
+<p>[XHTML2]<br />
+<a href="http://www.w3.org/TR/xhtml2/" rel="nofollow ugc">http://www.w3.org/TR/xhtml2/</a><br />
+(Sorry, I can&#8217;t point out specific examples of non-conformance here.. They&#8217;ve not included a change summary, and I can&#8217;t do the research needed to gather evidence just now)</p>
+<p>[CSS2.1]<br />
+<a href="http://www.w3.org/TR/2002/WD-CSS21-20020802/about.html#q1" rel="nofollow ugc">http://www.w3.org/TR/2002/WD-CSS21-20020802/about.html#q1</a></p>
+<p>[DiveInto XHTML2]<br />
+<a href="http://diveintomark.org/archives/2002/08/06.html#changes_in_xhtml_20" rel="nofollow ugc">http://diveintomark.org/archives/2002/08/06.html#changes_in_xhtml_20</a></p>
+<p>[IEMIME]<br />
+<a href="http://msdn.microsoft.com/library/default.asp?url=/workshop/networking/moniker/overview/appendix_a.asp" rel="nofollow ugc">http://msdn.microsoft.com/library/default.asp?url=/workshop/networking/moniker/overview/appendix_a.asp</a></p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-802" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-802" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">Anonymous</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-802"><time datetime="2002-08-14T01:28:00-04:00">August 14, 2002 at 1:28 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi<br />
+I get a Microsoft Jscript runtime error saying Null is not a null object, while I try to run Nutrition.svg. Help!</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-803" class="comment even thread-even depth-1">
+			<article id="div-comment-803" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://www.betobeto.net/" class="url" rel="ugc external nofollow">Beto</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-803"><time datetime="2002-08-20T16:39:00-04:00">August 20, 2002 at 4:39 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This XML article was reccomended to me as I am in a hurry to make its R&#038;D for our web division. I was given a 500-page book on the subject, very good nonetheless, but J.David&#8217;s article does what that book does in much less time and without any unnecesary jargon speak or hype. Now I can say I really get what XML is about! I just hope I can understand XML&#8217;s role in Flash as well, in the future.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-804" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-804" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/779b2d496b85378c1aafc75c1dfa542f029f669f569bfe4775380cc6d532cb84?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/779b2d496b85378c1aafc75c1dfa542f029f669f569bfe4775380cc6d532cb84?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://catcode.com/" class="url" rel="ugc external nofollow">J. David Eisenberg</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-804"><time datetime="2002-08-22T16:42:00-04:00">August 22, 2002 at 4:42 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I&#8217;ve fixed the XSLT transformation to SVG and the SVG file.<br />
+Until I can get everything uploaded, the new version is at</p>
+<p> <a href="http://catcode.com/nutrition.zip" rel="nofollow ugc">http://catcode.com/nutrition.zip</a></p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-805" class="comment even thread-even depth-1">
+			<article id="div-comment-805" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">ja</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-805"><time datetime="2002-08-28T17:21:00-04:00">August 28, 2002 at 5:21 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I went through the process of creating all of the parsed files. I can be a goon on the computer, but i found it to be a breeze. Very cool application of the technologies. Well written article too!</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-806" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-806" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">ja</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-806"><time datetime="2002-09-10T11:33:00-04:00">September 10, 2002 at 11:33 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Do you know of an engine that would take an xslt style sheet and parse the data into a word doc too?</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-807" class="comment even thread-even depth-1">
+			<article id="div-comment-807" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">Anonymous</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-807"><time datetime="2002-10-01T18:28:00-04:00">October 1, 2002 at 6:28 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This was good overview. An example with DTD and XML Schema could also throw some light to those grammars.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-808" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-808" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://www.freshwebservices.com" class="url" rel="ugc external nofollow">Eddie</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-808"><time datetime="2003-02-24T13:25:00-05:00">February 24, 2003 at 1:25 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi,<br />
+Good article &#8211; much food for thought (pardon, no pun intended).<br />
+However, the msvalidate reported a JRE clash problem. I&#8217;ve got version 1.4.1_01 of the J2sdk &#038; JRE on my machine. Running the msvalidate.bat reported that I needed the JRE1.3.<br />
+I resolved the issue by going into regedit &#038; changing the JRE current version from 1.4 to 1.3. Obviously not ideal but it works.<br />
+Thanks for your hard work,<br />
+Eddie</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-809" class="comment even thread-even depth-1">
+			<article id="div-comment-809" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">Grebmil</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-809"><time datetime="2003-02-24T14:15:00-05:00">February 24, 2003 at 2:15 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>So that&#8217;s how you use XML. I keep hearing how great it is but, up until this point, had no idea why creating your own markup was a good thing. Great article. Thanks.</p>
+<p>Even so, I question the usefulness of it. If you ask me XML seems to be a fancy way of managing data in text files. For someone who uses only text files that may be a good thing. But as Twyst says &#8220;I don&#8217;t need to use the XML functions &#8211; I already use the MySQL functions. I can&#8217;t see any kind of real-world usage for this. If I need XML, I generate it from the DB. If I need to customize the display for a particular browser, I do so with PHP.&#8221;</p>
+<p>I read colin_zr&#8217;s response with interest. He said: &#8220;There isn&#8217;t any way to represent that information using rows and columns. &#8221; Ok, can someone provide an example of this. Any examples I&#8217;ve seen could all easily be represented in a DB. In fact, I seem to remember reading a tutorial somewhere that described how to use XML to display data in a HTML table (using php, I think). Kind of pointless, if you ask me.</p>
+<p>Now, I&#8217;m not saying all XML is pointless. This article showed the value of XML for those who may not have access to a DB for whatever reason; or those you do not want to go beyond markup (in other words: those who shy away from scripting lanuages such as php, asp, &#8230;). I just don&#8217;t see it&#8217;s value for those who do, such as myself. Maybe, someday, somewhere, someone will provide an example that simply can not be implemented into a relational DB. Until then, I will set XML aside.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-810" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-810" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/833021c7177d550e7fe97822eb8e038a82be6eec9942fbc55e2bdcbfea15f4d7?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/833021c7177d550e7fe97822eb8e038a82be6eec9942fbc55e2bdcbfea15f4d7?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">Jonathan Porter</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-810"><time datetime="2003-02-27T13:56:00-05:00">February 27, 2003 at 1:56 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I would like to give a nod to Jeremy Dunck for coming to the same conclusion I did about this ariticle. It is a perfect primer for an explanation on the use of content negotiation. Based on a user agent&#8217;s (i.e. brower) capabilties you can serve the document as any one of the types listed.</p>
+<p>These capabilties include SUPPORTED MIME TYPES and supported languages. Therefore if a browers says it supports &#8216;en-us&#8217; (United Sates English) and your site has THE SAME content in two languages, say en (English), fr (French), you can serve the apportiate one to the user (in this case the english one). No need for a new URI or to ask the user which version they prefer.</p>
+<p>In terms of the article you can also serve documents by MIME type based not only on if a type is supported but also by the qualty of that support.</p>
+<p>In a real world example IE supports text/html (HTML) and text/plain (Text) and Mozilla supports text/html, application/xhtml+xml (XHTML) and text/plain (Text) . Mozilla supports XHTML with a quality of 1 (Best) and HTML with a quality of 0.9. Therefore in IE your only options are to transform the xml document into HTML or text based on stated support, but in Mozilla you have more options. You could send the document either as XHTML, HTML or text. Since XHTML has a higher quailty for XHTML you would probably want to transform the document to XHTML and send it as such. Since (X)HTML is usally preffered over raw text we won&#8217;t send the text version to either user agent.</p>
+<p>To further extend this exmaple if user agent supports image/svg+xml (SVG) you can send it the SVG document instead or application/x-pdf (PDF) for the PDF document.</p>
+<p>I sure much of this post is somewhat short sided but the bottom line is one URI can serve multple versions of a RESOURCE based on what&#8217;s avalible and what the user agent&#8217;s capbilties are. For the most part this goes unused, but this is how HTTP is DESGINED to be used. And to be honest this can all be done today and is support unfortunly most servers make this diffucult as they ARE NOT desgined to work this way, but like most things their are ways around it.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-811" class="comment even thread-even depth-1">
+			<article id="div-comment-811" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/17e4eeb93e924848c68e1d87b09523ca8f4b855552e7264fd00a96707e6cf4d8?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/17e4eeb93e924848c68e1d87b09523ca8f4b855552e7264fd00a96707e6cf4d8?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">Panos</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-811"><time datetime="2003-03-18T09:05:00-05:00">March 18, 2003 at 9:05 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>🙂</p>
+<p>Thank you</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-812" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-812" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/e864086411cc9d1784739833b3ef5cbfcdfb15ab749c02f62746319e7da2daee?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/e864086411cc9d1784739833b3ef5cbfcdfb15ab749c02f62746319e7da2daee?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn">Richter Yik</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-812"><time datetime="2003-04-07T12:19:00-04:00">April 7, 2003 at 12:19 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Is a DTD file always needed?</p>
+<p>From the xml file I saw something like:</p>
+<p><!--
+<food>
+ <name></name>
+ <mfr></mfr>
+ <serving units="g"></serving>
+ <calories total="" fat=""></calories>
+ <total-fat></total-fat>
+ <saturated-fat></saturated-fat>
+ <cholesterol></cholesterol>
+ <sodium></sodium>
+ <carb></carb>
+ <fiber></fiber>
+ <protein></protein>
+ <vitamins>
+ <a></a>
+ <c></c>
+ </vitamins>
+ <minerals>
+ <ca></ca>
+ <fe></fe>
+ </minerals>
+</food>
+--></p>
+<p>which seems like to be a template.</p>
+<p>Can we automate the &#8220;record&#8221; generation process by having a definition file?</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-813" class="comment even thread-even depth-1">
+			<article id="div-comment-813" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/cfd34f4f4e5d92231ad76da785f3bee8fe7b000befe5bb545890c7401ca0efbd?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/cfd34f4f4e5d92231ad76da785f3bee8fe7b000befe5bb545890c7401ca0efbd?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://www.azizur-rahman.co.uk" class="url" rel="ugc external nofollow">Azizur Rahman</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-813"><time datetime="2003-05-27T03:00:00-04:00">May 27, 2003 at 3:00 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>&#8221;<br />
+fop -xml nutrition.xml -xsl nutrition_fo.xslt -pdf nutrition.pdf</p>
+<p>The result is a PDF file; it produces pages that are approximately 8 centimeters wide and 9 centimeters high, which fits comfortably into a shirt pocket.<br />
+&#8221; &#8212; from the article</p>
+<p>Now how can I use this with say ASP or ASP.Net or Java to generate pdf file on the fly&#8230; say for example a customer order some item from a e-commerce site&#8230; I want to be able to generate a pdf version of pre-designed templated invoice with their details filled in dynamiclly.</p>
+<p>Is this possible is so how?</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-814" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-814" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/9e50f7346476e99b0aa97f8956d5f8add16adf5f4cc0b58dc5f99d8327fd3276?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/9e50f7346476e99b0aa97f8956d5f8add16adf5f4cc0b58dc5f99d8327fd3276?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://www.freetheslaves.net" class="url" rel="ugc external nofollow">Jacob</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-814"><time datetime="2003-07-01T14:00:00-04:00">July 1, 2003 at 2:00 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I&#8217;ve only just stumbled across this article, and it has been great help. The software the author linked to is very useful on PC and *nix, but I&#8217;m using a Mac. Does anyone know of any comparable software for me? (I suspect the Linux stuff can be made to work in OS X, but I don&#8217;t know how). Please email me if you have any ideas.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-815" class="comment even thread-even depth-1">
+			<article id="div-comment-815" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://rtnl.org.uk" class="url" rel="ugc external nofollow">colin_zr</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-815"><time datetime="2003-07-06T08:16:00-04:00">July 6, 2003 at 8:16 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Grebmil: A response a few months late&#8230;</p>
+<p>Ok, fair enough. Most of the examples you see in these introductory articles involve record-oriented data. But that&#8217;s not the only kind of data.</p>
+<p>Here&#8217;s an example of some data that really needs to be stored in markup rather than in a relational model:</p>
+<paragraph>
+Hello, my name is <name>colin</name>. I like <abbreviation>XML</abbreviation>.
+</paragraph>
+<p>You can&#8217;t take data like that, make a field for names and a field for abbreviations, and force it into third normal form. That&#8217;s just not the structure of the data.</p>
+<p>To give you another illustration, think about how you&#8217;d take an HTML file and represent it in a database. Would you have a table of div elements, a table of h1 elements, a table of p elements? What would the records in those tables look like? How would you indicate all the p elements that belonged within a specific div? And those are the easy bits. Just wait till we get to inline elements&#8230;</p>
+<p>Obviously that&#8217;s silly.</p>
+<p>What you might well do is take the contents of the HTML file, or perhaps a fragment of it, and put it into a field of a database. But then you&#8217;ve still got all the HTML markup within that field. Markup just happens to be the best way to represent that data.</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-816" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-816" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://imarvintpa.selfhost.com" class="url" rel="ugc external nofollow">IMarvinTPA</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-816"><time datetime="2003-07-10T22:14:00-04:00">July 10, 2003 at 10:14 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<paragraph>
+Hello, my name is <name>colin</name>. I like <abbreviation>XML</abbreviation>.
+</paragraph>
+<p>Is that the data itself, or is it really a list of people that like abbreviations?</p>
+<p>I personally do not see xml as a way to deal with millions of records over hundreds of tables. I will more than happily export a subset of data to someone else in xml in any way they want it. However, that does not make my application any more a user of xml than if the two of us had agreed to use pig-latin or parenthesis delimited text files with a header row in rot13.</p>
+<p>I do think xml has its place, it just doesn&#8217;t overlap with my domain except as another export format. I haven&#8217;t really had to deal with importing xml because everybody else uses databases which means they&#8217;re just as happy to give me a few csv files or a direct tap into their database.</p>
+<p>For database dumps, a CSV file with a header row is far more space/bandwidth contientious than XML.</p>
+<p>To people like me, who use SQL, XML seems very clunky and broken.<br />
+To people who like XML, I think SQL and RDBs look big and overpowered for their needs.</p>
+<p>IMarv</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-817" class="comment even thread-even depth-1">
+			<article id="div-comment-817" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='https://secure.gravatar.com/avatar/?s=120&#038;d=identicon&#038;r=pg' srcset='https://secure.gravatar.com/avatar/?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo avatar-default' height='120' width='120' loading='lazy' decoding='async'/>						<b class="fn"><a href="http://www.byteshift.de/" class="url" rel="ugc external nofollow">byteshift webdesign</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://alistapart.com/article/usingxml/comment-page-2/#comment-817"><time datetime="2003-09-20T12:16:00-04:00">September 20, 2003 at 12:16 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Twyst(e) is right, I&#8217;d say,</p>
+<p>I certainly don&#8217;t want to rely on client side functions<br />
+(ever heard of browser quirks? do you really think there&#8217;ll be no more in times to come?)<br />
+when I can access reliable server side functions (PHP, MySQL).</p>
+<p>>You don&#8217;t always have access to PHP and a DB&#8230;<br />
+I guess angelfire/lycos account holders sharing there pastry recipes with the world<br />
+are not the target audience here.<br />
+(no offense: private homepages/pastries are OK)</p>
+<p>Marek</p>
+				</div><!-- .comment-content -->
+
+							</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	<nav class="navigation comment-navigation" aria-label="Comments">
+		<h2 class="screen-reader-text">Comments navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://alistapart.com/article/usingxml/comment-page-1/#comments" >Older comments</a></div></div>
+	</nav>		<div class="comments-off">
+			<h3 class="comments-off-title"> Got something to say?</h3>
+			<p class="no-comments">We have turned off comments, but you can see what folks had to say before we did so.</p>
+		</div>
+		
+</div><!-- #comments -->
+	<div class="column-sidebar ala-posts">
+		<h2 class="section-title">More from ALA</h2>
+				<article id="post-7175547" class="home-post-content post-7175547 article type-article status-publish hentry category-accessibility category-community category-user-experience category-user-research category-workflow-tools tag-a11y tag-accessibility tag-creative tag-empathy tag-heuristics tag-personas tag-process tag-product-design tag-software-design tag-usability tag-web-design tag-websites">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/good-designers-bad-websites-a-proposal/" rel="bookmark">Good designers, bad websites: a proposal</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/alan-dalton/" itemprop="url"> <span itemprop="name">Alan Dalton</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Designers are good people. Some designs exclude people anyway. Alan Dalton offers a practical fix: accessibility personas that help you recognize problems while you're designing, not after. Homework included.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/accessibility/" rel="category tag">Accessibility</a></span><span class="posted-on"><time class="entry-date published" datetime="2026-04-23T08:57:21-04:00">April 23, 2026</time><time class="updated" datetime="2026-04-23T08:57:22-04:00">April 23, 2026</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175385" class="home-post-content post-7175385 post type-post status-publish format-standard hentry category-business category-career category-creativity category-design category-industry category-interaction-design category-process category-project-management category-state-of-the-web category-usability category-user-experience category-user-research category-web-strategy">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/blog/post/successful-or-unsuccessful-the-post-good-design-vocabulary/" rel="bookmark">“Successful” or “Unsuccessful”: the Post-“Good Design” Vocabulary</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/justindauer/" itemprop="url"> <span itemprop="name">Justin Dauer</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+									</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/business/" rel="category tag">Business</a></span><span class="posted-on"><time class="entry-date published" datetime="2026-01-28T08:52:11-05:00">January 28, 2026</time><time class="updated" datetime="2026-01-28T08:52:12-05:00">January 28, 2026</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175220" class="home-post-content post-7175220 article type-article status-publish hentry category-community category-industry category-state-of-the-web category-web-strategy">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/design-for-amiability-lessons-from-vienna/" rel="bookmark">Design for Amiability: Lessons from Vienna</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/markbernstein/" itemprop="url"> <span itemprop="name">Mark Bernstein</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Computing was born in a Viennese café. Between 1928 and 1934, while Hitler plotted and Europe crumbled, a motley crew of mathematicians, philosophers, architects, and economists gathered weekly to puzzle out the limits of reason—and invented Computer Science in the process. What made their collaboration possible wasn't just brilliance (though they had plenty). It was amiability: the careful design of a social space where difficult people could disagree without destroying each other. Longtime A List Apart contributing author Mark Bernstein mines this forgotten history for lessons that might just save today's embattled web from its worst impulses. Spoiler: it involves better coffee service and the looming threat of public humiliation.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/community/" rel="category tag">Community</a></span><span class="posted-on"><time class="entry-date published" datetime="2025-10-15T11:35:00-04:00">October 15, 2025</time><time class="updated" datetime="2025-10-15T12:42:51-04:00">October 15, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175161" class="home-post-content post-7175161 article type-article status-publish hentry category-design category-design-systems-design category-web-strategy category-workflow-tools tag-creativity tag-design tag-process tag-working">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/design-dialects-breaking-the-rules-not-the-system/" rel="bookmark">Design Dialects: Breaking the Rules, Not the System</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/michel-ferreira/" itemprop="url"> <span itemprop="name">Michel Ferreira</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Design systems aren't component libraries—they’re living languages. Rigid adherence to visual rules creates brittle systems that break under contextual pressure. Fluent systems bend without breaking.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/design/" rel="category tag">Design</a></span><span class="posted-on"><time class="entry-date published" datetime="2025-09-26T12:48:12-04:00">September 26, 2025</time><time class="updated" datetime="2025-10-16T08:51:39-04:00">October 16, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+						<article id="post-7175031" class="home-post-content post-7175031 article type-article status-publish has-post-thumbnail hentry category-business category-career category-design category-industry category-project-management">
+
+				<header class="entry-header">
+					<h4 class="home-post-title"><a href="https://alistapart.com/article/an-holistic-framework-for-shared-design-leadership/" rel="bookmark">An Holistic Framework for Shared Design Leadership</a></h4>					<div class="entry-meta">
+						<span class="byline"> by <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person"><a class="url fn n" href="https://alistapart.com/author/michelferreira/" itemprop="url"> <span itemprop="name">Michel Ferreira</span></a></span></span>					</div><!-- .entry-meta -->
+				</header><!-- .entry-header -->
+
+				<div class="entry-content">
+					Having both a Design Manager and a Lead Designer on the same team is beautiful, but can be messy. To make it work without creating confusion, overlap, or “too many cooks,” check Michel Ferreira’s Holistic Framework for Shared Design Leadership.				</div><!-- .entry-content -->
+				<footer class="footer-meta entry-meta">
+					<span class="cat-links"><a href="https://alistapart.com/blog/topic/business/" rel="category tag">Business</a></span><span class="posted-on"><time class="entry-date published" datetime="2025-07-23T10:10:22-04:00">July 23, 2025</time><time class="updated" datetime="2025-10-15T12:56:05-04:00">October 15, 2025</time></span>				</footer><!-- .entry-meta -->
+
+
+			</article><!-- #post-## -->
+
+			
+	
+</div><!-- .home-post-wrap clear -->
+
+					</div>
+					
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+</div><!-- #content -->
+
+	<div class="widget-area header-widget">
+		<section id="block-3" class="widget widget_block"><div class="banner">
+	<a href="https://sps.northwestern.edu/ala">
+	<img decoding="async" class="banner-logo" src="https://alistapart.com/wp-content/uploads/2026/03/IDS_700x200_Logo-300x86.jpg" alt="Northwestern Information Design and Strategy, School Of Professional Studies" />
+<p><br />Ready to advance in content strategy, UX/UI, data communication, or learning design? Explore Northwestern’s online MS in Information Design & Strategy.</p>
+	</a>
+</div></section>	</div><!-- .header-widget -->
+	
+<footer id="colophon" class="site-footer" itemscope itemtype="https://schema.org/WebPage">
+	<nav class="footer-navigation footer navigation-top"  itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<div class="menu-footer-pages-container"><ul id="footer-top-left-menu" class="footer-top-left-menu"><li id="menu-item-6000544" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000544"><a href="https://alistapart.com/about/" itemprop="url">About</a></li>
+<li id="menu-item-6000545" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000545"><a href="https://alistapart.com/authors/" itemprop="url">Authors</a></li>
+<li id="menu-item-6000546" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000546"><a href="https://alistapart.com/about/masthead/" itemprop="url">Masthead</a></li>
+<li id="menu-item-6000547" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000547"><a href="https://alistapart.com/about/style-guide/" itemprop="url">Style Guide</a></li>
+<li id="menu-item-6000548" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000548"><a href="https://alistapart.com/contact/" itemprop="url">Contact</a></li>
+<li id="menu-item-6000549" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000549"><a href="https://alistapart.com/about/sponsor/" itemprop="url">Sponsorships</a></li>
+</ul></div><div class="menu-footer-social-container"><ul id="footer-top-right-menu" class="footer-top-right-menu"><li id="menu-item-6000550" class="footer-menu-title menu-item menu-item-type-custom menu-item-object-custom menu-item-6000550"><a itemprop="url">Follow us:</a></li>
+<li id="menu-item-7171602" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7171602"><a href="https://alistapart.com/about/rss-feed/" itemprop="url">RSS</a></li>
+<li id="menu-item-7174935" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7174935"><a href="https://alistapart.com/email-signup/" itemprop="url">Email</a></li>
+<li id="menu-item-6000553" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6000553"><a href="https://www.facebook.com/alistapart" itemprop="url">Facebook</a></li>
+<li id="menu-item-6000554" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6000554"><a href="https://www.twitter.com/alistapart" itemprop="url">Twitter</a></li>
+</ul></div>	</nav>
+			<div class="widget-area footer-widget-area-wrap">
+			<div class="widget-area footer-widget-area">
+				<section id="custom_html-7" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><div class="footer-promo">
+	<a href="https://abookapart.com">
+							<img data-recalc-dims="1" src="https://i0.wp.com/alistapart.com/wp-content/uploads/2019/04/promo_aba_2.jpg?w=960&#038;quality=89&#038;ssl=1" alt="A Book Apart. Brief books for people who design, write, and code.">
+		<div class="footer-promo-copy">
+				<p class="promo-title">A Book Apart</p>
+				<p>Brief books for people who design, write, and code.</p>
+				<p>Bundle books and save!</p>
+				<p class="arrow">Shop now</p>
+						</div>
+			</a>
+</div>
+
+</div></section>			</div>
+		</div>
+
+		
+	<div class="site-info-wrap">
+		<div class="site-info">
+			<p>
+				ISSN 1534-0295 &middot; Copyright &copy; <span itemprop="copyrightYear"> 1998–2026</span> <span itemprop="copyrightHolder"> A List Apart &amp; Our Authors</span>			</p>
+
+			<p>
+				<a href="https://wordpress.com/website-builder/?partner_domain=alistapart.com&#038;utm_source=Automattic&#038;utm_medium=colophon&#038;utm_campaign=Concierge%20Referral&#038;utm_term=alistapart.com" class="imprint" target="_blank" rel="nofollow">Designed with WordPress.</a> <a href="https://pressable.com/?utm_source=Automattic&#038;utm_medium=rpc&#038;utm_campaign=Concierge%20Referral&#038;utm_term=alistapart.com" class="imprint" target="_blank" rel="nofollow">Hosted by Pressable.</a>			</p>
+		</div><!-- .site-info -->
+	</div><!-- .site-info-wrap -->
+
+	<nav class="footer-navigation footer navigation-bottom">
+		<ul id="footer-bottom-left-menu" class="footer-bottom-left-menu"><li id="menu-item-6000555" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6000555"><a href="https://alistapart.com/about/copyright/" itemprop="url">Permissions &#038; Copyright</a></li>
+<li id="menu-item-6000556" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-6000556"><a rel="privacy-policy" href="https://alistapart.com/about/privacy-policy/" itemprop="url">Privacy Policy</a></li>
+<li id="menu-item-6000558" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6000558"><a href="https://webtype.com/" itemprop="url">Fonts by Webtype</a></li>
+</ul><ul id="footer-bottom-right-menu" class="footer-bottom-right-menu"><li id="menu-item-6000559" class="aea menu-item menu-item-type-custom menu-item-object-custom menu-item-6000559"><a href="http://aneventapart.com/" itemprop="url"><span class="screen-reader-text">An Event Apart</span></a></li>
+<li id="menu-item-6000560" class="aba menu-item menu-item-type-custom menu-item-object-custom menu-item-6000560"><a href="http://abookapart.com/" itemprop="url"><span class="screen-reader-text">A Book Apart</span></a></li>
+</ul>	</nav>
+</footer><!-- #colophon -->
+</div><!-- #page -->
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/ala/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+				<meta
+					id="bilmur"
+					property="bilmur:data"
+					content=""
+					data-provider="wp.cloud"
+					data-service="pressable.com"
+					data-custom-props="{&quot;wpcomsp&quot;:&quot;1&quot;,&quot;woo_active&quot;:&quot;0&quot;}"
+					data-site-tz="America/New_York"
+				>
+					<div style="display:none">
+			<div class="grofile-hash-map-f0fc21a0548d547b7ec638eae8dcc045">
+		</div>
+		<div class="grofile-hash-map-bfddc8bcafc4dd4f76138ef7274733db">
+		</div>
+		<div class="grofile-hash-map-6027677e7b8fe55f8c672678c339cb19">
+		</div>
+		<div class="grofile-hash-map-ad3bec4560b1c5d0ffddddc497c8b1e0">
+		</div>
+		<div class="grofile-hash-map-61278782964ed4274e9895ef9ec41273">
+		</div>
+		<div class="grofile-hash-map-ded8dd13842a8455e70d78b4e84c8d10">
+		</div>
+		<div class="grofile-hash-map-5e29f11ff0b6ad0417f9fff67bee7582">
+		</div>
+		<div class="grofile-hash-map-1206def8823954ea66b9926e21a149b2">
+		</div>
+		<div class="grofile-hash-map-7ccaaa3501f902ff1896ae73cd55261d">
+		</div>
+		<div class="grofile-hash-map-e1074211b266bb048af80f4b29d8f974">
+		</div>
+		</div>
+		<script type="text/javascript" src="https://s0.wp.com/wp-content/js/bilmur.min.js?m=202621&amp;ver=1" id="bilmur-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/navigation.js?ver=20151215" id="ala-navigation-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/prism/prism.js?ver=1.0" id="ala-prism-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/skip-link-focus-fix.js?ver=20151215" id="ala-skip-link-focus-fix-js"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/themes/ala/js/sidebar-related.js?ver=1" id="sidebar-related-js"></script>
+<script type="text/javascript" src="https://secure.gravatar.com/js/gprofiles.js?ver=202621" id="grofiles-cards-js"></script>
+<script type="text/javascript" id="wpgroho-js-extra">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+//# sourceURL=wpgroho-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/plugins/jetpack/modules/wpgroho.js?ver=15.9-a.3" id="wpgroho-js"></script>
+<script type="text/javascript" id="jetpack-stats-js-before">
+/* <![CDATA[ */
+_stq = window._stq || [];
+_stq.push([ "view", {"v":"ext","blog":"158094726","post":"14736","tz":"-4","srv":"alistapart.com","hp":"atomic","ac":"3","amp":"0","j":"1:15.9-a.3"} ]);
+_stq.push([ "clickTrackerInit", "158094726", "14736" ]);
+//# sourceURL=jetpack-stats-js-before
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://stats.wp.com/e-202621.js" id="jetpack-stats-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/plugins/jetpack/_inc/build/likes/queuehandler.min.js?ver=15.9-a.3" id="jetpack_likes_queuehandler-js"></script>
+<script type="text/javascript" id="sharing-js-js-extra">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+//# sourceURL=sharing-js-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://alistapart.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=15.9-a.3" id="sharing-js-js"></script>
+<script type="text/javascript" id="sharing-js-js-after">
+/* <![CDATA[ */
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-bluesky' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-bluesky' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcombluesky', 'menubar=1,resizable=1,width=600,height=400' );
+						return false;
+					}
+				} );
+			} )();
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-mastodon' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-mastodon' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcommastodon', 'menubar=1,resizable=1,width=460,height=400' );
+						return false;
+					}
+				} );
+			} )();
+var windowOpen;
+			( function () {
+				function matches( el, sel ) {
+					return !! (
+						el.matches && el.matches( sel ) ||
+						el.msMatchesSelector && el.msMatchesSelector( sel )
+					);
+				}
+
+				document.body.addEventListener( 'click', function ( event ) {
+					if ( ! event.target ) {
+						return;
+					}
+
+					var el;
+					if ( matches( event.target, 'a.share-threads' ) ) {
+						el = event.target;
+					} else if ( event.target.parentNode && matches( event.target.parentNode, 'a.share-threads' ) ) {
+						el = event.target.parentNode;
+					}
+
+					if ( el ) {
+						event.preventDefault();
+
+						// If there's another sharing window open, close it.
+						if ( typeof windowOpen !== 'undefined' ) {
+							windowOpen.close();
+						}
+						windowOpen = window.open( el.getAttribute( 'href' ), 'wpcomthreads', 'menubar=1,resizable=1,width=600,height=400' );
+						return false;
+					}
+				} );
+			} )();
+//# sourceURL=sharing-js-js-after
+/* ]]> */
+</script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://alistapart.com/wp-includes/js/wp-emoji-release.min.js?ver=6.9.4"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://alistapart.com/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+	<iframe src='https://widgets.wp.com/likes/master.html?ver=20260520#ver=20260520' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+	<div id='likes-other-gravatars' role="dialog" aria-hidden="true" tabindex="-1"><div class="likes-text"><span>%d</span></div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+			<script type="text/javascript">
+			(function() {
+			var t   = document.createElement( 'script' );
+			t.type  = 'text/javascript';
+			t.async = true;
+			t.id    = 'gauges-tracker';
+			t.setAttribute( 'data-site-id', '606492000b21314ec4b22148' );
+			t.src = '//secure.gaug.es/track.js';
+			var s = document.getElementsByTagName( 'script' )[0];
+			s.parentNode.insertBefore( t, s );
+			})();
+		</script>
+		</body>
+</html>

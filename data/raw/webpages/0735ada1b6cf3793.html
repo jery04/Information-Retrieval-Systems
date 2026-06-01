@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+      Web App Manifest - Application Information
+    </title>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class=
+    "remove"></script>
+    <script class='remove'>
+    var respecConfig = {
+      specStatus: "ED",
+      noRecTrack: true,
+      prevVersion: "https://www.w3.org/TR/2020/NOTE-manifest-app-info-20200730/",
+      previousMaturity: "WG-NOTE",
+      editors: [
+        {
+          name: "Aaron Gustafson",
+          company: "Microsoft Corporation",
+          companyURL: "https://microsoft.com/",
+          w3cid: 43672,
+        },
+      ],
+      group: "webapps",
+      github: {
+        repoURL: "w3c/manifest-app-info",
+        branch: "main", // alternative branch
+      },
+      xref: "web-platform",
+    };
+    </script>
+  </head>
+  <body data-cite="APPMANIFEST">
+    <section id='abstract'>
+      <p>
+        This document is a registry of supplementary members for the
+        [[[appmanifest]]] specification that provide additional metadata to an
+        <a>application manifest</a>. This metadata can be used in a digital
+        storefront or other surfaces where this web application may be marketed
+        or distributed, or to enhance an installation dialog when [=installed
+        web application|installing=] a web application.
+      </p>
+    </section>
+    <section id="sotd">
+      <p>
+        This is document is constantly evolving and we publish new snapshots
+        every time we commit a change. Interested parties can subscribe to
+        changes or even propose new manifest members in the <a href=
+        "https://github.com/w3c/manifest-app-info/">manifest-app-info GitHub
+        repository</a>.
+      </p>
+    </section>
+    <section>
+      <h2>
+        Marketable web applications
+      </h2>
+      <p>
+        As web applications become available via more services (e.g., digital
+        storefronts, search results) where they are presented alongside native
+        applications, it becomes quite important for them to appear similarly
+        to their native counterparts. A web application can define both its
+        [=manifest/name=] and [=manifest/icons=] in the manifest, but those
+        keys do not provide enough information to help users determine whether
+        they might want to install it. Users have become accustomed to being
+        offered more details about the applications they consider installing,
+        and this document defines additional manifest members that can provide
+        that.
+      </p>
+    </section>
+    <section>
+      <h2>
+        Supplementary manifest members
+      </h2>
+      <p>
+        The following members supplement the members of an [=application
+        manifest=]. These members are classified as supplementary because they
+        are not [=applied=] to a web application at runtime (i.e., they are
+        purely advisory and don't affect how a user agent presents an
+        <a>installed web application</a>). All members are all optional and can
+        be added at the root of an [=application manifest=], as shown in the
+        following example.
+      </p>
+      <pre class="example json" title="Using the supplementary members">
+      {
+        "name": "Donate App",
+        "categories": ["fundraising", "donations"],
+        "description": "This app helps you donate to worthy causes.",
+        "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+        "screenshots": [{
+          "src": "images/screenshot.png",
+          "sizes": "800x600",
+          "platform": "windows",
+          "label": "Lots of organizations to donate to"
+        }]
+      }
+      </pre>
+      <p>
+        As the [=application manifest=] is JSON, the members of this
+        specification are of the types <dfn data-cite="ECMA-404#">object</dfn>,
+        <dfn data-cite="ECMA-404#">array</dfn>, and <dfn data-cite=
+        "ECMA-404#">string</dfn> as defined in [[[ECMA-404]]].
+      </p>
+      <section>
+        <h3>
+          `categories` member
+        </h3>
+        <p>
+          The <code><dfn data-dfn-for="manifest" class="export">categories</dfn></code> member is an <a>array</a> of
+          <a>strings</a> that describes the application categories to which the
+          web application belongs. It is meant as a hint to catalogs or stores
+          listing web applications and it is expected that these will make a
+          best effort to find appropriate categories (or category) under which
+          to list the web application. Like search engines and meta keywords,
+          catalogs and stores are not required to honor this hint.
+        </p>
+        <p>
+          Manifest authors are encouraged to use lower-case.
+        </p>
+        <p>
+          List of known categories:
+        </p>
+        <ul style="columns: 2;" data-sort="">
+          <li>beauty
+          </li>
+          <li>books
+          </li>
+          <li>books & reference
+          </li>
+          <li>business
+          </li>
+          <li>cars
+          </li>
+          <li>dating
+          </li>
+          <li>design
+          </li>
+          <li>developer
+          </li>
+          <li>developer tools
+          </li>
+          <li>development
+          </li>
+          <li>education
+          </li>
+          <li>entertainment
+          </li>
+          <li>events
+          </li>
+          <li>fashion
+          </li>
+          <li>finance
+          </li>
+          <li>fitness
+          </li>
+          <li>food
+          </li>
+          <li>fundraising
+          </li>
+          <li>games
+          </li>
+          <li>government
+          </li>
+          <li>graphics
+          </li>
+          <li>graphics & design
+          </li>
+          <li>health
+          </li>
+          <li>health & fitness
+          </li>
+          <li>kids
+          </li>
+          <li>lifestyle
+          </li>
+          <li>magazines
+          </li>
+          <li>medical
+          </li>
+          <li>multimedia
+          </li>
+          <li>multimedia design
+          </li>
+          <li>music
+          </li>
+          <li>navigation
+          </li>
+          <li>network
+          </li>
+          <li>networking
+          </li>
+          <li>news
+          </li>
+          <li>personalization
+          </li>
+          <li>parenting
+          </li>
+          <li>pets
+          </li>
+          <li>photo
+          </li>
+          <li>photo & video
+          </li>
+          <li>politics
+          </li>
+          <li>productivity
+          </li>
+          <li>reference
+          </li>
+          <li>security
+          </li>
+          <li>shopping
+          </li>
+          <li>social
+          </li>
+          <li>social networking
+          </li>
+          <li>sports
+          </li>
+          <li>transportation
+          </li>
+          <li>travel
+          </li>
+          <li>utilities
+          </li>
+          <li>video
+          </li>
+          <li>weather
+          </li>
+        </ul>
+        <p class="note" title="Adding more categories">
+          If you'd like to add additional categories, please file a bug or send
+          a pull request to the <a href=
+          "https://github.com/w3c/manifest-app-info/">manifest-app-info GitHub
+          repository</a>.
+        </p>
+      </section>
+      <section>
+        <h3>
+          `description` member
+        </h3>
+        <p>
+          The <code><dfn data-dfn-for="manifest" class="export">description</dfn></code> member is a <a>string</a>
+          that allows the developer to describe the purpose of the web
+          application. It serves as the <a data-cite=
+          "accname-1.2#dfn-accessible-description">accessible description</a>
+          of an [=installed web application=].
+        </p>
+      </section>
+      <section>
+        <h3>
+          `iarc_rating_id` member
+        </h3>
+        <p>
+          The <code><dfn data-dfn-for="manifest" class="export">iarc_rating_id</dfn></code> member is a <a>string</a>
+          that represents the <a href=
+          "https://www.globalratings.com/">International Age Rating Coalition
+          (IARC)</a> certification code of the web application. It is intended
+          to be used to determine which ages the web application is appropriate
+          for.
+        </p>
+        <p class="note">
+          An IARC certificate can be obtained via participating storefronts,
+          intended to be used for distributing the web app. The
+          {{manifest/iarc_rating_id}} member only takes a single certification code.
+          The same code can be shared across participating storefronts, as long
+          as the distributed product remains the same (i.e., doesn’t serve
+          totally different code paths depending on user agent sniffing and the
+          like) and the other storefronts support it.
+        </p>
+        <p>
+          More information on the IARC can be found at: <a href=
+          "https://www.globalratings.com/how-iarc-works.aspx">How IARC
+          Works</a> and <a href=
+          "https://www.globalratings.com/for-developers.aspx">How developers
+          can get their games and apps rated with IARC</a>.
+        </p>
+      </section>
+      <section>
+        <h3>
+          `screenshots` member
+        </h3>
+        <p>
+          The <code><dfn data-dfn-for="manifest" class="export">screenshots</dfn></code> member is an array of
+          <a>screenshots objects</a>, representing the web application in
+          common usage scenarios.
+        </p>
+      </section>
+    </section>
+    <section data-cite="image-resource" data-dfn-for="manifest/screenshots">
+      <h2>
+        Screenshot object and its members
+      </h2>
+      <p>
+        A <dfn>screenshots object</dfn> is a {{ImageResource}} <a>object</a>
+        with some additional members as defined below.
+      </p>
+      <section>
+        <h3>
+          `label` member
+        </h3>
+        <p>
+          The <code><dfn class="export">label</dfn></code> member is a <a>string</a> that
+          serves as the <a data-cite=
+          "accname-1.2#dfn-accessible-name">accessible name</a> of that
+          <a>screenshots object</a>. For accessibility, authors are encouraged
+          to provide a <a>label</a> for each screenshot. This member can serve
+          as alternative text for the rendered screenshot.
+        </p>
+        <pre class="example json" title="Using the supplementary members">
+        {
+          "screenshots": [{
+            "src": "images/screenshot.png",
+            "sizes": "800x600",
+            "form_factor": "wide",
+            "label": "With Software, you can select a part of your screen and take a screenshot in seconds."
+          }]
+        }
+        </pre>
+      </section>
+      <section>
+        <h3>
+          `platform` member
+        </h3>
+        <p>
+          The <code><dfn class="export">platform</dfn></code> member is a <a>string</a> that
+          represents the distribution platform for which a given screenshot
+          applies. Authors are encouraged to only use this member when the
+          screenshot is only applicable in a specific context.
+        </p>
+        <p class="note" title="Platform usage guidance for authors">
+          Authors should only use `platform` for instances where a screenshot is
+          not representative of a universal experience. For instance, an
+          OS-specific `platform` designation should be reserved for instances
+          where the screenshot includes functionality only available on that
+          specific platform.
+        </p>
+        <p>
+          User agents might show as many (or as few) screenshots as they
+          choose, but shouldn't display screenshots that do not pertain to
+          their platform (e.g., Google Play should not show iOS-specific
+          screenshots).
+        </p>
+        <p>
+          When no `platform` is set, user agents should assume the screenshot
+          is applicable to all platforms.
+        </p>
+        <p>
+          User agents can use a screenshot’s aspect ratio
+          ({{ImageResource/sizes}}) in determining if the screenshot should be
+          displayed.
+        </p>
+        <p>
+          List of `platform` values that are specific to an operating system:
+        </p>
+        <dl>
+          <dt>
+            android
+          </dt>
+          <dd>
+            For <a href="https://www.android.com/">Google Android</a>.
+          </dd>
+          <dt>
+            chromeos
+          </dt>
+          <dd>
+            For <a href="https://www.google.com/chromebook/chrome-os/">Google
+            ChromeOS</a>.
+          </dd>
+          <dt>
+            ipados
+          </dt>
+          <dd>
+            For <a href="https://www.apple.com/ipados/">Apple iPadOS</a>.
+          </dd>
+          <dt>
+            ios
+          </dt>
+          <dd>
+            For <a href="https://www.apple.com/ios/">Apple iOS</a>.
+          </dd>
+          <dt>
+            kaios
+          </dt>
+          <dd>
+            For <a href="https://www.kaiostech.com/">KaiOS</a>.
+          </dd>
+          <dt>
+            macos
+          </dt>
+          <dd>
+            For <a href="https://www.apple.com/macos/">Apple macOS</a>.
+          </dd>
+          <dt>
+            windows
+          </dt>
+          <dd>
+            For <a href="https://www.microsoft.com/en-us/windows">Microsoft
+            Windows</a>.
+          </dd>
+          <dt>
+            xbox
+          </dt>
+          <dd>
+            For <a href="https://www.microsoft.com/en-us/windows">Microsoft
+            Xbox</a>.
+          </dd>
+        </dl>
+        <p>
+          List of `platform` values aligned with application distribution
+          platforms:
+        </p>
+        <dl>
+          <dt>
+            chrome_web_store
+          </dt>
+          <dd>
+            <a href="https://chrome.google.com/webstore">Google Chrome Web
+            Store</a>
+          </dd>
+          <dt>
+            play
+          </dt>
+          <dd>
+            <a href="https://play.google.com">Google Play Store</a>
+          </dd>
+          <dt>
+            itunes
+          </dt>
+          <dd>
+            iTunes App Store
+          </dd>
+          <dt>
+            microsoft-inbox
+          </dt>
+          <dd>
+            Pre-installed with Microsoft Windows
+          </dd>
+          <dt>
+            microsoft-store
+          </dt>
+          <dd>
+            <a href="https://www.microsoft.com/en-us/store/apps">Microsoft
+            Store</a>
+          </dd>
+        </dl>
+        <p class="note" title="Adding more categories">
+          If you'd like to add additional platform, please file a bug or send a
+          pull request to the <a href=
+          "https://github.com/w3c/manifest-app-info/">manifest-app-info GitHub
+          repository</a>.
+        </p>
+      </section>
+      <section>
+        <h3>
+          `form_factor` member
+        </h3>
+        <p>
+          The <code><dfn data-for="manifest" class="export">form_factor</dfn></code> member is a
+          <a>string</a> that represents the screen shape of a broad class of
+          devices for which a given screenshot applies. Authors are encouraged to
+          only use this member when the screenshot is only applicable in a
+          specific context.
+        </p>
+        <p class="note" title="form_factor usage guidance for authors">
+          Authors should only use `form_factor` for instances where a screenshot
+          is not representative of a universal experience. For instance, if the
+          layout/design differs based on the screen orientation, setting "narrow" or
+          "wide" is advisable.
+        </p>
+        <p>
+          User agents might show as many (or as few) screenshots as they choose,
+          but shouldn't display screenshots that do not pertain to their
+          form factor (e.g., mobile phones shouldn't show "wide" `form_factor`
+          screenshots).
+        </p>
+        <p>
+          When no `form_factor` is set, user agents should assume the
+          screenshot is applicable to all form factors.
+        </p>
+        <p>
+          List of `form_factor` values:
+        </p>
+        <dl>
+          <dt>
+            narrow
+          </dt>
+          <dd>
+            For screenshots applicable to narrow screens only (e.g., mobile devices).
+          </dd>
+          <dt>
+            wide
+          </dt>
+          <dd>
+            For screenshots applicable to wide screens only (e.g., status
+            boards).
+          </dd>
+        </dl>
+      </section>
+    </section>
+    <section id="internationalization" class="appendix informative">
+      <h2>
+        Internationalization
+      </h2>
+      <p>
+        It is expected that authors will localize the content of all text
+        strings defined in this document based on <a data-cite=
+        "appmanifest#internationalization">the approach(es) outlined in the
+        Manifest spec</a>.
+      </p>
+    </section>
+    <section class="appendix">
+      <h2>
+        Acknowledgements
+      </h2>
+      <p>
+        Rob Dolin for spearheading a lot of this work, specially the
+        `iarc_rating_id` member, and Kenneth Rohde Christiansen for helping to
+        vet these ideas.
+      </p>
+      <p>
+        We'd also like to thank the following contributors: <span id=
+        "gh-contributors"><!-- filled by ReSpec --></span>.
+      </p>
+    </section>
+    <section id="index"></section>
+  </body>
+</html>
