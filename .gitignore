@@ -10,3 +10,4 @@ scripts/__pycache__/
 Orientacion.md
 .env
 repomix-output.xml
+package-lock.json

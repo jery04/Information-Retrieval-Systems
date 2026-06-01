@@ -207,7 +207,7 @@ body {
   border-radius: 32px;
   background: #fafcfd;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
   padding: 12px 14px 12px 24px;
 }
@@ -221,6 +221,8 @@ body {
   width: clamp(26px, 2vw, 38px);
   height: clamp(26px, 2vw, 38px);
   color: #7d848b;
+  flex-shrink: 0;
+  align-self: center;
 }
 
 .search-input {
@@ -235,6 +237,7 @@ body {
   overflow: hidden;
   line-height: 1.2;
   padding: 8px 0 6px;
+  align-self: center;
 }
 
 .search-input::placeholder {
@@ -249,7 +252,7 @@ body {
   font-size: clamp(30px, 2.4vw, 44px);
   cursor: pointer;
   padding: 8px 18px;
-  border-radius: 999px;
+  border-radius: 28px;
   box-shadow: 0 3px 8px rgba(64, 109, 143, 0.12);
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
   align-self: center;
